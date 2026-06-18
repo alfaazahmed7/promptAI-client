@@ -22,72 +22,45 @@ const Banner = () => {
         console.log("Searching for:", searchQuery);
     };
 
-    // Stagger parent variant for orchestrating entrance animations
+    // Lightweight entrance animation variants
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: {
             opacity: 1,
             transition: {
-                staggerChildren: 0.15,
-                delayChildren: 0.1
+                staggerChildren: 0.1,
+                delayChildren: 0.05
             }
         }
     };
 
-    // Upward fade element variant
     const itemVariants = {
-        hidden: { opacity: 0, y: 25 },
+        hidden: { opacity: 0, y: 15 },
         visible: {
             opacity: 1,
             y: 0,
-            transition: { type: "spring", stiffness: 100, damping: 15 }
+            transition: { duration: 0.4, ease: "easeOut" }
         }
     };
 
     return (
         <section className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-[#011627] pt-24 pb-12">
 
-            {/* 1. Optimized Background Image Layout */}
-            <div className="absolute inset-0 z-0">
+            {/* 1. Background Layout - Now completely static for peak performance */}
+            <div className="absolute inset-0 z-0 select-none pointer-events-none">
                 <Image
                     src={bannerImage}
                     alt="AI Creativity Banner Background"
                     fill
                     priority
                     placeholder="blur"
-                    className="object-cover object-center opacity-25 select-none pointer-events-none"
+                    className="object-cover object-center opacity-25"
                 />
-                {/* Deep background mesh blends */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#011627] via-transparent to-[#011627]/90" />
-                <div className="absolute inset-0 bg-gradient-to-r from-[#011627]/60 via-transparent to-[#011627]/60" />
-            </div>
 
-            {/* Glowing ambient background orbs for depth */}
-            <motion.div
-                animate={{
-                    scale: [1, 1.15, 1],
-                    opacity: [0.15, 0.25, 0.15],
-                }}
-                transition={{
-                    duration: 8,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                }}
-                className="absolute top-1/4 left-1/4 -translate-x-1/2 w-96 h-96 bg-indigo-500/30 rounded-full blur-[120px] pointer-events-none z-0 hidden md:block"
-            />
-            <motion.div
-                animate={{
-                    scale: [1.1, 0.9, 1.1],
-                    opacity: [0.1, 0.2, 0.1],
-                }}
-                transition={{
-                    duration: 10,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 1
-                }}
-                className="absolute bottom-1/4 right-1/4 translate-x-1/2 w-[400px] h-[400px] bg-purple-500/20 rounded-full blur-[130px] pointer-events-none z-0 hidden md:block"
-            />
+                {/* Fixed Static Ambient Orbs - Beautiful looks, zero CPU overhead */}
+                <div className="absolute top-1/4 left-1/4 -translate-x-1/2 w-96 h-96 bg-indigo-500/10 rounded-full blur-[120px] hidden md:block" />
+                <div className="absolute bottom-1/4 right-1/4 translate-x-1/2 w-[400px] h-[400px] bg-purple-500/10 rounded-full blur-[130px] hidden md:block" />
+            </div>
 
             {/* 2. Main Center Content Container */}
             <motion.div
@@ -100,9 +73,9 @@ const Banner = () => {
                 {/* Glowing Tech Badge */}
                 <motion.div
                     variants={itemVariants}
-                    className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 text-xs sm:text-sm font-medium backdrop-blur-md shadow-[0_0_15px_rgba(99,102,241,0.1)]"
+                    className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 text-xs sm:text-sm font-medium backdrop-blur-md"
                 >
-                    <FiCpu className="w-4 h-4 animate-spin [animation-duration:4s]" />
+                    <FiCpu className="w-4 h-4" />
                     <span>The Ultimate AI Prompt Marketplace</span>
                 </motion.div>
 
@@ -125,11 +98,9 @@ const Banner = () => {
                     Skip the trial and error. Discover high-converting prompts built to supercharge your productivity, automation, and digital art engineering.
                 </motion.p>
 
-                {/* 3. Sleek Pill-Shaped Search Input with Input Focus States */}
+                {/* 3. Sleek Pill-Shaped Search Input */}
                 <motion.form
                     variants={itemVariants}
-                    whileHover={{ scale: 1.01 }}
-                    whileFocus={{ scale: 1.01 }}
                     onSubmit={handleSearch}
                     className="w-full max-w-2xl bg-white/5 backdrop-blur-xl border border-slate-700/50 p-1.5 rounded-full shadow-2xl flex items-center gap-2 mt-2 transition-all duration-300 focus-within:border-indigo-500/60 focus-within:ring-2 focus-within:ring-indigo-500/10"
                 >
@@ -151,7 +122,7 @@ const Banner = () => {
                     </button>
                 </motion.form>
 
-                {/* 4. Trending Filter Tags */}
+                {/* 4. Trending Filter Tags - Kept fast responsive hover logic */}
                 <motion.div
                     variants={itemVariants}
                     className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 max-w-3xl pt-1"
@@ -160,16 +131,14 @@ const Banner = () => {
                         <FaFireFlameCurved className="text-[#dc2f02] w-4 h-4" /> Trending:
                     </span>
                     {trendingTags.map((tag, idx) => (
-                        <motion.button
+                        <button
                             key={idx}
                             type="button"
-                            whileHover={{ y: -2, scale: 1.03 }}
-                            whileTap={{ scale: 0.97 }}
                             onClick={() => setSearchQuery(tag)}
-                            className="px-3 py-1 text-xs rounded-full bg-slate-800/40 hover:bg-indigo-600/20 text-slate-300 hover:text-indigo-300 border border-slate-700/40 hover:border-indigo-500/40 transition-all duration-200"
+                            className="px-3 py-1 text-xs rounded-full bg-slate-800/40 hover:bg-indigo-600/20 text-slate-300 hover:text-indigo-300 border border-slate-700/40 hover:border-indigo-500/40 transition-all duration-200 hover:-translate-y-0.5"
                         >
                             {tag}
-                        </motion.button>
+                        </button>
                     ))}
                 </motion.div>
 
@@ -178,22 +147,14 @@ const Banner = () => {
                     variants={itemVariants}
                     className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4 w-full sm:w-auto"
                 >
-                    <motion.button
-                        whileHover={{ scale: 1.03 }}
-                        whileTap={{ scale: 0.98 }}
-                        className="btn btn-md bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white border-none px-8 rounded-xl shadow-xl shadow-indigo-600/20 w-full sm:w-auto group gap-2 normal-case"
-                    >
+                    <button className="btn btn-md bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white border-none px-8 rounded-xl shadow-xl shadow-indigo-600/20 w-full sm:w-auto group gap-2 normal-case transition-all duration-200 hover:scale-[1.02]">
                         Explore Premium Prompts
                         <FiArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
-                    </motion.button>
+                    </button>
 
-                    <motion.button
-                        whileHover={{ scale: 1.03 }}
-                        whileTap={{ scale: 0.98 }}
-                        className="btn btn-md btn-link text-slate-400 hover:text-white no-underline hover:no-underline px-6 w-full sm:w-auto normal-case transition-colors duration-200"
-                    >
+                    <button className="btn btn-md btn-link text-slate-400 hover:text-white no-underline hover:no-underline px-6 w-full sm:w-auto normal-case transition-colors duration-200">
                         Sell Your Prompts
-                    </motion.button>
+                    </button>
                 </motion.div>
 
             </motion.div>
