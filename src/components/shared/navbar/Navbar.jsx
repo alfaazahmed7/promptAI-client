@@ -5,12 +5,15 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { HiMenuAlt3, HiX } from "react-icons/hi";
 import NavLink from "./NavLink";
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { authClient } from '@/lib/auth-client';
+import toast from "react-hot-toast";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const pathname = usePathname();
+    const router = useRouter();
     const isHome = pathname === '/';
 
     // Track scroll position to toggle the background color dynamically
@@ -22,13 +25,11 @@ const Navbar = () => {
                 setIsScrolled(false);
             }
         };
-
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
     const brand = { name: "Prompt", highlight: "AI", href: "/" };
-
     const centerLinks = [
         { name: "Home", href: "/" },
         { name: "All Prompts", href: "/prompts" },
@@ -36,14 +37,22 @@ const Navbar = () => {
     ];
 
     // Determine the true background state
-    // It stays transparent ONLY on the home page AND when the user hasn't scrolled down yet.
     const useTransparentNavbar = isHome && !isScrolled;
+
+    const userData = authClient.useSession();
+    const user = userData.data?.user;
+    const isPending = userData.isPending;
+
+    const handleSignOut = async () => {
+        await authClient.signOut();
+        toast.success('You have successfully sign out');
+    }
 
     return (
         <nav
             className={`fixed top-0 left-0 right-0 z-50 py-4 transition-all duration-300 ${useTransparentNavbar
-                    ? "bg-transparent shadow-none"
-                    : "bg-[#1A2536] backdrop-blur-md shadow-lg"
+                ? "bg-transparent shadow-none"
+                : "bg-[#1A2536] backdrop-blur-md shadow-lg"
                 }`}
         >
             <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -76,13 +85,44 @@ const Navbar = () => {
 
                     {/* 3. Right Side: Unique Standalone Login Link */}
                     <div className="hidden md:flex items-center">
-                        <Link
-                            href="/login"
-                            className="relative overflow-hidden rounded-md border border-b-4 border-[#3a86ff] bg-slate-950 px-4 py-2 font-semibold text-[#3a86ff] outline-none duration-300 group hover:border-b hover:border-t-4 hover:brightness-150 active:opacity-75"
-                        >
-                            <span className="absolute -top-[150%] left-0 inline-flex h-[5px] w-80 rounded-md bg-[#3a86ff] opacity-50 shadow-[0_0_10px_10px_rgba(0,0,0,0.3)] shadow-[#3a86ff] duration-500 group-hover:top-[150%]"></span>
-                            Login
-                        </Link>
+                        {isPending ? (
+                            <span className="loading loading-spinner loading-md text-white"></span>
+                        ) : user ? (
+                            <div className="flex items-center gap-3">
+                                <div className="avatar flex">
+                                    <div className="w-10 h-10 rounded-full ring-2 ring-primary/20 overflow-hidden relative">
+                                        {user?.image ? (
+                                            <Image
+                                                src={user.image}
+                                                alt={user.name ?? "User avatar"}
+                                                width={40}
+                                                height={40}
+                                                className="object-cover"
+                                                referrerPolicy="no-referrer"
+                                            />
+                                        ) : (
+                                            <div className="bg-neutral text-neutral-content flex h-full w-full items-center justify-center font-semibold">
+                                                <span>{user?.name?.charAt(0) ?? "U"}</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                                <button
+                                    onClick={handleSignOut}
+                                    className="bg-slate-700 text-white px-6 py-2 rounded-lg border-b-4 border-slate-800 transition-all duration-200 hover:brightness-110 hover:-translate-y-[1px] active:border-b-2 active:translate-y-[2px] cursor-pointer text-sm font-medium"
+                                >
+                                    Sign Out
+                                </button>
+                            </div>
+                        ) : (
+                            <Link
+                                href="/sign-in"
+                                className="relative overflow-hidden rounded-md border border-b-4 border-[#3a86ff] bg-slate-950 px-4 py-2 font-semibold text-[#3a86ff] outline-none duration-300 group hover:border-b hover:border-t-4 hover:brightness-150 active:opacity-75"
+                            >
+                                <span className="absolute -top-[150%] left-0 inline-flex h-[5px] w-80 rounded-md bg-[#3a86ff] opacity-50 shadow-[0_0_10px_10px_rgba(0,0,0,0.3)] shadow-[#3a86ff] duration-500 group-hover:top-[150%]"></span>
+                                Login
+                            </Link>
+                        )}
                     </div>
 
                     {/* 4. Mobile Menu Button */}
@@ -107,13 +147,50 @@ const Navbar = () => {
                         </div>
                     ))}
 
-                    <div className="pt-2" onClick={() => setIsOpen(false)}>
-                        <Link
-                            href="/login"
-                            className="block text-center text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-500 px-4 py-2 rounded-md transition-colors duration-200"
-                        >
-                            Login
-                        </Link>
+                    <div className="pt-2">
+                        {isPending ? (
+                            <span className="loading loading-spinner loading-md text-white"></span>
+                        ) : user ? (
+                            <div className="flex items-center gap-3">
+                                {/* FIX 2: Modified classes to show avatar clearly inside mobile layouts */}
+                                <div className="avatar flex">
+                                    <div className="w-10 h-10 rounded-full ring-2 ring-primary/20 overflow-hidden relative">
+                                        {user?.image ? (
+                                            <Image
+                                                src={user.image}
+                                                alt={user.name ?? "User avatar"}
+                                                width={40}
+                                                height={40}
+                                                className="object-cover"
+                                                referrerPolicy="no-referrer"
+                                            />
+                                        ) : (
+                                            <div className="bg-neutral text-neutral-content flex h-full w-full items-center justify-center font-semibold">
+                                                <span>{user?.name?.charAt(0) ?? "U"}</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                                <button
+                                    onClick={() => {
+                                        setIsOpen(false);
+                                        handleSignOut();
+                                    }}
+                                    className="bg-slate-700 text-white px-6 py-2 rounded-lg border-b-4 border-slate-800 transition-all duration-200 hover:brightness-110 hover:-translate-y-[1px] active:border-b-2 active:translate-y-[2px] cursor-pointer text-sm font-medium"
+                                >
+                                    Sign Out
+                                </button>
+                            </div>
+                        ) : (
+                            <div onClick={() => setIsOpen(false)}>
+                                <Link
+                                    href="/sign-in"
+                                    className="relative overflow-hidden rounded-md border border-b-4 border-[#3a86ff] bg-slate-950 px-4 py-2 font-semibold text-[#3a86ff] outline-none duration-300 group hover:border-b hover:border-t-4 hover:brightness-150 active:opacity-75 inline-block w-full text-center"
+                                >
+                                    Login
+                                </Link>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

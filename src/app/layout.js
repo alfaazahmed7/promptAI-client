@@ -2,6 +2,7 @@ import Navbar from "@/components/shared/navbar/Navbar";
 import { Figtree, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/shared/footer/Footer";
+import { Toaster } from "react-hot-toast";
 
 const FigtreeFont = Figtree({
   subsets: ["latin"],
@@ -22,6 +23,7 @@ export default function RootLayout({ children }) {
         <Navbar />
         {children}
         <Footer />
+        <Toaster />
       </body>
     </html>
   );
