@@ -42,10 +42,10 @@ const Footer = () => {
     ];
 
     return (
-        <footer className="relative bg-[#011627] border-t border-slate-800/60 overflow-hidden pt-20 pb-10">
-            {/* Ambient Background Glow for subtle modern depth */}
-            <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-purple-600/10 rounded-full blur-[100px] pointer-events-none" />
-            <div className="absolute bottom-0 left-1/4 w-80 h-80 bg-indigo-600/10 rounded-full blur-[100px] pointer-events-none" />
+        <footer className="relative bg-[#1A2536] border-t border-[#23354e]/50 overflow-hidden pt-20 pb-10">
+            {/* Ambient Background Glow matching the blue-teal undertone of #1A2536 */}
+            <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-teal-500/10 rounded-full blur-[100px] pointer-events-none" />
+            <div className="absolute bottom-0 left-1/4 w-80 h-80 bg-sky-500/10 rounded-full blur-[100px] pointer-events-none" />
 
             <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
