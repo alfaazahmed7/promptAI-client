@@ -65,7 +65,7 @@ const PromptCard = ({ prompt }) => {
 
                     {/* View Details Target Link */}
                     <Link
-                        href={`/prompts/${prompt._id || 'details'}`}
+                        href={`/all-prompts/${prompt._id || 'details'}`}
                         className={`btn btn-sm gap-1 group-hover:gap-2 transition-all duration-200 ${isPremium
                                 ? 'btn-warning bg-amber-500 hover:bg-amber-600 text-neutral border-none'
                                 : 'btn-primary'
