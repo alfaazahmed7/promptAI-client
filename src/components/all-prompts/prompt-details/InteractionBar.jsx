@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import { FiBookmark, FiCopy, FiAlertTriangle, FiCheck } from 'react-icons/fi';
 import useRouter from 'next/navigation';
 import toast from 'react-hot-toast';
+import { authClient } from '@/lib/auth-client';
+import { addBookmark } from '@/lib/actions/bookmark';
 
 const InteractionBar = ({ promptId, initialBookmarked, initialCopyCount, isLocked }) => {
     const [isBookmarked, setIsBookmarked] = useState(initialBookmarked);
@@ -11,17 +13,33 @@ const InteractionBar = ({ promptId, initialBookmarked, initialCopyCount, isLocke
     const [isReporting, setIsReporting] = useState(false);
     const [reportReason, setReportReason] = useState('');
 
+    const userData = authClient.useSession();
+    const user = userData.data?.user;
+
     const handleBookmark = async () => {
+        if (!user?.email) {
+            return toast.error('Please log in to save bookmarks');
+        }
+
         try {
             // Pseudo-API call implementation: await toggleBookmarkAPI(promptId);
             const newState = !isBookmarked;
             setIsBookmarked(newState);
             if (newState) {
                 toast.success('Prompt added to bookmarks successfully!');
-            } else {
-                toast.info('Bookmark removed.');
             }
-        } catch (err) {
+            else {
+                toast.success('Bookmark removed.');
+            }
+
+            const payload = {
+                userEmail: user?.email,
+                promptId: promptId,
+            }
+
+            const bookmark = addBookmark(payload);
+        }
+        catch (err) {
             toast.error('An error occurred. Please try again.');
         }
     };
@@ -29,7 +47,7 @@ const InteractionBar = ({ promptId, initialBookmarked, initialCopyCount, isLocke
     const handleReportSubmit = (e) => {
         e.preventDefault();
         if (!reportReason) return toast.error('Please pick a valid reason');
-        
+
         // Pseudo-API call implementation: await submitReport(promptId, reportReason);
         toast.success('Report submitted. Our moderation team will review this soon.');
         setIsReporting(false);
@@ -45,7 +63,7 @@ const InteractionBar = ({ promptId, initialBookmarked, initialCopyCount, isLocke
             </div>
 
             <div className="flex items-center gap-2">
-                <button 
+                <button
                     onClick={handleBookmark}
                     className={`btn btn-sm sm:btn-md gap-2 rounded-xl transition-all duration-200 ${isBookmarked ? 'btn-primary' : 'btn-outline'}`}
                 >
@@ -53,7 +71,7 @@ const InteractionBar = ({ promptId, initialBookmarked, initialCopyCount, isLocke
                     <span className="hidden sm:inline">{isBookmarked ? 'Bookmarked' : 'Bookmark'}</span>
                 </button>
 
-                <button 
+                <button
                     onClick={() => setIsReporting(true)}
                     className="btn btn-sm sm:btn-md btn-outline btn-error gap-2 rounded-xl"
                 >
@@ -72,8 +90,8 @@ const InteractionBar = ({ promptId, initialBookmarked, initialCopyCount, isLocke
                         <form onSubmit={handleReportSubmit} className="space-y-4 mt-4">
                             <div className="form-control">
                                 <label className="label font-semibold text-sm">Reason for flag</label>
-                                <select 
-                                    value={reportReason} 
+                                <select
+                                    value={reportReason}
                                     onChange={(e) => setReportReason(e.target.value)}
                                     className="select select-bordered w-full rounded-xl"
                                     required
