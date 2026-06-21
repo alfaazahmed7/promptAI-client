@@ -8,10 +8,13 @@ import { getPromptById } from '@/lib/api/prompts';
 import { getUserSession } from '@/lib/core/session';
 import { addBookmark } from '@/lib/actions/bookmark';
 import { getBookmark } from '@/lib/api/bookmark';
+import { getReviewById } from '@/lib/api/review';
+import UsersReviews from '@/components/all-prompts/prompt-details/UsersReviews';
 
 const PromptDetailsPage = async ({ params }) => {
     const resolvedParams = await params;
     const promptId = resolvedParams.id;
+    console.log(promptId, 'promptid');
 
     // Fetch prompt details & user state
     const prompt = await getPromptById(promptId);
@@ -27,6 +30,7 @@ const PromptDetailsPage = async ({ params }) => {
     const isLocked = isPremiumTier && !hasPremiumAccess;
 
     const bookmark = await getBookmark(promptId);
+    const reviewsData = await getReviewById(promptId);
 
     return (
         <div className="min-h-screen bg-base-300 text-base-content pb-16 pt-[96px] px-4 sm:px-6 lg:px-8">
@@ -50,6 +54,11 @@ const PromptDetailsPage = async ({ params }) => {
                         <PromptContentCard
                             prompt={prompt}
                             isLocked={isLocked}
+                        />
+
+                        <UsersReviews
+                            reviews={reviewsData || []}
+                            user={user}
                         />
                     </div>
 
@@ -77,7 +86,7 @@ const PromptDetailsPage = async ({ params }) => {
 
                         <ReviewSystem
                             promptId={prompt._id}
-                            reviews={prompt.reviews || []}
+                            reviews={reviewsData || []}
                             isLocked={isLocked}
                             user={user}
                         />
