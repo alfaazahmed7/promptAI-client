@@ -7,14 +7,13 @@ import ReviewSystem from '@/components/all-prompts/prompt-details/ReviewSystem';
 import { getPromptById } from '@/lib/api/prompts';
 import { getUserSession } from '@/lib/core/session';
 import { addBookmark } from '@/lib/actions/bookmark';
-import { getBookmark } from '@/lib/api/bookmark';
 import { getReviewById } from '@/lib/api/review';
 import UsersReviews from '@/components/all-prompts/prompt-details/UsersReviews';
+import { getBookmarkByIdAndEmail } from '@/lib/api/bookmark';
 
 const PromptDetailsPage = async ({ params }) => {
     const resolvedParams = await params;
     const promptId = resolvedParams.id;
-    console.log(promptId, 'promptid');
 
     // Fetch prompt details & user state
     const prompt = await getPromptById(promptId);
@@ -26,10 +25,11 @@ const PromptDetailsPage = async ({ params }) => {
 
     // Safety logic logic check
     const isPremiumTier = prompt.tier === 'premium';
-    const hasPremiumAccess = user?.isSubscribed || false;
+    const hasPremiumAccess = user?.plan === 'pro';
     const isLocked = isPremiumTier && !hasPremiumAccess;
+    // console.log(isLocked, 'isss');
 
-    const bookmark = await getBookmark(promptId);
+    const bookmark = await getBookmarkByIdAndEmail(promptId, user?.email);
     const reviewsData = await getReviewById(promptId);
 
     return (
