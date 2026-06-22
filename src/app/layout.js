@@ -20,9 +20,7 @@ export default function RootLayout({ children }) {
       className={`${FigtreeFont.className} h-full antialiased`}
     >
       <body>
-        <Navbar />
         {children}
-        <Footer />
         <Toaster />
       </body>
     </html>

@@ -29,19 +29,20 @@ const Navbar = () => {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    const brand = { name: "Prompt", highlight: "AI", href: "/" };
-    const centerLinks = [
-        { name: "Home", href: "/" },
-        { name: "All Prompts", href: "/all-prompts" },
-        { name: "Pricing", href: "/pricing" },
-    ];
-
     // Determine the true background state
     const useTransparentNavbar = isHome && !isScrolled;
 
     const userData = authClient.useSession();
     const user = userData.data?.user;
     const isPending = userData.isPending;
+
+    const brand = { name: "Prompt", highlight: "AI", href: "/" };
+    const centerLinks = [
+        { name: "Home", href: "/" },
+        { name: "All Prompts", href: "/all-prompts" },
+        { name: "Pricing", href: "/pricing" },
+        ...(user ? [{ name: 'Dashboard', href: '/dashboard/user' }] : [])
+    ];
 
     const handleSignOut = async () => {
         await authClient.signOut();
