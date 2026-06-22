@@ -7,31 +7,6 @@ import toast from "react-hot-toast";
 const PricingPage = () => {
     const [loading, setLoading] = useState(false);
 
-    // Placeholder function for Stripe Checkout integration
-    const handleCheckout = async () => {
-        setLoading(true);
-        try {
-            // Replace this fetch endpoint with your actual Next.js route handler
-            const response = await fetch("/api/checkout", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ priceId: "stripe_price_id_here" }),
-            });
-
-            const data = await response.json();
-
-            if (data.url) {
-                // Redirect user to Stripe Checkout page
-                window.location.href = data.url;
-            } else {
-                throw new Error(data.message || "Something went wrong");
-            }
-        } catch (error) {
-            toast.error(error.message || "Failed to initiate checkout. Please try again.");
-            setLoading(false);
-        }
-    };
-
     const freeFeatures = [
         "Access to basic AI model generations",
         "Standard community forum access",
@@ -168,20 +143,22 @@ const PricingPage = () => {
                     </div>
 
                     <div className="mt-8 pt-6 border-t border-slate-800">
-                        <button
-                            onClick={handleCheckout}
-                            disabled={loading}
-                            className="btn bg-indigo-600 hover:bg-indigo-500 border-none text-white w-full rounded-xl py-3 font-semibold flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/20 transition-all active:scale-[0.98] normal-case"
-                        >
-                            {loading ? (
-                                <span className="loading loading-spinner loading-sm"></span>
-                            ) : (
-                                <>
-                                    Pay Safely via Stripe
-                                    <FiArrowRight className="w-4 h-4" />
-                                </>
-                            )}
-                        </button>
+                        <form action="/api/subscription" method="POST">
+                            <button
+                                disabled={loading}
+                                type="submit"
+                                className="btn bg-indigo-600 hover:bg-indigo-500 border-none text-white w-full rounded-xl py-3 font-semibold flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/20 transition-all active:scale-[0.98] normal-case"
+                            >
+                                {loading ? (
+                                    <span className="loading loading-spinner loading-sm"></span>
+                                ) : (
+                                    <>
+                                        Pay Safely via Stripe
+                                        <FiArrowRight className="w-4 h-4" />
+                                    </>
+                                )}
+                            </button>
+                        </form>
 
                         {/* Security guarantees */}
                         <div className="flex items-center justify-center gap-4 mt-4 text-[11px] text-slate-500 font-medium">
