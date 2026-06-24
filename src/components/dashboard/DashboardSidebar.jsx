@@ -12,12 +12,13 @@ import {
     FiChevronLeft,
     FiChevronRight
 } from 'react-icons/fi';
+import { CiViewTimeline } from 'react-icons/ci';
 
 const DashboardSidebar = ({ isCollapsed, setIsCollapsed, isMobileOpen, setIsMobileOpen }) => {
     const pathname = usePathname();
 
     const menuItems = [
-        { name: 'Dashboard', href: '/dashboard/user', icon: FiGrid },
+        { name: 'Overview', href: '/dashboard/user', icon: CiViewTimeline  },
         { name: 'Add Prompt', href: '/dashboard/user/add-prompt', icon: FiPlusCircle },
         { name: 'My Prompts', href: '/dashboard/user/my-prompt', icon: FiGrid },
         { name: 'Saved Prompts', href: '/dashboard/saved-prompts', icon: FiBookmark },
