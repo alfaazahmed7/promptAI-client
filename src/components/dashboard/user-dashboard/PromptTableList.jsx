@@ -7,12 +7,16 @@ import UserEditModal from './UserEditModal';
 import { userModalEditData } from '@/lib/actions/userEditModal';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import UserDeleteModal from './UserDeleteModal';
+import { UserModalDelete } from '@/lib/actions/userModalDelete';
 
 const PromptTableList = ({ userPromptsData = [] }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedPrompt, setSelectedPrompt] = useState(null);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [editingPrompt, setEditingPrompt] = useState(null);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [deletingPrompt, setDeletingPrompt] = useState(null);
     const router = useRouter();
 
     const handleOpenAnalytics = (prompt) => {
@@ -40,6 +44,25 @@ const PromptTableList = ({ userPromptsData = [] }) => {
         }
 
         setIsEditModalOpen(false);
+    };
+
+    const handleOpenDelete = (prompt) => {
+        setDeletingPrompt(prompt);
+        setIsDeleteModalOpen(true);
+    };
+
+    const handleConfirmDeleteData = async (confirmedPrompt) => {
+        console.log("SENDING TARGET ID TO API WRAPPER:", confirmedPrompt._id);
+
+        const res = await UserModalDelete(deletingPrompt._id);
+        if (res.deletedCount > 0) {
+            router.refresh();
+            toast.success('Prompt deleted successfully');
+        } else {
+            toast.error('Prompt not found');
+        }
+
+        setIsDeleteModalOpen(false);
     };
 
     return (
@@ -153,7 +176,7 @@ const PromptTableList = ({ userPromptsData = [] }) => {
                                                 <button
                                                     onClick={() => handleOpenAnalytics(prompt)}
                                                     title="View Analytics"
-                                                    className="p-2 text-slate-400 hover:text-indigo-400 hover:bg-indigo-500/10 rounded-lg transition-all duration-150 border border-transparent hover:border-indigo-500/20"
+                                                    className="p-2 text-slate-400 hover:text-indigo-400 hover:bg-indigo-500/10 rounded-lg transition-all duration-150 border border-transparent hover:border-indigo-500/20 cursor-pointer"
                                                 >
                                                     <FiBarChart2 size={16} />
                                                 </button>
@@ -162,14 +185,16 @@ const PromptTableList = ({ userPromptsData = [] }) => {
                                                 <button
                                                     onClick={() => handleOpenEdit(prompt)}
                                                     title="Update Prompt"
-                                                    className="p-2 text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 rounded-lg transition-all duration-150 border border-transparent hover:border-emerald-500/20"
+                                                    className="p-2 text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 rounded-lg transition-all duration-150 border border-transparent hover:border-emerald-500/20 cursor-pointer"
                                                 >
                                                     <FiEdit2 size={16} />
                                                 </button>
 
+                                                {/* Delete Button Inside Table Map Loop */}
                                                 <button
+                                                    onClick={() => handleOpenDelete(prompt)}
                                                     title="Delete Prompt"
-                                                    className="p-2 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition-all duration-150 border border-transparent hover:border-rose-500/20"
+                                                    className="p-2 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition-all duration-150 border border-transparent hover:border-rose-500/20 cursor-pointer"
                                                 >
                                                     <FiTrash2 size={16} />
                                                 </button>
@@ -196,6 +221,14 @@ const PromptTableList = ({ userPromptsData = [] }) => {
                 onClose={() => setIsEditModalOpen(false)}
                 prompt={editingPrompt}
                 onSave={handleSaveUpdatedData}
+            />
+
+            {/* Append next to the other modal hooks at the bottom */}
+            <UserDeleteModal
+                isOpen={isDeleteModalOpen}
+                onClose={() => setIsDeleteModalOpen(false)}
+                prompt={deletingPrompt}
+                onDeleteConfirm={handleConfirmDeleteData}
             />
         </>
     );
