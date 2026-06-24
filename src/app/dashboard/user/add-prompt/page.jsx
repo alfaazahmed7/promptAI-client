@@ -38,12 +38,12 @@ const AddPromptPage = () => {
     }, [user?.email]);
 
     const userAddedPromptsCount = prompts.length;
-    console.log(userAddedPromptsCount, 'userAddedPromptsCount');
+    // console.log(userAddedPromptsCount, 'userAddedPromptsCount');
 
     // const userAddedPromptsCount = 0;
     const isLimitReached =
         user?.plan === "free" && userAddedPromptsCount >= 3;
-    console.log(isLimitReached, 'isLimitReached');
+    // console.log(isLimitReached, 'isLimitReached');
 
     const [formData, setFormData] = useState({
         title: '',

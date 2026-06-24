@@ -3,14 +3,43 @@
 import React, { useState } from 'react';
 import { FiEdit2, FiTrash2, FiBarChart2, FiLayers } from 'react-icons/fi';
 import UserAnalyticsModal from '@/components/dashboard/user-dashboard/UserAnalyticsModal';
+import UserEditModal from './UserEditModal';
+import { userModalEditData } from '@/lib/actions/userEditModal';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 const PromptTableList = ({ userPromptsData = [] }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedPrompt, setSelectedPrompt] = useState(null);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [editingPrompt, setEditingPrompt] = useState(null);
+    const router = useRouter();
 
     const handleOpenAnalytics = (prompt) => {
         setSelectedPrompt(prompt);
         setIsModalOpen(true);
+    };
+
+    const handleOpenEdit = (prompt) => {
+        setEditingPrompt(prompt);
+        setIsEditModalOpen(true);
+    };
+
+    const handleSaveUpdatedData = async (collectedChangedData) => {
+
+        const res = await userModalEditData(
+            editingPrompt._id,
+            collectedChangedData
+        );
+        if (res.modifiedCount > 0) {
+            router.refresh();
+            toast.success('You have succesfully edit the prompt data');
+        }
+        else {
+            toast.error('No document was updated');
+        }
+
+        setIsEditModalOpen(false);
     };
 
     return (
@@ -129,7 +158,9 @@ const PromptTableList = ({ userPromptsData = [] }) => {
                                                     <FiBarChart2 size={16} />
                                                 </button>
 
+                                                {/* Update Action Button inside table row map loop */}
                                                 <button
+                                                    onClick={() => handleOpenEdit(prompt)}
                                                     title="Update Prompt"
                                                     className="p-2 text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 rounded-lg transition-all duration-150 border border-transparent hover:border-emerald-500/20"
                                                 >
@@ -157,6 +188,14 @@ const PromptTableList = ({ userPromptsData = [] }) => {
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
                 prompt={selectedPrompt}
+            />
+
+            {/* Rendered next to the Analytics view modal block at the bottom of PromptTableList wrapper */}
+            <UserEditModal
+                isOpen={isEditModalOpen}
+                onClose={() => setIsEditModalOpen(false)}
+                prompt={editingPrompt}
+                onSave={handleSaveUpdatedData}
             />
         </>
     );
