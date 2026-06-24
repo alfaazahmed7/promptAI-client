@@ -9,7 +9,7 @@ const DashboardLayout = ({ children }) => {
     const [isMobileOpen, setIsMobileOpen] = useState(false);
 
     return (
-        <div className='flex min-h-screen bg-[#0b0f19] text-slate-100 antialiased font-sans relative overflow-x-hidden'>
+        <div className='flex h-screen bg-[#0b0f19] text-slate-100 antialiased font-sans relative overflow-hidden'>
 
             {/* Sidebar Component */}
             <DashboardSidebar
@@ -44,7 +44,7 @@ const DashboardLayout = ({ children }) => {
                 </header>
 
                 {/* Dashboard Inner Core Workspace Viewport */}
-                <main className='flex-1 p-6 lg:p-10 xl:p-12 overflow-y-auto max-w-[1600px] w-full mx-auto'>
+                <main className='flex-1 p-6 lg:p-10 xl:p-12 overflow-y-auto'>
                     {children}
                 </main>
             </div>

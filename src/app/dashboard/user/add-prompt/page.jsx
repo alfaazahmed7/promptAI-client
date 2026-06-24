@@ -1,7 +1,8 @@
 "use client";
 import { userAddPrompt } from '@/lib/actions/userAddPrompt';
+import { getUserAddPrompts } from '@/lib/api/userAddPrompts';
 import { authClient } from '@/lib/auth-client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import {
     FiPlusCircle,
@@ -18,12 +19,31 @@ import {
 } from 'react-icons/fi';
 
 const AddPromptPage = () => {
+    // const [userAddedPromptsCount, setUserAddedPromptsCount] = useState(0);
+
     const userData = authClient.useSession();
     const user = userData.data?.user || {};
 
-    const userAddedPromptsCount = 0;
+    const [prompts, setPrompts] = useState([]);
+
+    useEffect(() => {
+        const fetchPrompts = async () => {
+            if (!user?.email) return;
+
+            const data = await getUserAddPrompts(user.email);
+            setPrompts(data);
+        };
+
+        fetchPrompts();
+    }, [user?.email]);
+
+    const userAddedPromptsCount = prompts.length;
+    console.log(userAddedPromptsCount, 'userAddedPromptsCount');
+
+    // const userAddedPromptsCount = 0;
     const isLimitReached =
         user?.plan === "free" && userAddedPromptsCount >= 3;
+    console.log(isLimitReached, 'isLimitReached');
 
     const [formData, setFormData] = useState({
         title: '',
@@ -39,7 +59,6 @@ const AddPromptPage = () => {
     });
 
     const [imageFile, setImageFile] = useState(null);
-    const [imagePreview, setImagePreview] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [statusMessage, setStatusMessage] = useState({ type: '', text: '' });
     const [logoUrl, setLogoUrl] = useState('');
@@ -110,6 +129,7 @@ const AddPromptPage = () => {
 
             const res = await userAddPrompt(submissionData);
             if (res.insertedId) {
+                setUserAddedPromptsCount(prev => prev + 1);
                 toast.success('Prompt submitted successfully');
             }
 
