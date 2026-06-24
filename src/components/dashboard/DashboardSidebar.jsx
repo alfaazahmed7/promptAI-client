@@ -21,9 +21,9 @@ const DashboardSidebar = ({ isCollapsed, setIsCollapsed, isMobileOpen, setIsMobi
         { name: 'Overview', href: '/dashboard/user', icon: CiViewTimeline  },
         { name: 'Add Prompt', href: '/dashboard/user/add-prompt', icon: FiPlusCircle },
         { name: 'My Prompts', href: '/dashboard/user/my-prompt', icon: FiGrid },
-        { name: 'Saved Prompts', href: '/dashboard/saved-prompts', icon: FiBookmark },
-        { name: 'My Reviews', href: '/dashboard/my-reviews', icon: FiStar },
-        { name: 'Profile', href: '/dashboard/profile', icon: FiUser },
+        { name: 'Saved Prompts', href: '/dashboard/user/saved-prompts', icon: FiBookmark },
+        { name: 'My Reviews', href: '/dashboard/user/my-reviews', icon: FiStar },
+        { name: 'Profile', href: '/dashboard/user/profile', icon: FiUser },
     ];
 
     const isActive = (href) => pathname === href;
