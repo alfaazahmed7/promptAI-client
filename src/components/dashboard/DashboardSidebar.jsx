@@ -40,9 +40,9 @@ const DashboardSidebar = ({ isCollapsed, setIsCollapsed, isMobileOpen, setIsMobi
     ];
 
     const adminNavlinks = [
-        { name: 'All Users', href: '/dashboard/admin/users', icon: FiUsers },
-        { name: 'All Prompts', href: '/dashboard/admin/prompts', icon: FiGrid },
-        { name: 'All Payments', href: '/dashboard/admin/payments', icon: FiCreditCard },
+        { name: 'All Users', href: '/dashboard/admin/all-users', icon: FiUsers },
+        { name: 'All Prompts', href: '/dashboard/admin/all-prompts', icon: FiGrid },
+        { name: 'All Payments', href: '/dashboard/admin/all-payments', icon: FiCreditCard },
         { name: 'Reported Prompts', href: '/dashboard/admin/reported-prompts', icon: FiAlertTriangle },
         { name: 'Analytics', href: '/dashboard/admin/analytics', icon: FiBarChart2 },
     ];

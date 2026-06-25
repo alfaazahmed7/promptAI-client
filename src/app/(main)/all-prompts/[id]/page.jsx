@@ -6,7 +6,6 @@ import PromptContentCard from '@/components/all-prompts/prompt-details/PromptCom
 import ReviewSystem from '@/components/all-prompts/prompt-details/ReviewSystem';
 import { getPromptById } from '@/lib/api/prompts';
 import { getUserSession } from '@/lib/core/session';
-import { addBookmark } from '@/lib/actions/bookmark';
 import { getReviewById } from '@/lib/api/review';
 import UsersReviews from '@/components/all-prompts/prompt-details/UsersReviews';
 import { getBookmarkByIdAndEmail } from '@/lib/api/bookmark';

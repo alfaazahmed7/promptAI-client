@@ -1,8 +1,7 @@
-// src/components/FilterSection.jsx
+// /components/FilterSection.jsx
 'use client';
-import React from 'react';
-import { useRouter, usePathname } from 'next/navigation';
-import { FiSearch, FiLayers, FiCpu, FiBarChart } from 'react-icons/fi';
+import { usePathname, useRouter } from 'next/navigation';
+import { FiBarChart, FiCpu, FiLayers, FiSearch } from 'react-icons/fi';
 
 const FilterSection = ({ currentFilters }) => {
     const router = useRouter();

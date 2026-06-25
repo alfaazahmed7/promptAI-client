@@ -39,7 +39,7 @@ const Navbar = () => {
     const dashboardLinks = {
         user: '/dashboard/user',
         creator: '/dashboard/creator/analytics',
-        admin: '/dashboard/admin'
+        admin: '/dashboard/admin/all-users'
     };
 
     const brand = { name: "Prompt", highlight: "AI", href: "/" };

@@ -182,8 +182,8 @@ const SignUp = () => {
                         <label className="label py-1">
                             <span className="label-text text-slate-300 text-xs font-semibold uppercase tracking-wider">Account Type</span>
                         </label>
-                        <div className="grid grid-cols-3 gap-3">
-                            {["user", "creator", "admin"].map((role) => (
+                        <div className="grid grid-cols-2 gap-3">
+                            {["user", "creator"].map((role) => (
                                 <label
                                     key={role}
                                     className={`flex flex-col items-center justify-center p-3 rounded-xl border text-center cursor-pointer transition-all ${formData.role === role
