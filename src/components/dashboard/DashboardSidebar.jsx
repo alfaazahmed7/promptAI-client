@@ -8,17 +8,24 @@ import {
     FiBookmark,
     FiStar,
     FiUser,
-    FiHome,
     FiChevronLeft,
     FiChevronRight
 } from 'react-icons/fi';
 import { CiViewTimeline } from 'react-icons/ci';
+import {
+    FiUsers,
+    FiCreditCard,
+    FiAlertTriangle,
+    FiBarChart2
+} from "react-icons/fi";
+import { authClient } from '@/lib/auth-client';
+import Image from 'next/image';
 
 const DashboardSidebar = ({ isCollapsed, setIsCollapsed, isMobileOpen, setIsMobileOpen }) => {
     const pathname = usePathname();
 
-    const menuItems = [
-        { name: 'Overview', href: '/dashboard/user', icon: CiViewTimeline  },
+    const userNavlinks = [
+        { name: 'Overview', href: '/dashboard/user', icon: CiViewTimeline },
         { name: 'Add Prompt', href: '/dashboard/user/add-prompt', icon: FiPlusCircle },
         { name: 'My Prompts', href: '/dashboard/user/my-prompt', icon: FiGrid },
         { name: 'Saved Prompts', href: '/dashboard/user/saved-prompts', icon: FiBookmark },
@@ -26,6 +33,30 @@ const DashboardSidebar = ({ isCollapsed, setIsCollapsed, isMobileOpen, setIsMobi
         { name: 'Profile', href: '/dashboard/user/profile', icon: FiUser },
     ];
 
+    const creatorNavlinks = [
+        { name: 'Overview', href: '/dashboard/creator', icon: CiViewTimeline },
+        { name: 'Add Prompt', href: '/dashboard/creator/add-prompt', icon: FiPlusCircle },
+        { name: 'My Prompts', href: '/dashboard/creator/my-prompt', icon: FiGrid },
+    ];
+
+    const adminNavlinks = [
+        { name: 'All Users', href: '/dashboard/admin/users', icon: FiUsers },
+        { name: 'All Prompts', href: '/dashboard/admin/prompts', icon: FiGrid },
+        { name: 'All Payments', href: '/dashboard/admin/payments', icon: FiCreditCard },
+        { name: 'Reported Prompts', href: '/dashboard/admin/reported-prompts', icon: FiAlertTriangle },
+        { name: 'Analytics', href: '/dashboard/admin/analytics', icon: FiBarChart2 },
+    ];
+
+    const navLinkMap = {
+        user: userNavlinks,
+        creator: creatorNavlinks,
+        admin: adminNavlinks
+    }
+
+    const userData = authClient.useSession();
+    const user = userData.data?.user;
+
+    const navItems = navLinkMap[user?.role || 'user'];
     const isActive = (href) => pathname === href;
 
     return (
@@ -75,13 +106,13 @@ const DashboardSidebar = ({ isCollapsed, setIsCollapsed, isMobileOpen, setIsMobi
                             )}
                         </Link>
                         <span className={`text-[10px] uppercase tracking-wider font-semibold px-2 py-0.5 rounded-full bg-teal-500/10 text-teal-400 border border-teal-500/20 ${isCollapsed ? 'lg:hidden' : ''}`}>
-                            Creator
+                            {user?.role || 'User'}
                         </span>
                     </div>
 
                     {/* Main Menu Links */}
                     <ul className="px-3 py-6 space-y-1.5 list-none">
-                        {menuItems.map((item) => {
+                        {navItems.map((item) => {
                             const Icon = item.icon;
                             const active = isActive(item.href);
                             return (
@@ -107,12 +138,17 @@ const DashboardSidebar = ({ isCollapsed, setIsCollapsed, isMobileOpen, setIsMobi
                 {/* Bottom Profile Identity Section */}
                 <div className="p-3 border-t border-slate-800/60 bg-slate-900/30">
                     <div className={`flex items-center gap-3 px-2 py-1.5 rounded-xl border border-slate-800/40 bg-slate-900/50 ${isCollapsed ? 'lg:justify-center' : ''}`}>
-                        <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-teal-500 to-emerald-500 flex items-center justify-center font-bold text-slate-900 text-sm shrink-0">
-                            AA
+                        <div className="w-9 h-9 rounded-full overflow-hidden shrink-0 relative">
+                            <Image
+                                src={user?.image}
+                                alt={user?.name || "User"}
+                                fill
+                                className="object-cover"
+                            />
                         </div>
                         <div className={`flex-1 min-w-0 ${isCollapsed ? 'lg:hidden' : ''}`}>
-                            <h4 className="text-sm font-semibold text-slate-200 truncate leading-tight">Alfaaz Ahmed</h4>
-                            <p className="text-xs text-slate-500 truncate">Creator Account</p>
+                            <h4 className="text-sm font-semibold text-slate-200 truncate leading-tight">{user?.name}</h4>
+                            <p className="text-xs text-slate-500 truncate">{user?.role} Account</p>
                         </div>
                     </div>
                 </div>

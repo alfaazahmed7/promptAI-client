@@ -36,12 +36,24 @@ const Navbar = () => {
     const user = userData.data?.user;
     const isPending = userData.isPending;
 
+    const dashboardLinks = {
+        user: '/dashboard/user',
+        creator: '/dashboard/creator/analytics',
+        admin: '/dashboard/admin'
+    };
+
     const brand = { name: "Prompt", highlight: "AI", href: "/" };
+
     const centerLinks = [
         { name: "Home", href: "/" },
         { name: "All Prompts", href: "/all-prompts" },
         { name: "Pricing", href: "/pricing" },
-        ...(user ? [{ name: 'Dashboard', href: '/dashboard/user' }] : [])
+        ...(user
+            ? [{
+                name: "Dashboard",
+                href: dashboardLinks[user.role] || "/dashboard/user"
+            }]
+            : [])
     ];
 
     const handleSignOut = async () => {

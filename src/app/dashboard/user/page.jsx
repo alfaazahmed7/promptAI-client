@@ -118,7 +118,7 @@ const DashboardOverviewPage = async () => {
                                 </div>
                             </div>
                             <Link 
-                                href="/dashboard/profile"
+                                href="/pricing"
                                 className="px-3.5 py-2 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white rounded-lg border border-slate-700/50 transition-colors shrink-0 flex items-center gap-1 group"
                             >
                                 <span>View Plans</span>
