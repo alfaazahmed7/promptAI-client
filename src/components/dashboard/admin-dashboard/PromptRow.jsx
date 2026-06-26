@@ -1,18 +1,20 @@
 // src/components/dashboard/admin-dashboard/PromptRow.jsx
 'use client';
 
+import { toggleFeature } from '@/lib/actions/feature';
 import { updateUserAddPromptRejectionStatus, updateUserAddPromptStatus } from '@/lib/actions/userAddPrompt';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import toast from 'react-hot-toast';
+import { FaStar } from 'react-icons/fa6';
 import {
-    FiCheck,
-    FiX,
-    FiTrash2,
-    FiStar,
     FiAlertCircle,
+    FiCheck,
+    FiCheckCircle,
     FiMessageSquare,
-    FiCheckCircle
+    FiStar,
+    FiTrash2,
+    FiX
 } from 'react-icons/fi';
 
 // --- SUB-COMPONENT: APPROVAL MODAL ---
@@ -50,7 +52,7 @@ const ApprovalModal = ({ isOpen, onClose, onConfirm, promptTitle, prompt }) => {
                         <div className="flex justify-end mt-6">
                             <button
                                 onClick={onClose}
-                                className="px-4 py-2 bg-slate-800 text-slate-300 rounded-lg hover:bg-slate-700 transition-colors"
+                                className="px-4 py-2 bg-slate-800 text-slate-300 rounded-lg hover:bg-slate-700 transition-colors cursor-pointer"
                             >
                                 Close
                             </button>
@@ -60,7 +62,7 @@ const ApprovalModal = ({ isOpen, onClose, onConfirm, promptTitle, prompt }) => {
                     <>
                         <button
                             onClick={onClose}
-                            className="absolute top-4 right-4 text-slate-500 hover:text-slate-300 transition-colors"
+                            className="absolute top-4 right-4 text-slate-500 hover:text-slate-300 transition-colors cursor-pointer"
                         >
                             <FiX className="w-5 h-5" />
                         </button>
@@ -92,14 +94,14 @@ const ApprovalModal = ({ isOpen, onClose, onConfirm, promptTitle, prompt }) => {
                             <div className="flex space-x-3 justify-end text-sm font-medium pt-2">
                                 <button
                                     onClick={onClose}
-                                    className="px-4 py-2 bg-slate-800 text-slate-300 rounded-lg hover:bg-slate-700 transition-colors"
+                                    className="px-4 py-2 bg-slate-800 text-slate-300 rounded-lg hover:bg-slate-700 transition-colors cursor-pointer"
                                 >
                                     Cancel
                                 </button>
 
                                 <button
                                     onClick={onConfirm}
-                                    className="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-500 shadow-lg shadow-emerald-600/20 transition-all"
+                                    className="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-500 shadow-lg shadow-emerald-600/20 transition-all cursor-pointer"
                                 >
                                     Confirm Approval
                                 </button>
@@ -145,14 +147,14 @@ const RejectionModal = ({ isOpen, onClose, onConfirm, promptTitle, prompt }) => 
                             This prompt has already been rejected.
                         </p>
 
-                        {prompt?.feedback && (
+                        {prompt?.rejectionFeedback && (
                             <div className="mt-4 p-3 rounded-lg bg-[#0b0f19] border border-slate-800">
                                 <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">
                                     Previous Feedback
                                 </p>
 
                                 <p className="text-sm text-slate-300">
-                                    {prompt.feedback}
+                                    {prompt.rejectionFeedback}
                                 </p>
                             </div>
                         )}
@@ -160,7 +162,7 @@ const RejectionModal = ({ isOpen, onClose, onConfirm, promptTitle, prompt }) => 
                         <div className="flex justify-end mt-6">
                             <button
                                 onClick={onClose}
-                                className="px-4 py-2 bg-slate-800 text-slate-300 rounded-lg hover:bg-slate-700 transition-colors"
+                                className="px-4 py-2 bg-slate-800 text-slate-300 rounded-lg hover:bg-slate-700 transition-colors cursor-pointer"
                             >
                                 Close
                             </button>
@@ -170,7 +172,7 @@ const RejectionModal = ({ isOpen, onClose, onConfirm, promptTitle, prompt }) => 
                     <>
                         <button
                             onClick={onClose}
-                            className="absolute top-4 right-4 text-slate-500 hover:text-slate-300 transition-colors"
+                            className="absolute top-4 right-4 text-slate-500 hover:text-slate-300 transition-colors cursor-pointer"
                         >
                             <FiX className="w-5 h-5" />
                         </button>
@@ -214,14 +216,14 @@ const RejectionModal = ({ isOpen, onClose, onConfirm, promptTitle, prompt }) => 
                                 <button
                                     type="button"
                                     onClick={onClose}
-                                    className="px-4 py-2 bg-slate-800 text-slate-300 rounded-lg hover:bg-slate-700 transition-colors"
+                                    className="px-4 py-2 bg-slate-800 text-slate-300 rounded-lg hover:bg-slate-700 transition-colors cursor-pointer"
                                 >
                                     Cancel
                                 </button>
 
                                 <button
                                     type="submit"
-                                    className="px-4 py-2 bg-rose-600 text-white rounded-lg hover:bg-rose-500 shadow-lg shadow-rose-600/20 transition-all"
+                                    className="px-4 py-2 bg-rose-600 text-white rounded-lg hover:bg-rose-500 shadow-lg shadow-rose-600/20 transition-all cursor-pointer"
                                 >
                                     Confirm Reject
                                 </button>
@@ -235,43 +237,68 @@ const RejectionModal = ({ isOpen, onClose, onConfirm, promptTitle, prompt }) => 
 };
 
 // --- SUB-COMPONENT: FEATURE MODAL ---
-const FeatureModal = ({ isOpen, onClose, onConfirm, promptTitle }) => {
+const FeatureModal = ({
+    isOpen,
+    onClose,
+    onConfirm,
+    promptTitle,
+    prompt
+}) => {
     if (!isOpen) return null;
+
+    const isFeatured = prompt?.feature;
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm text-left">
-            <div className="bg-[#111827] border border-slate-800 w-full max-w-md rounded-xl p-6 shadow-2xl relative animate-in fade-in zoom-in-95 duration-150">
-                <button onClick={onClose} className="absolute top-4 right-4 text-slate-500 hover:text-slate-300 transition-colors">
-                    <FiX className="w-5 h-5" />
-                </button>
+            <div className="bg-[#111827] border border-slate-800 w-full max-w-md rounded-xl p-6">
 
-                <div className="flex items-center space-x-3 text-indigo-400 mb-4">
-                    <div className="p-2 bg-indigo-500/10 rounded-lg border border-indigo-500/20">
-                        <FiStar className="text-xl" />
-                    </div>
-                    <h3 className="text-lg font-semibold text-white">Feature Prompt</h3>
+                <h3 className="text-lg font-semibold text-white mb-4">
+                    {isFeatured ? 'Remove Feature' : 'Feature Prompt'}
+                </h3>
+
+                <p className="text-xs text-slate-400">
+                    {isFeatured
+                        ? (
+                            <>
+                                Are you sure you want to remove{' '}
+                                <span className="text-white font-medium">
+                                    {promptTitle}
+                                </span>{' '}
+                                from featured prompts?
+                            </>
+                        )
+                        : (
+                            <>
+                                Are you sure you want to feature{' '}
+                                <span className="text-white font-medium">
+                                    {promptTitle}
+                                </span>{' '}
+                                on the homepage?
+                            </>
+                        )}
+                </p>
+
+                <div className="flex justify-end gap-3 mt-6">
+                    <button
+                        onClick={onClose}
+                        className="px-4 py-2 bg-slate-800 rounded-lg cursor-pointer"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        onClick={onConfirm}
+                        className={`px-4 py-2 rounded-lg text-white ${isFeatured
+                            ? 'bg-rose-600 hover:bg-rose-500 cursor-pointer'
+                            : 'bg-indigo-600 hover:bg-indigo-500 cursor-pointer'
+                            }`}
+                    >
+                        {isFeatured
+                            ? 'Remove Feature'
+                            : 'Feature Prompt'}
+                    </button>
                 </div>
 
-                <div className="space-y-4">
-                    <p className="text-xs text-slate-400">
-                        Are you sure you want to promote <span className="text-white font-medium">{promptTitle}</span> to the homepage spotlight? This features it prominently to all users on promptAI.
-                    </p>
-
-                    <div className="flex space-x-3 justify-end text-sm font-medium pt-2">
-                        <button
-                            onClick={onClose}
-                            className="px-4 py-2 bg-slate-800 text-slate-300 rounded-lg hover:bg-slate-700 transition-colors"
-                        >
-                            Cancel
-                        </button>
-                        <button
-                            onClick={onConfirm}
-                            className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 shadow-lg shadow-indigo-600/20 transition-all"
-                        >
-                            Confirm Feature
-                        </button>
-                    </div>
-                </div>
             </div>
         </div>
     );
@@ -373,9 +400,21 @@ const PromptRow = ({ prompt, view }) => {
         setIsRejectModalOpen(false);
     };
 
-    const handleFeatureConfirm = () => {
-        console.log(`Prompt ID "${prompt._id?.$oid}" Featured backend trigger placeholder.`);
-        // TODO: Add backend API call here
+    const handleFeatureConfirm = async () => {
+        const res = await toggleFeature(prompt._id || prompt.id);
+
+        if (res.modifiedCount > 0) {
+            router.refresh();
+
+            toast.success(
+                res.feature
+                    ? `${prompt.title} is now featured`
+                    : `${prompt.title} removed from featured prompts`
+            );
+        } else {
+            toast.error('No changes were made.');
+        }
+
         setIsFeatureModalOpen(false);
     };
 
@@ -394,8 +433,19 @@ const PromptRow = ({ prompt, view }) => {
             <button onClick={() => setIsRejectModalOpen(true)} title="Reject Prompt" className="p-2 text-slate-400 hover:text-amber-400 hover:bg-amber-500/10 rounded-lg transition-all cursor-pointer">
                 <FiMessageSquare className="w-4 h-4" />
             </button>
-            <button onClick={() => setIsFeatureModalOpen(true)} title="Feature Prompt" className="p-2 text-slate-400 hover:text-indigo-400 hover:bg-indigo-500/10 rounded-lg transition-all cursor-pointer">
-                <FiStar className="w-4 h-4" />
+            <button
+                onClick={() => setIsFeatureModalOpen(true)}
+                title={prompt.feature ? "Remove Feature" : "Feature Prompt"}
+                className={`p-2 rounded-lg transition-all cursor-pointer ${prompt.feature
+                        ? 'text-yellow-400 hover:bg-yellow-500/10'
+                        : 'text-slate-400 hover:text-indigo-400 hover:bg-indigo-500/10'
+                    }`}
+            >
+                {prompt.feature ? (
+                    <FaStar className="w-4 h-4" />
+                ) : (
+                    <FiStar className="w-4 h-4" />
+                )}
             </button>
             <button onClick={() => setIsDeleteModalOpen(true)} title="Delete Submission" className="p-2 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition-all cursor-pointer">
                 <FiTrash2 className="w-4 h-4" />
@@ -478,6 +528,7 @@ const PromptRow = ({ prompt, view }) => {
                         onClose={() => setIsFeatureModalOpen(false)}
                         onConfirm={handleFeatureConfirm}
                         promptTitle={prompt.title}
+                        prompt={prompt}
                     />
                     <DeleteModal
                         isOpen={isDeleteModalOpen}
@@ -550,6 +601,7 @@ const PromptRow = ({ prompt, view }) => {
                 onClose={() => setIsFeatureModalOpen(false)}
                 onConfirm={handleFeatureConfirm}
                 promptTitle={prompt.title}
+                prompt={prompt}
             />
             <DeleteModal
                 isOpen={isDeleteModalOpen}
