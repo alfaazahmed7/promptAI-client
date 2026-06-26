@@ -1,14 +1,18 @@
 // src/components/dashboard/admin-dashboard/PromptRow.jsx
 'use client';
 
+import { updateUserAddPromptStatus } from '@/lib/actions/userAddPrompt';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
 import {
     FiCheck,
     FiX,
     FiTrash2,
     FiStar,
     FiAlertCircle,
-    FiMessageSquare
+    FiMessageSquare,
+    FiCheckCircle
 } from 'react-icons/fi';
 
 // --- SUB-COMPONENT: REJECTION MODAL ---
@@ -76,9 +80,55 @@ const RejectionModal = ({ isOpen, onClose, promptTitle }) => {
     );
 };
 
+// --- SUB-COMPONENT: APPROVAL MODAL ---
+const ApprovalModal = ({ isOpen, onClose, onConfirm, promptTitle }) => {
+    if (!isOpen) return null;
+
+    return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm text-left">
+            <div className="bg-[#111827] border border-slate-800 w-full max-w-md rounded-xl p-6 shadow-2xl relative animate-in fade-in zoom-in-95 duration-150">
+                <button onClick={onClose} className="absolute top-4 right-4 text-slate-500 hover:text-slate-300 transition-colors">
+                    <FiX className="w-5 h-5" />
+                </button>
+
+                <div className="flex items-center space-x-3 text-emerald-400 mb-4">
+                    <div className="p-2 bg-emerald-500/10 rounded-lg border border-emerald-500/20">
+                        <FiCheckCircle className="text-xl" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-white">Approve Submission</h3>
+                </div>
+
+                <div className="space-y-4">
+                    <p className="text-xs text-slate-400">
+                        Are you sure you want to approve <span className="text-white font-medium">{promptTitle}</span>? This will instantly change the submission state to <span className="text-emerald-400 font-semibold uppercase">Approved</span> and publish it live on promptAI.
+                    </p>
+
+                    <div className="flex space-x-3 justify-end text-sm font-medium pt-2">
+                        <button
+                            onClick={onClose}
+                            className="px-4 py-2 bg-slate-800 text-slate-300 rounded-lg hover:bg-slate-700 transition-colors cursor-pointer"
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            onClick={onConfirm}
+                            className="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-500 shadow-lg shadow-emerald-600/20 transition-all cursor-pointer"
+                        >
+                            Confirm Approval
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 // --- MAIN ROW/CARD COMPONENT ---
 const PromptRow = ({ prompt, view }) => {
     const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
+    const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
+
+    const router = useRouter();
 
     // Helpers for dynamic visual styles
     const getStatusStyles = (status) => {
@@ -97,10 +147,23 @@ const PromptRow = ({ prompt, view }) => {
         }
     };
 
-    // FIXED: Formatted as a JSX variable block to avoid inner re-rendering crashes
+    const handleApproveConfirm = async () => {
+        const res = await updateUserAddPromptStatus(prompt._id || prompt.id);
+        if (res.insertedId) {
+            router.refresh();
+            toast.success(`Prompt submitted by ${prompt.userEmail} has been approved.`);
+        }
+        else {
+            toast.error('No document was updated');
+        }
+
+        setIsApproveModalOpen(false);
+    };
+
+    // Formatted as a JSX variable block to avoid inner re-rendering crashes
     const actionsGroup = (
         <div className="flex items-center space-x-1.5 justify-end">
-            <button title="Approve Prompt" className="p-2 text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 rounded-lg transition-all cursor-pointer">
+            <button onClick={() => setIsApproveModalOpen(true)} title="Approve Prompt" className="p-2 text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 rounded-lg transition-all cursor-pointer">
                 <FiCheck className="w-4 h-4" />
             </button>
             <button onClick={() => setIsRejectModalOpen(true)} title="Reject Prompt" className="p-2 text-slate-400 hover:text-amber-400 hover:bg-amber-500/10 rounded-lg transition-all cursor-pointer">
@@ -169,6 +232,14 @@ const PromptRow = ({ prompt, view }) => {
                 {/* Actions Configuration */}
                 <td className="py-4 px-6 text-right overflow-visible">
                     {actionsGroup}
+
+                    {/* Modals Container */}
+                    <ApprovalModal
+                        isOpen={isApproveModalOpen}
+                        onClose={() => setIsApproveModalOpen(false)}
+                        onConfirm={handleApproveConfirm}
+                        promptTitle={prompt.title}
+                    />
                     <RejectionModal
                         isOpen={isRejectModalOpen}
                         onClose={() => setIsRejectModalOpen(false)}
@@ -219,6 +290,13 @@ const PromptRow = ({ prompt, view }) => {
                 {actionsGroup}
             </div>
 
+            {/* Modals Container */}
+            <ApprovalModal
+                isOpen={isApproveModalOpen}
+                onClose={() => setIsApproveModalOpen(false)}
+                onConfirm={handleApproveConfirm}
+                promptTitle={prompt.title}
+            />
             <RejectionModal
                 isOpen={isRejectModalOpen}
                 onClose={() => setIsRejectModalOpen(false)}
