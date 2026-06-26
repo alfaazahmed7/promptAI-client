@@ -28,3 +28,11 @@ export const updateUserAddPromptRejectionStatus = async (promptId, feedbackRemar
 
     return res.json();
 }
+
+export const deleteUserAddPrompt = async (promptId) => {
+    const res = await fetch(`${baseUrl}/api/delete-user-add-prompt/${promptId}`, {
+        method: 'DELETE'
+    });
+
+    return res.json();
+}

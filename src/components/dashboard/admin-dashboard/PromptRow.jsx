@@ -2,7 +2,7 @@
 'use client';
 
 import { toggleFeature } from '@/lib/actions/feature';
-import { updateUserAddPromptRejectionStatus, updateUserAddPromptStatus } from '@/lib/actions/userAddPrompt';
+import { deleteUserAddPrompt, updateUserAddPromptRejectionStatus, updateUserAddPromptStatus } from '@/lib/actions/userAddPrompt';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -330,13 +330,13 @@ const DeleteModal = ({ isOpen, onClose, onConfirm, promptTitle }) => {
                     <div className="flex space-x-3 justify-end text-sm font-medium pt-2">
                         <button
                             onClick={onClose}
-                            className="px-4 py-2 bg-slate-800 text-slate-300 rounded-lg hover:bg-slate-700 transition-colors"
+                            className="px-4 py-2 bg-slate-800 text-slate-300 rounded-lg hover:bg-slate-700 transition-colors cursor-pointer"
                         >
                             Cancel
                         </button>
                         <button
                             onClick={onConfirm}
-                            className="px-4 py-2 bg-rose-600 text-white rounded-lg hover:bg-rose-500 shadow-lg shadow-rose-600/20 transition-all"
+                            className="px-4 py-2 bg-rose-600 text-white rounded-lg hover:bg-rose-500 shadow-lg cursor-pointer shadow-rose-600/20 transition-all"
                         >
                             Delete Permanently
                         </button>
@@ -418,9 +418,16 @@ const PromptRow = ({ prompt, view }) => {
         setIsFeatureModalOpen(false);
     };
 
-    const handleDeleteConfirm = () => {
-        console.log(`Prompt ID "${prompt._id?.$oid}" Delete backend trigger placeholder.`);
-        // TODO: Add backend API call here
+    const handleDeleteConfirm = async () => {
+        const res = await deleteUserAddPrompt(prompt._id || prompt.id);
+        if (res.deletedCount > 0) {
+            router.refresh();
+
+            toast.success(`You have successfully delete the ${prompt.title} prompt`);
+        } else {
+            toast.error('No changes was made.');
+        }
+
         setIsDeleteModalOpen(false);
     };
 
@@ -437,8 +444,8 @@ const PromptRow = ({ prompt, view }) => {
                 onClick={() => setIsFeatureModalOpen(true)}
                 title={prompt.feature ? "Remove Feature" : "Feature Prompt"}
                 className={`p-2 rounded-lg transition-all cursor-pointer ${prompt.feature
-                        ? 'text-yellow-400 hover:bg-yellow-500/10'
-                        : 'text-slate-400 hover:text-indigo-400 hover:bg-indigo-500/10'
+                    ? 'text-yellow-400 hover:bg-yellow-500/10'
+                    : 'text-slate-400 hover:text-indigo-400 hover:bg-indigo-500/10'
                     }`}
             >
                 {prompt.feature ? (
@@ -535,6 +542,7 @@ const PromptRow = ({ prompt, view }) => {
                         onClose={() => setIsDeleteModalOpen(false)}
                         onConfirm={handleDeleteConfirm}
                         promptTitle={prompt.title}
+                        prompt={prompt}
                     />
                 </td>
             </tr>
@@ -608,6 +616,7 @@ const PromptRow = ({ prompt, view }) => {
                 onClose={() => setIsDeleteModalOpen(false)}
                 onConfirm={handleDeleteConfirm}
                 promptTitle={prompt.title}
+                prompt={prompt}
             />
         </div>
     );
