@@ -1,7 +1,7 @@
 // src/components/dashboard/admin-dashboard/PromptRow.jsx
 'use client';
 
-import { updateUserAddPromptStatus } from '@/lib/actions/userAddPrompt';
+import { updateUserAddPromptRejectionStatus, updateUserAddPromptStatus } from '@/lib/actions/userAddPrompt';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -16,50 +16,105 @@ import {
 } from 'react-icons/fi';
 
 // --- SUB-COMPONENT: APPROVAL MODAL ---
-const ApprovalModal = ({ isOpen, onClose, onConfirm, promptTitle }) => {
+const ApprovalModal = ({ isOpen, onClose, onConfirm, promptTitle, prompt }) => {
     if (!isOpen) return null;
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm text-left">
             <div className="bg-[#111827] border border-slate-800 w-full max-w-md rounded-xl p-6 shadow-2xl relative animate-in fade-in zoom-in-95 duration-150">
-                <button onClick={onClose} className="absolute top-4 right-4 text-slate-500 hover:text-slate-300 transition-colors">
-                    <FiX className="w-5 h-5" />
-                </button>
 
-                <div className="flex items-center space-x-3 text-emerald-400 mb-4">
-                    <div className="p-2 bg-emerald-500/10 rounded-lg border border-emerald-500/20">
-                        <FiCheckCircle className="text-xl" />
-                    </div>
-                    <h3 className="text-lg font-semibold text-white">Approve Submission</h3>
-                </div>
+                {prompt?.status !== 'pending' ? (
+                    <>
+                        <div className="flex items-center space-x-3 mb-4">
+                            <div className="p-2 bg-slate-500/10 rounded-lg border border-slate-500/20">
+                                <FiCheckCircle className="text-xl text-slate-400" />
+                            </div>
 
-                <div className="space-y-4">
-                    <p className="text-xs text-slate-400">
-                        Are you sure you want to approve <span className="text-white font-medium">{promptTitle}</span>? This will instantly change the submission state to <span className="text-emerald-400 font-semibold uppercase">Approved</span> and publish it live on promptAI.
-                    </p>
+                            <h3 className="text-lg font-semibold text-white">
+                                Submission Already Reviewed
+                            </h3>
+                        </div>
 
-                    <div className="flex space-x-3 justify-end text-sm font-medium pt-2">
+                        <p className="text-sm text-slate-300">
+                            This prompt has already been{" "}
+                            <span className="font-semibold capitalize text-emerald-400">
+                                {prompt.status}
+                            </span>
+                            .
+                        </p>
+
+                        <p className="text-xs text-slate-500 mt-2">
+                            No further approval action is required.
+                        </p>
+
+                        <div className="flex justify-end mt-6">
+                            <button
+                                onClick={onClose}
+                                className="px-4 py-2 bg-slate-800 text-slate-300 rounded-lg hover:bg-slate-700 transition-colors"
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </>
+                ) : (
+                    <>
                         <button
                             onClick={onClose}
-                            className="px-4 py-2 bg-slate-800 text-slate-300 rounded-lg hover:bg-slate-700 transition-colors"
+                            className="absolute top-4 right-4 text-slate-500 hover:text-slate-300 transition-colors"
                         >
-                            Cancel
+                            <FiX className="w-5 h-5" />
                         </button>
-                        <button
-                            onClick={onConfirm}
-                            className="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-500 shadow-lg shadow-emerald-600/20 transition-all"
-                        >
-                            Confirm Approval
-                        </button>
-                    </div>
-                </div>
+
+                        <div className="flex items-center space-x-3 text-emerald-400 mb-4">
+                            <div className="p-2 bg-emerald-500/10 rounded-lg border border-emerald-500/20">
+                                <FiCheckCircle className="text-xl" />
+                            </div>
+
+                            <h3 className="text-lg font-semibold text-white">
+                                Approve Submission
+                            </h3>
+                        </div>
+
+                        <div className="space-y-4">
+                            <p className="text-xs text-slate-400">
+                                Are you sure you want to approve{" "}
+                                <span className="text-white font-medium">
+                                    {promptTitle}
+                                </span>
+                                ? This will instantly change the submission
+                                state to{" "}
+                                <span className="text-emerald-400 font-semibold uppercase">
+                                    Approved
+                                </span>{" "}
+                                and publish it live on PromptAI.
+                            </p>
+
+                            <div className="flex space-x-3 justify-end text-sm font-medium pt-2">
+                                <button
+                                    onClick={onClose}
+                                    className="px-4 py-2 bg-slate-800 text-slate-300 rounded-lg hover:bg-slate-700 transition-colors"
+                                >
+                                    Cancel
+                                </button>
+
+                                <button
+                                    onClick={onConfirm}
+                                    className="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-500 shadow-lg shadow-emerald-600/20 transition-all"
+                                >
+                                    Confirm Approval
+                                </button>
+                            </div>
+                        </div>
+                    </>
+                )}
+
             </div>
         </div>
     );
 };
 
 // --- SUB-COMPONENT: REJECTION MODAL WITH FEEDBACK ---
-const RejectionModal = ({ isOpen, onClose, onConfirm, promptTitle }) => {
+const RejectionModal = ({ isOpen, onClose, onConfirm, promptTitle, prompt }) => {
     const [feedback, setFeedback] = useState('');
 
     if (!isOpen) return null;
@@ -73,50 +128,107 @@ const RejectionModal = ({ isOpen, onClose, onConfirm, promptTitle }) => {
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm text-left">
             <div className="bg-[#111827] border border-slate-800 w-full max-w-md rounded-xl p-6 shadow-2xl relative animate-in fade-in zoom-in-95 duration-150">
-                <button onClick={onClose} className="absolute top-4 right-4 text-slate-500 hover:text-slate-300 transition-colors">
-                    <FiX className="w-5 h-5" />
-                </button>
 
-                <div className="flex items-center space-x-3 text-rose-400 mb-4">
-                    <div className="p-2 bg-rose-500/10 rounded-lg border border-rose-500/20">
-                        <FiAlertCircle className="text-xl" />
-                    </div>
-                    <h3 className="text-lg font-semibold text-white">Reject Submission</h3>
-                </div>
+                {prompt?.status === 'rejected' ? (
+                    <>
+                        <div className="flex items-center space-x-3 mb-4">
+                            <div className="p-2 bg-rose-500/10 rounded-lg border border-rose-500/20">
+                                <FiAlertCircle className="text-xl text-rose-400" />
+                            </div>
 
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <p className="text-xs text-slate-400">
-                        Please state the structural reasons or policy violations for denying <span className="text-white font-medium">{promptTitle}</span>. The author will be systematically notified.
-                    </p>
+                            <h3 className="text-lg font-semibold text-white">
+                                Submission Already Rejected
+                            </h3>
+                        </div>
 
-                    <div>
-                        <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Admin Remarks</label>
-                        <textarea
-                            required
-                            rows={4}
-                            value={feedback}
-                            onChange={(e) => setFeedback(e.target.value)}
-                            placeholder="Provide descriptive advice on what needs improvement (e.g., poor clarity, invalid tags...)"
-                            className="w-full bg-[#0b0f19] text-slate-200 p-3 border border-slate-800 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-rose-500/40 focus:border-rose-500/60 transition-all placeholder:text-slate-600 resize-none"
-                        />
-                    </div>
+                        <p className="text-sm text-slate-300">
+                            This prompt has already been rejected.
+                        </p>
 
-                    <div className="flex space-x-3 justify-end text-sm font-medium pt-2">
+                        {prompt?.feedback && (
+                            <div className="mt-4 p-3 rounded-lg bg-[#0b0f19] border border-slate-800">
+                                <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">
+                                    Previous Feedback
+                                </p>
+
+                                <p className="text-sm text-slate-300">
+                                    {prompt.feedback}
+                                </p>
+                            </div>
+                        )}
+
+                        <div className="flex justify-end mt-6">
+                            <button
+                                onClick={onClose}
+                                className="px-4 py-2 bg-slate-800 text-slate-300 rounded-lg hover:bg-slate-700 transition-colors"
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </>
+                ) : (
+                    <>
                         <button
-                            type="button"
                             onClick={onClose}
-                            className="px-4 py-2 bg-slate-800 text-slate-300 rounded-lg hover:bg-slate-700 transition-colors"
+                            className="absolute top-4 right-4 text-slate-500 hover:text-slate-300 transition-colors"
                         >
-                            Cancel
+                            <FiX className="w-5 h-5" />
                         </button>
-                        <button
-                            type="submit"
-                            className="px-4 py-2 bg-rose-600 text-white rounded-lg hover:bg-rose-500 shadow-lg shadow-rose-600/20 transition-all"
-                        >
-                            Confirm Reject
-                        </button>
-                    </div>
-                </form>
+
+                        <div className="flex items-center space-x-3 text-rose-400 mb-4">
+                            <div className="p-2 bg-rose-500/10 rounded-lg border border-rose-500/20">
+                                <FiAlertCircle className="text-xl" />
+                            </div>
+
+                            <h3 className="text-lg font-semibold text-white">
+                                Reject Submission
+                            </h3>
+                        </div>
+
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            <p className="text-xs text-slate-400">
+                                Please state the structural reasons or policy
+                                violations for denying{" "}
+                                <span className="text-white font-medium">
+                                    {promptTitle}
+                                </span>
+                                . The author will be systematically notified.
+                            </p>
+
+                            <div>
+                                <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">
+                                    Admin Remarks
+                                </label>
+
+                                <textarea
+                                    required
+                                    rows={4}
+                                    value={feedback}
+                                    onChange={(e) => setFeedback(e.target.value)}
+                                    placeholder="Provide descriptive advice on what needs improvement (e.g., poor clarity, invalid tags...)"
+                                    className="w-full bg-[#0b0f19] text-slate-200 p-3 border border-slate-800 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-rose-500/40 focus:border-rose-500/60 transition-all placeholder:text-slate-600 resize-none"
+                                />
+                            </div>
+
+                            <div className="flex space-x-3 justify-end text-sm font-medium pt-2">
+                                <button
+                                    type="button"
+                                    onClick={onClose}
+                                    className="px-4 py-2 bg-slate-800 text-slate-300 rounded-lg hover:bg-slate-700 transition-colors"
+                                >
+                                    Cancel
+                                </button>
+
+                                <button
+                                    type="submit"
+                                    className="px-4 py-2 bg-rose-600 text-white rounded-lg hover:bg-rose-500 shadow-lg shadow-rose-600/20 transition-all"
+                                >
+                                    Confirm Reject
+                                </button>
+                            </div>
+                        </form>
+                    </>
+                )}
             </div>
         </div>
     );
@@ -248,9 +360,16 @@ const PromptRow = ({ prompt, view }) => {
         setIsApproveModalOpen(false);
     };
 
-    const handleRejectConfirm = (feedbackRemarks) => {
-        console.log(`Prompt ID "${prompt._id?.$oid}" Rejected with remarks: "${feedbackRemarks}"`);
-        // TODO: Add backend API call here
+    const handleRejectConfirm = async (feedbackRemarks) => {
+        const res = await updateUserAddPromptRejectionStatus(prompt._id || prompt.id, feedbackRemarks);
+        if (res.message) {
+            router.refresh();
+            toast.success(`Prompt status updated for ${prompt?.userEmail || 'user'}.`);
+        }
+        else {
+            toast.error('No changes were made to the document.');
+        }
+
         setIsRejectModalOpen(false);
     };
 
@@ -345,12 +464,14 @@ const PromptRow = ({ prompt, view }) => {
                         onClose={() => setIsApproveModalOpen(false)}
                         onConfirm={handleApproveConfirm}
                         promptTitle={prompt.title}
+                        prompt={prompt}
                     />
                     <RejectionModal
                         isOpen={isRejectModalOpen}
                         onClose={() => setIsRejectModalOpen(false)}
                         onConfirm={handleRejectConfirm}
                         promptTitle={prompt.title}
+                        prompt={prompt}
                     />
                     <FeatureModal
                         isOpen={isFeatureModalOpen}
@@ -415,12 +536,14 @@ const PromptRow = ({ prompt, view }) => {
                 onClose={() => setIsApproveModalOpen(false)}
                 onConfirm={handleApproveConfirm}
                 promptTitle={prompt.title}
+                prompt={prompt}
             />
             <RejectionModal
                 isOpen={isRejectModalOpen}
                 onClose={() => setIsRejectModalOpen(false)}
                 onConfirm={handleRejectConfirm}
                 promptTitle={prompt.title}
+                prompt={prompt}
             />
             <FeatureModal
                 isOpen={isFeatureModalOpen}

@@ -16,3 +16,15 @@ export const updateUserAddPromptStatus = async (promptId) => {
 
     return res.json();
 }
+
+export const updateUserAddPromptRejectionStatus = async (promptId, feedbackRemarks) => {
+    const res = await fetch(`${baseUrl}/api/user-add-prompt-rejection-status`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ promptId, feedbackRemarks })
+    });
+
+    return res.json();
+}
