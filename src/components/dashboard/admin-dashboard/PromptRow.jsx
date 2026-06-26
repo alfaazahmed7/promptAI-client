@@ -6,7 +6,7 @@ import { deleteUserAddPrompt, updateUserAddPromptRejectionStatus, updateUserAddP
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import { FaStar } from 'react-icons/fa6';
+import { FaMessage, FaStar } from 'react-icons/fa6';
 import {
     FiAlertCircle,
     FiCheck,
@@ -435,10 +435,19 @@ const PromptRow = ({ prompt, view }) => {
     const actionsGroup = (
         <div className="flex items-center space-x-1.5 justify-end">
             <button onClick={() => setIsApproveModalOpen(true)} title="Approve Prompt" className="p-2 text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 rounded-lg transition-all cursor-pointer">
-                <FiCheck className="w-4 h-4" />
+                <FiCheck
+                    className={`w-4 h-4 ${prompt.status === 'approved'
+                            ? 'text-green-500'
+                            : ''
+                        }`}
+                />
             </button>
             <button onClick={() => setIsRejectModalOpen(true)} title="Reject Prompt" className="p-2 text-slate-400 hover:text-amber-400 hover:bg-amber-500/10 rounded-lg transition-all cursor-pointer">
-                <FiMessageSquare className="w-4 h-4" />
+                {prompt?.rejectionFeedback?.trim() ? (
+                    <FaMessage className="w-4 h-4" />
+                ) : (
+                    <FiMessageSquare className="w-4 h-4" />
+                )}
             </button>
             <button
                 onClick={() => setIsFeatureModalOpen(true)}
