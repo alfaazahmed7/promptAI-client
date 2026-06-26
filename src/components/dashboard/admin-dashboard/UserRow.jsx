@@ -1,14 +1,27 @@
 'use client';
 
 import { UserChangeRole } from '@/lib/actions/userChangeRole';
+import { userDelete } from '@/lib/actions/userDelete';
 import { authClient } from '@/lib/auth-client';
 import { useRouter } from 'next/navigation';
 import React, { useState, useRef, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { FiEdit2, FiTrash2, FiAlertTriangle, FiX } from 'react-icons/fi';
 
-const ConfirmationModal = ({ isOpen, onClose, onConfirm, userName, currentRole, targetRole }) => {
+// --- GENERIC CONFIRMATION MODAL ---
+const ConfirmationModal = ({ isOpen, onClose, onConfirm, title, message, subMessage, confirmVariant = 'blue' }) => {
     if (!isOpen) return null;
+
+    const btnStyles = {
+        blue: 'bg-blue-600 hover:bg-blue-500 shadow-blue-600/20',
+        rose: 'bg-rose-600 hover:bg-rose-500 shadow-rose-600/20'
+    };
+
+    const iconStyles = {
+        blue: 'text-amber-400 bg-amber-500/10 border-amber-500/20',
+        rose: 'text-rose-400 bg-rose-500/10 border-rose-500/20'
+    };
+
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm text-left font-normal normal-case tracking-normal">
             <div className="bg-[#111827] border border-slate-800 w-full max-w-md rounded-xl p-6 shadow-2xl relative animate-in fade-in zoom-in-95 duration-150">
@@ -19,18 +32,20 @@ const ConfirmationModal = ({ isOpen, onClose, onConfirm, userName, currentRole, 
                     <FiX className="w-5 h-5" />
                 </button>
 
-                <div className="flex items-center space-x-3 text-amber-400 mb-4">
-                    <div className="p-2 bg-amber-500/10 rounded-lg border border-amber-500/20">
+                <div className="flex items-center space-x-3 mb-4">
+                    <div className={`p-2 rounded-lg border ${iconStyles[confirmVariant] || iconStyles.blue}`}>
                         <FiAlertTriangle className="text-xl" />
                     </div>
-                    <h3 className="text-lg font-semibold text-white">Confirm Role Change</h3>
+                    <h3 className="text-lg font-semibold text-white">{title}</h3>
                 </div>
 
                 <div className="text-sm text-slate-400 space-y-2 mb-6">
-                    <p>Are you sure you want to alter permissions for <span className="text-white font-medium">{userName}</span>?</p>
-                    <p className="bg-[#0b0f19] p-3 rounded-lg border border-slate-800/80">
-                        Change role from <span className="text-slate-300 font-semibold uppercase">{currentRole}</span> to <span className="text-blue-400 font-semibold uppercase">{targetRole}</span>.
-                    </p>
+                    <p>{message}</p>
+                    {subMessage && (
+                        <p className="bg-[#0b0f19] p-3 rounded-lg border border-slate-800/80">
+                            {subMessage}
+                        </p>
+                    )}
                 </div>
 
                 <div className="flex space-x-3 justify-end text-sm font-medium">
@@ -42,9 +57,9 @@ const ConfirmationModal = ({ isOpen, onClose, onConfirm, userName, currentRole, 
                     </button>
                     <button
                         onClick={onConfirm}
-                        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 shadow-lg shadow-blue-600/20 transition-all cursor-pointer"
+                        className={`px-4 py-2 text-white rounded-lg shadow-lg transition-all cursor-pointer ${btnStyles[confirmVariant] || btnStyles.blue}`}
                     >
-                        Confirm Change
+                        Confirm
                     </button>
                 </div>
             </div>
@@ -55,7 +70,8 @@ const ConfirmationModal = ({ isOpen, onClose, onConfirm, userName, currentRole, 
 // --- MAIN ROW COMPONENT ---
 const UserRow = ({ user, view }) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isRoleModalOpen, setIsRoleModalOpen] = useState(false);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [selectedRole, setSelectedRole] = useState('');
     const dropdownRef = useRef(null);
 
@@ -64,7 +80,6 @@ const UserRow = ({ user, view }) => {
 
     const userData = authClient.useSession();
     const userDetails = userData.data?.user;
-    console.log(userDetails, 'user');
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -76,27 +91,47 @@ const UserRow = ({ user, view }) => {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
+    const userId = user._id?.$oid || user._id;
+
+    // Handle Role Changes
     const handleRoleSelect = (role) => {
         if (role === user.role) {
             setIsDropdownOpen(false);
             return;
         }
         setSelectedRole(role);
-        setIsModalOpen(true);
+        setIsRoleModalOpen(true);
         setIsDropdownOpen(false);
     };
 
     const handleConfirmRoleChange = async () => {
-        const userId = user._id?.$oid || user._id;
-
         const res = await UserChangeRole(userId, selectedRole);
         if (res.modifiedCount > 0) {
             router.refresh();
-            toast.success(`Updating user ${user.email} role from ${user.role} to ${selectedRole}`);
+            toast.success(`Updated user ${user.email} role to ${selectedRole}`);
         } else {
             toast.error('No document was updated');
         }
-        setIsModalOpen(false);
+        setIsRoleModalOpen(false);
+    };
+
+    // Handle User Deletion
+    const handleConfirmDelete = async () => {
+        // Guard against an admin deleting themselves if security logic allows it here
+        if (userDetails && userDetails.email === user.email) {
+            toast.error("You cannot delete your own account from the dashboard!");
+            setIsDeleteModalOpen(false);
+            return;
+        }
+
+        const res = await userDelete(userId);
+        if (res.deletedCount > 0 || res.success) {
+            router.refresh();
+            toast.success(`User ${user.email} has been successfully deleted.`);
+        } else {
+            toast.error(res.message || 'Failed to delete user account');
+        }
+        setIsDeleteModalOpen(false);
     };
 
     const getRoleStyles = (role) => {
@@ -144,7 +179,10 @@ const UserRow = ({ user, view }) => {
                         >
                             <FiEdit2 className="w-4 h-4" />
                         </button>
-                        <button className="p-2 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition-all cursor-pointer">
+                        <button
+                            onClick={() => setIsDeleteModalOpen(true)}
+                            className="p-2 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition-all cursor-pointer"
+                        >
                             <FiTrash2 className="w-4 h-4" />
                         </button>
 
@@ -164,14 +202,26 @@ const UserRow = ({ user, view }) => {
                             </div>
                         )}
                     </div>
-                    {/* Fixed: Render modal inside the TD cell container so it passes DOM nesting rules */}
+
+                    {/* Modals Container */}
                     <ConfirmationModal
-                        isOpen={isModalOpen}
-                        onClose={() => setIsModalOpen(false)}
+                        isOpen={isRoleModalOpen}
+                        onClose={() => setIsRoleModalOpen(false)}
                         onConfirm={handleConfirmRoleChange}
-                        userName={user.name}
-                        currentRole={user.role}
-                        targetRole={selectedRole}
+                        title="Confirm Role Change"
+                        message={<>Are you sure you want to alter permissions for <span className="text-white font-medium">{user.name}</span>?</>}
+                        subMessage={<>Change role from <span className="text-slate-300 font-semibold uppercase">{user.role}</span> to <span className="text-blue-400 font-semibold uppercase">{selectedRole}</span>.</>}
+                        confirmVariant="blue"
+                    />
+
+                    <ConfirmationModal
+                        isOpen={isDeleteModalOpen}
+                        onClose={() => setIsDeleteModalOpen(false)}
+                        onConfirm={handleConfirmDelete}
+                        title="Delete User Account"
+                        message={<>Are you absolutely sure you want to delete <span className="text-white font-medium">{user.name}</span>?</>}
+                        subMessage="Warning: This action is permanent. All database information related to this user profile will be scrubbed cleanly."
+                        confirmVariant="rose"
                     />
                 </td>
             </tr>
@@ -219,7 +269,10 @@ const UserRow = ({ user, view }) => {
                 >
                     <FiEdit2 className="w-3.5 h-3.5" /> Edit Role
                 </button>
-                <button className="flex-1 py-2 px-3 bg-rose-500/10 text-rose-400 border border-rose-500/20 rounded-lg text-xs font-medium flex items-center justify-center gap-1.5 hover:bg-rose-500/20 transition-colors">
+                <button
+                    onClick={() => setIsDeleteModalOpen(true)}
+                    className="flex-1 py-2 px-3 bg-rose-500/10 text-rose-400 border border-rose-500/20 rounded-lg text-xs font-medium flex items-center justify-center gap-1.5 hover:bg-rose-500/20 transition-colors"
+                >
                     <FiTrash2 className="w-3.5 h-3.5" /> Delete
                 </button>
 
@@ -240,13 +293,25 @@ const UserRow = ({ user, view }) => {
                 )}
             </div>
 
+            {/* Modals Container */}
             <ConfirmationModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
+                isOpen={isRoleModalOpen}
+                onClose={() => setIsRoleModalOpen(false)}
                 onConfirm={handleConfirmRoleChange}
-                userName={user.name}
-                currentRole={user.role}
-                targetRole={selectedRole}
+                title="Confirm Role Change"
+                message={<>Are you sure you want to alter permissions for <span className="text-white font-medium">{user.name}</span>?</>}
+                subMessage={<>Change role from <span className="text-slate-300 font-semibold uppercase">{user.role}</span> to <span className="text-blue-400 font-semibold uppercase">{selectedRole}</span>.</>}
+                confirmVariant="blue"
+            />
+
+            <ConfirmationModal
+                isOpen={isDeleteModalOpen}
+                onClose={() => setIsDeleteModalOpen(false)}
+                onConfirm={handleConfirmDelete}
+                title="Delete User Account"
+                message={<>Are you absolutely sure you want to delete <span className="text-white font-medium">{user.name}</span>?</>}
+                subMessage="Warning: This action is permanent. All database information related to this user profile will be scrubbed cleanly."
+                confirmVariant="rose"
             />
         </div>
     );
