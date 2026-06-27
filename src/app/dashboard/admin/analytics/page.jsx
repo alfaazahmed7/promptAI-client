@@ -26,7 +26,7 @@ const AdminAnalyticsPage = async () => {
     };
 
     return (
-        <div className="min-h-screen p-4 md:p-8 bg-[#0b0f19] transition-colors duration-200">
+        <div className="max-w-7xl mx-auto min-h-screen p-4 md:p-8 bg-[#0b0f19] transition-colors duration-200">
             <div className="max-w-7xl mx-auto space-y-8">
                 {/* Header Section */}
                 <AnalyticsHeader />

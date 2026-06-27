@@ -1,20 +1,118 @@
 // src/components/dashboard/admin-dashboard/ReportRow.jsx
 'use client';
 
+import { dismissReport } from '@/lib/actions/report';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
 import {
     FiUser,
     FiX,
     FiTrash2,
     FiCheck,
-    FiAlertTriangle,
     FiCalendar,
     FiHash,
     FiBell
 } from 'react-icons/fi';
 
-// --- SUB-COMPONENT: GENERAL CONFIRMATION MODAL ---
-const ModerationModal = ({ isOpen, onClose, onConfirm, title, description, icon: Icon, confirmBtnClass }) => {
+
+// 1. DISMISS REPORT MODAL
+const DismissReportModal = ({ isOpen, onClose, onConfirm, adminReportFeedback }) => {
+    if (!isOpen) return null;
+
+    const isDismissed = adminReportFeedback === "dismiss";
+
+    return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm text-left">
+            <div className="bg-[#111827] border border-slate-800 w-full max-w-md rounded-xl p-6 shadow-2xl relative animate-in fade-in zoom-in-95 duration-150">
+
+                {isDismissed ? (
+                    <>
+                        <div className="flex items-center space-x-3 mb-4">
+                            <div className="p-2 bg-slate-500/10 rounded-lg border border-slate-500/20">
+                                <FiCheck className="text-xl text-slate-400" />
+                            </div>
+
+                            <h3 className="text-lg font-semibold text-white">
+                                Report Already Dismissed
+                            </h3>
+                        </div>
+
+                        <p className="text-sm text-slate-300">
+                            This report has already been{" "}
+                            <span className="font-semibold text-emerald-400">
+                                dismissed
+                            </span>.
+                        </p>
+
+                        <p className="text-xs text-slate-500 mt-2">
+                            No further moderation action is required.
+                        </p>
+
+                        <div className="flex justify-end mt-6">
+                            <button
+                                onClick={onClose}
+                                className="px-4 py-2 bg-slate-800 text-slate-300 rounded-lg hover:bg-slate-700 transition-colors cursor-pointer"
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        <button
+                            onClick={onClose}
+                            className="absolute top-4 right-4 text-slate-500 hover:text-slate-300 transition-colors cursor-pointer"
+                        >
+                            <FiX className="w-5 h-5" />
+                        </button>
+
+                        <div className="flex items-center space-x-3 text-emerald-400 mb-4">
+                            <div className="p-2 bg-emerald-500/10 rounded-lg border border-emerald-500/20">
+                                <FiCheck className="text-xl" />
+                            </div>
+
+                            <h3 className="text-lg font-semibold text-white">
+                                Dismiss Violation Report
+                            </h3>
+                        </div>
+
+                        <div className="space-y-4">
+                            <p className="text-xs text-slate-400">
+                                Are you sure you want to dismiss this complaint?
+                                No action will be applied against the target
+                                prompt submission and the report will be marked
+                                as resolved.
+                            </p>
+
+                            <div className="flex space-x-3 justify-end text-sm font-medium pt-2">
+                                <button
+                                    onClick={onClose}
+                                    className="px-4 py-2 bg-slate-800 text-slate-300 rounded-lg hover:bg-slate-700 transition-colors cursor-pointer"
+                                >
+                                    Cancel
+                                </button>
+
+                                <button
+                                    onClick={onConfirm}
+                                    className="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-500 shadow-lg shadow-emerald-600/20 transition-all cursor-pointer"
+                                >
+                                    Confirm Dismissal
+                                </button>
+                            </div>
+                        </div>
+                    </>
+                )}
+
+            </div>
+        </div>
+    );
+};
+
+// ==========================================
+// 2. WARN CREATOR MODAL
+// ==========================================
+const WarnCreatorModal = ({ isOpen, onClose, onConfirm }) => {
     if (!isOpen) return null;
 
     return (
@@ -26,18 +124,20 @@ const ModerationModal = ({ isOpen, onClose, onConfirm, title, description, icon:
 
                 <div className="flex items-center space-x-3 mb-4">
                     <div className="p-2 bg-slate-800 border border-slate-700/60 rounded-lg">
-                        <Icon className="text-xl" />
+                        <FiBell className="text-xl text-amber-400" />
                     </div>
-                    <h3 className="text-lg font-semibold text-white">{title}</h3>
+                    <h3 className="text-lg font-semibold text-white">Issue Warning Notification</h3>
                 </div>
 
                 <div className="space-y-4">
-                    <p className="text-xs text-slate-400 line-clamp-4">{description}</p>
+                    <p className="text-xs text-slate-400 line-clamp-4">
+                        This will register an internal system infraction check to the user is portal account indicating policy violations on their prompt content.
+                    </p>
                     <div className="flex space-x-3 justify-end text-sm font-medium pt-2">
-                        <button onClick={onClose} className="px-4 py-2 bg-slate-800 text-slate-300 rounded-lg hover:bg-slate-700 transition-colors">
+                        <button onClick={onClose} className="px-4 py-2 bg-slate-800 text-slate-300 rounded-lg hover:bg-slate-700 transition-colors cursor-pointer">
                             Cancel
                         </button>
-                        <button onClick={onConfirm} className={`px-4 py-2 text-white rounded-lg transition-all shadow-lg ${confirmBtnClass}`}>
+                        <button onClick={onConfirm} className="px-4 py-2 text-white rounded-lg transition-all shadow-lg cursor-pointer bg-amber-600 hover:bg-amber-500 shadow-amber-600/20">
                             Confirm
                         </button>
                     </div>
@@ -47,12 +147,49 @@ const ModerationModal = ({ isOpen, onClose, onConfirm, title, description, icon:
     );
 };
 
-// --- MAIN ROW/CARD COMPONENT ---
+// 3. DELETE PROMPT MODAL
+const DeletePromptModal = ({ isOpen, onClose, onConfirm, promptId }) => {
+    if (!isOpen) return null;
+
+    return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm text-left">
+            <div className="bg-[#111827] border border-slate-800 w-full max-w-md rounded-xl p-6 shadow-2xl relative animate-in fade-in zoom-in-95 duration-150">
+                <button onClick={onClose} className="absolute top-4 right-4 text-slate-500 hover:text-slate-300 transition-colors">
+                    <FiX className="w-5 h-5" />
+                </button>
+
+                <div className="flex items-center space-x-3 mb-4">
+                    <div className="p-2 bg-slate-800 border border-slate-700/60 rounded-lg">
+                        <FiTrash2 className="text-xl text-rose-400" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-white">Execute Prompt Destruction</h3>
+                </div>
+
+                <div className="space-y-4">
+                    <p className="text-xs text-slate-400 line-clamp-4">
+                        Critical: This permanently purges the prompt submission with ID: {promptId?.$oid || promptId} completely out of the promptAI ecosystem.
+                    </p>
+                    <div className="flex space-x-3 justify-end text-sm font-medium pt-2">
+                        <button onClick={onClose} className="px-4 py-2 bg-slate-800 text-slate-300 rounded-lg hover:bg-slate-700 transition-colors cursor-pointer">
+                            Cancel
+                        </button>
+                        <button onClick={onConfirm} className="px-4 py-2 text-white rounded-lg transition-all shadow-lg cursor-pointer bg-rose-600 hover:bg-rose-500 shadow-rose-600/20">
+                            Confirm
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+// MAIN ROW/CARD COMPONENT
 const ReportRow = ({ report, view }) => {
     const [modalState, setModalState] = useState({ type: null, isOpen: false });
 
     const openModal = (type) => setModalState({ type, isOpen: true });
     const closeModal = () => setModalState({ type: null, isOpen: false });
+    const router = useRouter();
 
     // Formatting rules
     const formatDate = (dateInput) => {
@@ -74,9 +211,14 @@ const ReportRow = ({ report, view }) => {
         }
     };
 
-    // --- EMPTY BACKEND HANDLERS FOR YOUR CUSTOM INTEGRATION ---
-    const handleDismissReport = () => {
-        console.log(`Report ID "${report._id}" Dismissed backend logic trigger.`);
+    // --- BACKEND HANDLERS ---
+    const handleDismissReport = async () => {
+        const res = await dismissReport(report._id || report.id, report.promptId);
+        console.log(res, 'res');
+        if (res.success) {
+            router.refresh();
+            toast.success(`Report dismissed successfully`);
+        }
         closeModal();
     };
 
@@ -90,11 +232,11 @@ const ReportRow = ({ report, view }) => {
         closeModal();
     };
 
-    // Render operational static button arrays
+    // Render operational action buttons
     const actionsGroup = (
         <div className="flex items-center space-x-1.5 justify-end">
             <button onClick={() => openModal('dismiss')} title="Dismiss Report" className="p-2 text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 rounded-lg transition-all cursor-pointer">
-                <FiCheck className="w-4 h-4" />
+                <FiCheck className={report.adminReportFeedback === "dismiss" ? "text-green-600 w-4 h-4" : "w-4 h-4"} />
             </button>
             <button onClick={() => openModal('warn')} title="Warn Creator Account" className="p-2 text-slate-400 hover:text-amber-400 hover:bg-amber-500/10 rounded-lg transition-all cursor-pointer">
                 <FiBell className="w-4 h-4" />
@@ -137,7 +279,7 @@ const ReportRow = ({ report, view }) => {
                     <span className="flex items-center gap-1" title={report?.promptId}>
                         <FiHash className="text-slate-600" />
                         {report?.promptId
-                            ? `${report.promptId.substring(0, 12)}...`
+                            ? `${(report.promptId?.$oid || report.promptId).substring(0, 12)}...`
                             : "Unknown ID"}
                     </span>
                 </td>
@@ -151,33 +293,23 @@ const ReportRow = ({ report, view }) => {
                 <td className="py-4 px-6 text-right overflow-visible">
                     {actionsGroup}
 
-                    {/* Modal Conditional Renderings */}
-                    <ModerationModal
+                    {/* Dedicated Desktop Modals */}
+                    <DismissReportModal
                         isOpen={modalState.isOpen && modalState.type === 'dismiss'}
                         onClose={closeModal}
                         onConfirm={handleDismissReport}
-                        title="Dismiss Violation Report"
-                        description="Are you sure you want to dismiss this complaint? No action will be applied against the target prompt submission, and the ticket will be closed."
-                        icon={FiCheck}
-                        confirmBtnClass="bg-emerald-600 hover:bg-emerald-500 shadow-emerald-600/20"
+                        adminReportFeedback={report.adminReportFeedback}
                     />
-                    <ModerationModal
+                    <WarnCreatorModal
                         isOpen={modalState.isOpen && modalState.type === 'warn'}
                         onClose={closeModal}
                         onConfirm={handleWarnCreator}
-                        title="Issue Warning Notification"
-                        description={`This will register an internal system infraction check to the user's portal account indicating policy violations on their prompt content.`}
-                        icon={FiBell}
-                        confirmBtnClass="bg-amber-600 hover:bg-amber-500 shadow-amber-600/20"
                     />
-                    <ModerationModal
+                    <DeletePromptModal
                         isOpen={modalState.isOpen && modalState.type === 'delete'}
                         onClose={closeModal}
                         onConfirm={handleDeletePrompt}
-                        title="Execute Prompt Destruction"
-                        description={`Critical: This permanently purges the prompt submission with ID: ${report.promptId?.$oid} completely out of the promptAI ecosystem.`}
-                        icon={FiTrash2}
-                        confirmBtnClass="bg-rose-600 hover:bg-rose-500 shadow-rose-600/20"
+                        promptId={report.promptId}
                     />
                 </td>
             </tr>
@@ -210,7 +342,7 @@ const ReportRow = ({ report, view }) => {
             <div className="space-y-2 text-xs text-slate-400">
                 <div className="flex items-center justify-between">
                     <span className="text-slate-500 flex items-center gap-1 font-medium"><FiHash /> Target Prompt ID:</span>
-                    <span className="font-mono text-slate-400 max-w-[150px] truncate">{report.promptId?.$oid}</span>
+                    <span className="font-mono text-slate-400 max-w-[150px] truncate">{report.promptId?.$oid || report.promptId}</span>
                 </div>
 
                 <div className="flex items-center justify-between">
@@ -224,33 +356,23 @@ const ReportRow = ({ report, view }) => {
                 {actionsGroup}
             </div>
 
-            {/* Mobile Modal Layers */}
-            <ModerationModal
+            {/* Dedicated Mobile Modals */}
+            <DismissReportModal
                 isOpen={modalState.isOpen && modalState.type === 'dismiss'}
                 onClose={closeModal}
                 onConfirm={handleDismissReport}
-                title="Dismiss Violation Report"
-                description="Are you sure you want to dismiss this complaint? No action will be applied against the target prompt submission, and the ticket will be closed."
-                icon={FiCheck}
-                confirmBtnClass="bg-emerald-600 hover:bg-emerald-500 shadow-emerald-600/20"
+                adminReportFeedback={report.adminReportFeedback}
             />
-            <ModerationModal
+            <WarnCreatorModal
                 isOpen={modalState.isOpen && modalState.type === 'warn'}
                 onClose={closeModal}
                 onConfirm={handleWarnCreator}
-                title="Issue Warning Notification"
-                description={`This will register an internal system infraction check to the user's portal account indicating policy violations on their prompt content.`}
-                icon={FiBell}
-                confirmBtnClass="bg-amber-600 hover:bg-amber-500 shadow-amber-600/20"
             />
-            <ModerationModal
+            <DeletePromptModal
                 isOpen={modalState.isOpen && modalState.type === 'delete'}
                 onClose={closeModal}
                 onConfirm={handleDeletePrompt}
-                title="Execute Prompt Destruction"
-                description={`Critical: This permanently purges the prompt submission with ID: ${report.promptId?.$oid} completely out of the promptAI ecosystem.`}
-                icon={FiTrash2}
-                confirmBtnClass="bg-rose-600 hover:bg-rose-500 shadow-rose-600/20"
+                promptId={report.promptId}
             />
         </div>
     );

@@ -54,13 +54,13 @@ const PromptHeader = ({ prompt }) => {
                     </div>
                     <span className="font-medium text-base-content">Curated by {prompt.creatorName}</span>
                 </div>
-                <div className="flex flex-wrap gap-1.5 ml-auto">
-                    {prompt.tags?.map((tag) => (
+                {/* <div className="flex flex-wrap gap-1.5 ml-auto">
+                    {prompt?.tags?.map((tag) => (
                         <span key={tag} className="text-[11px] bg-base-300 text-base-content/70 px-2 py-0.5 rounded-md">
                             #{tag}
                         </span>
                     ))}
-                </div>
+                </div> */}
             </div>
         </motion.div>
     );

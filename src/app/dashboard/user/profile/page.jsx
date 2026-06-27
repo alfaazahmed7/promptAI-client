@@ -50,7 +50,7 @@ const UserProfilePage = async () => {
                 <div className="bg-slate-900/20 border border-slate-800/60 rounded-xl p-6 flex flex-col items-center text-center">
                     <div className="relative group w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden bg-slate-950 border-2 border-slate-800 p-1 mb-4">
                         <img
-                            ={user.image}
+                            src={user.image}
                             alt={user.name}
                             className="w-full h-full object-cover rounded-full"
                         />
