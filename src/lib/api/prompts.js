@@ -31,3 +31,7 @@ export const getPromptsByEmail = async (userEmail) => {
 export const getAllPrompts = async () => {
     return serverFetch('/api/all-prompts');
 }
+
+export const getFeaturedPrompts = async () => {
+    return serverFetch('/api/featured-prompts');
+}

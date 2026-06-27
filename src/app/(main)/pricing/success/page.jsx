@@ -27,7 +27,7 @@ export default async function Success({ searchParams }) {
     if (status === 'complete') {
         const subsInfo = {
             email: customerEmail,
-            planId: metadata?.priceId || 'pro',
+            planId: metadata?.priceId
         };
 
         try {
