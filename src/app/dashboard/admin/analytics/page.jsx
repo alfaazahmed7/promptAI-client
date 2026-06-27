@@ -2,8 +2,8 @@
 import AnalyticsHeader from '@/components/dashboard/admin-dashboard/AnalyticsHeader';
 import QuickInsights from '@/components/dashboard/admin-dashboard/QuickInsights';
 import StatsGrid from '@/components/dashboard/admin-dashboard/StatsGrid';
+import { getAllPrompts } from '@/lib/api/prompts';
 import { getAllReviews } from '@/lib/api/review';
-import { getAllUserAddPrompts } from '@/lib/api/userAddPrompts';
 import { getUsers } from '@/lib/api/users';
 import React from 'react';
 
@@ -11,12 +11,13 @@ const AdminAnalyticsPage = async () => {
     // Fetching data concurrently for optimization
     const [users, prompts, reviews] = await Promise.all([
         getUsers(),
-        getAllUserAddPrompts(),
+        getAllPrompts(),
         getAllReviews()
     ]);
 
     // Safely reduce and calculate total copies from prompts array
     const totalCopies = prompts?.reduce((acc, prompt) => acc + (prompt.copyCount || 0), 0) || 0;
+    console.log(totalCopies, 'total copies');
 
     const stats = {
         totalUsers: users?.length || 0,

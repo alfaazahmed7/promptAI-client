@@ -16,7 +16,12 @@ const AdminAllPromptsPage = async () => {
         <div className="p-4 md:p-8 bg-[#0b0f19] min-h-screen text-slate-200 antialiased max-w-7xl mx-auto">
             {/* Header Section */}
             <div className="mb-8">
-                <h1 className="text-2xl md:text-3xl font-bold text-white tracking-tight">All Prompts</h1>
+                <h1 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
+                    All Prompts{" "}
+                    <span className="text-sm md:text-base font-medium text-slate-400">
+                        (User & Creator Created Prompts)
+                    </span>
+                </h1>
                 <p className="text-slate-400 text-sm mt-1">Review, approve, reject, and feature AI prompt submissions for promptAI.</p>
             </div>
 

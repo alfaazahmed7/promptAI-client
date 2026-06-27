@@ -27,3 +27,7 @@ export const getPromptById = async (promptId) => {
 export const getPromptsByEmail = async (userEmail) => {
     return serverFetch(`/api/prompts/user/${userEmail}`);
 }
+
+export const getAllPrompts = async () => {
+    return serverFetch('/api/all-prompts');
+}
