@@ -43,7 +43,10 @@ const Footer = () => {
 
     return (
         /* Changed background to deep premium dark #0B0F17 and adjusted borders */
-        <footer className="relative bg-[#0B0F17] border-t border-slate-900 overflow-hidden pt-20 pb-10">
+        <footer className="relative bg-[#0B0F17] overflow-hidden pt-20 pb-10">
+
+            {/* Seam Blender: Fades the previous section down into the footer */}
+            <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-[#0B1220] to-transparent pointer-events-none" />
 
             <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 

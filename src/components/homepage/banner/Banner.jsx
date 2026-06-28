@@ -159,8 +159,8 @@ const Banner = () => {
 
             </motion.div>
 
-            {/* Aesthetic Fading Footer Gradient Layer */}
-            <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#011627] to-transparent pointer-events-none" />
+            {/* Seam Blender Overlay */}
+            <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#0B1220] to-transparent pointer-events-none" />
         </section>
     );
 };
