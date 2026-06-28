@@ -1,6 +1,7 @@
 import Banner from "@/components/homepage/banner/Banner";
 import CustomerReviewsPage from "@/components/homepage/customer-reviews/CustomerReviews";
 import FeaturedPromptsPage from "@/components/homepage/featured-prompts/FeaturedPrompts";
+import InteractivePlayground from "@/components/homepage/interactive-playground/InteractivePlayground";
 import TopCreatorsPage from "@/components/homepage/top-creators/TopCreators";
 import WhyChooseUs from "@/components/homepage/why-choose-us/WhyChooseUs";
 import FeaturedPromptsSkeleton from "@/components/shared/skeletons/FeaturedPromptsSkeleton";
@@ -16,6 +17,7 @@ export default function Home() {
       </Suspense>
 
       <WhyChooseUs />
+      <InteractivePlayground />
       <TopCreatorsPage />
       <CustomerReviewsPage />
     </div>
