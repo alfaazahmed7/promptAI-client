@@ -37,7 +37,7 @@ const Navbar = () => {
     const isPending = userData.isPending;
 
     const dashboardLinks = {
-        user: '/dashboard/user',
+        user: '/dashboard/user/overview',
         creator: '/dashboard/creator/analytics',
         admin: '/dashboard/admin/all-users'
     };

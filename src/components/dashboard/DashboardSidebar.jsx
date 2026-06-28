@@ -26,7 +26,7 @@ const DashboardSidebar = ({ isCollapsed, setIsCollapsed, isMobileOpen, setIsMobi
     const pathname = usePathname();
 
     const userNavlinks = [
-        { name: 'Overview', href: '/dashboard/user', icon: CiViewTimeline },
+        { name: 'Overview', href: '/dashboard/user/overview', icon: CiViewTimeline },
         { name: 'Add Prompt', href: '/dashboard/user/add-prompt', icon: FiPlusCircle },
         { name: 'My Prompts', href: '/dashboard/user/my-prompts', icon: FiGrid },
         { name: 'Saved Prompts', href: '/dashboard/user/saved-prompts', icon: FiBookmark },
