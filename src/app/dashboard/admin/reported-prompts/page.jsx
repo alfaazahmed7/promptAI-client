@@ -71,7 +71,7 @@ const AdminReportedPrompts = async () => {
                         </thead>
                         <tbody className="divide-y divide-slate-800/60 text-sm">
                             {reports.map((report) => (
-                                <ReportRow key={report._id?.$oid || report.userEmail} report={report} view="desktop" />
+                                <ReportRow key={report._id?.$oid || report._id} report={report} view="desktop" />
                             ))}
                         </tbody>
                     </table>
@@ -80,7 +80,7 @@ const AdminReportedPrompts = async () => {
                 {/* Mobile Responsive Cards View */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:hidden p-4 bg-[#0b0f19]">
                     {reports.map((report) => (
-                        <ReportRow key={report._id?.$oid || report.userEmail} report={report} view="mobile" />
+                        <ReportRow key={report._id?.$oid || report._id} report={report} view="mobile" />
                     ))}
                 </div>
             </div>

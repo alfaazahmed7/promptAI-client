@@ -18,7 +18,7 @@ const PromptCard = ({ prompt }) => {
             {/* Top Image Banner Section */}
             <div className="relative w-full aspect-video overflow-hidden bg-gray-800 border-b border-gray-700/30">
                 <Image
-                    src={prompt.image || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80"}
+                    src={prompt.image || prompt.logoUrl}
                     alt={prompt.title || "Prompt Thumbnail"}
                     fill
                     sizes="(max-w-768px) 100vw, (max-w-1200px) 50vw, 33vw"

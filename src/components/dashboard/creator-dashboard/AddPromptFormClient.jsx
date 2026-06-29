@@ -1,14 +1,10 @@
 "use client";
-import { userAddPrompt } from '@/lib/actions/userAddPrompt';
-import { getUserAddPrompts } from '@/lib/api/userAddPrompts';
-import { authClient } from '@/lib/auth-client';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import toast from 'react-hot-toast';
+import { userAddPrompt } from '@/lib/actions/userAddPrompt';
 import {
-    FiPlusCircle,
-    FiImage,
     FiAlertTriangle,
-    FiInfo,
+    FiImage,
     FiCheckCircle,
     FiLoader,
     FiCode,
@@ -18,29 +14,12 @@ import {
     FiActivity
 } from 'react-icons/fi';
 
-const AddPromptPage = () => {
-
-    const userData = authClient.useSession();
-    const user = userData.data?.user || {};
-
-    const [prompts, setPrompts] = useState([]);
-
-    useEffect(() => {
-        const fetchPrompts = async () => {
-            if (!user?.email) return;
-
-            const data = await getUserAddPrompts(user.email);
-            setPrompts(data);
-        };
-
-        fetchPrompts();
-    }, [user?.email]);
-
-    const userAddedPromptsCount = prompts.length;
-
-    // const userAddedPromptsCount = 0;
-    const isLimitReached =
-        user?.plan === "free" && userAddedPromptsCount >= 3;
+const AddPromptFormClient = ({ user, initialPrompts, isLimitReached }) => {
+    const [prompts, setPrompts] = useState(initialPrompts);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [statusMessage, setStatusMessage] = useState({ type: '', text: '' });
+    const [imageFile, setImageFile] = useState(null);
+    const [logoUrl, setLogoUrl] = useState('');
 
     const [formData, setFormData] = useState({
         title: '',
@@ -49,27 +28,15 @@ const AddPromptPage = () => {
         fullDescription: '',
         promptContent: '',
         usageInstructions: '',
-        tags: [''],
+        tags: '',
         difficulty: 'Beginner',
         visibility: 'Public',
         tier: 'free'
     });
 
-    const [imageFile, setImageFile] = useState(null);
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [statusMessage, setStatusMessage] = useState({ type: '', text: '' });
-    const [logoUrl, setLogoUrl] = useState('');
-
     const handleChange = (e) => {
         const { name, value } = e.target;
-
-        setFormData(prev => ({
-            ...prev,
-            [name]:
-                name === "tags"
-                    ? value.split(",").map(tag => tag.trim()).filter(Boolean)
-                    : value
-        }));
+        setFormData(prev => ({ ...prev, [name]: value }));
     };
 
     const handleImageChange = (e) => {
@@ -94,7 +61,6 @@ const AddPromptPage = () => {
                 imgData.append("image", imageFile);
 
                 const IMGBB_API_KEY = process.env.NEXT_PUBLIC_IMAGE_UPLOAD_API;
-
                 if (!IMGBB_API_KEY) {
                     throw new Error("ImgBB API key is missing from environment variables.");
                 }
@@ -121,10 +87,9 @@ const AddPromptPage = () => {
             // Simulate database latency
             await new Promise((resolve) => setTimeout(resolve, 1500));
 
-            // submission
             const submissionData = {
                 ...formData,
-                image: uploadedImageUrl,
+                logoUrl: uploadedImageUrl,
                 status: 'pending',
                 copyCount: 0,
                 userEmail: user?.email,
@@ -132,56 +97,38 @@ const AddPromptPage = () => {
                 userRole: user?.role,
             };
 
+            // Call Server Action
             const res = await userAddPrompt(submissionData);
-            if (res.insertedId) {
+
+            if (res?.insertedId) {
                 setPrompts(prev => [...prev, submissionData]);
                 toast.success('Prompt submitted successfully');
-            }
+                setStatusMessage({
+                    type: 'success',
+                    text: 'Prompt submitted successfully! Admin review pending.'
+                });
 
-            setStatusMessage({
-                type: 'success',
-                text: 'Prompt submitted successfully! Admin review pending.'
-            });
-        }
-        catch (error) {
+                // Clear out form inputs after successful post
+                setFormData({
+                    title: '', category: '', aiTool: '', fullDescription: '',
+                    promptContent: '', usageInstructions: '', tags: '',
+                    difficulty: 'Beginner', visibility: 'Public', tier: 'free'
+                });
+                setImageFile(null);
+            }
+        } catch (error) {
             console.error("Submission error details:", error);
             setStatusMessage({
                 type: 'error',
                 text: error.message || 'Something went wrong.'
             });
-        }
-        finally {
+        } finally {
             setIsSubmitting(false);
         }
     };
 
     return (
-        <div className="max-w-6xl mx-auto space-y-8 animate-fade-in">
-
-            {/* Elegant Header Area */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-slate-800/80 pb-6 gap-4">
-                <div>
-                    <h1 className="text-2xl font-bold tracking-tight text-slate-100 flex items-center gap-2.5">
-                        <span className="p-2 rounded-lg bg-teal-500/10 text-teal-400 border border-teal-500/20">
-                            <FiPlusCircle size={20} />
-                        </span>
-                        Create a New Prompt
-                    </h1>
-                    <p className="text-xs text-slate-400 mt-1.5">Publish your optimized prompt engineering instructions to the public marketplace global directory.</p>
-                </div>
-
-                {user?.plan === "free" && (
-                    <div className={`px-4 py-3 rounded-xl border flex items-center gap-3 text-xs ${isLimitReached ? 'bg-rose-500/10 border-rose-500/20 text-rose-400' : 'bg-[#0f1422] border-slate-800 text-slate-300'
-                        }`}>
-                        <FiInfo size={16} className={isLimitReached ? 'text-rose-400' : 'text-teal-400'} />
-                        <div>
-                            <span className="block font-semibold">Free Workspace Cap</span>
-                            <span className="text-slate-400 text-[11px]">Usage Allocation: <strong className="text-slate-200">{userAddedPromptsCount} / 3</strong> prompts created.</span>
-                        </div>
-                    </div>
-                )}
-            </div>
-
+        <div className="space-y-6">
             {/* Error Notification Shrouds */}
             {isLimitReached && (
                 <div className="p-4 rounded-xl bg-amber-500/5 border border-amber-500/10 text-amber-400/90 flex gap-3 text-xs">
@@ -204,9 +151,8 @@ const AddPromptPage = () => {
             {/* Two Column Structured Workspace Layout */}
             <form onSubmit={handleSubmit} className={`grid grid-cols-1 lg:grid-cols-3 gap-8 items-start ${isLimitReached ? 'opacity-30 pointer-events-none select-none' : ''}`}>
 
-                {/* Left Side: Main Comprehensive Form Inputs Card (Takes 2 Columns) */}
+                {/* Left Side: Inputs Card (Takes 2 Columns) */}
                 <div className="lg:col-span-2 bg-[#0f1422] border border-slate-800/80 rounded-xl p-6 space-y-6 shadow-sm">
-
                     <div className="form-control w-full">
                         <label className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Prompt Title</label>
                         <input
@@ -308,10 +254,8 @@ const AddPromptPage = () => {
                     </div>
                 </div>
 
-                {/* Right Side: Supplementary Parameters & Media Upload Card Container (Takes 1 Column) */}
+                {/* Right Side: Parameters & Media Card (Takes 1 Column) */}
                 <div className="space-y-6">
-
-                    {/* Parameters Control Deck Card */}
                     <div className="bg-[#0f1422] border border-slate-800/80 rounded-xl p-5 space-y-4 shadow-sm">
                         <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 border-b border-slate-800/60 pb-3 flex items-center gap-2">
                             <FiHelpCircle className="text-slate-500" /> Configurations
@@ -384,7 +328,7 @@ const AddPromptPage = () => {
                                 type="text"
                                 name="tags"
                                 required
-                                value={formData.tags.join(", ")}
+                                value={formData.tags}
                                 onChange={handleChange}
                                 placeholder="e.g., SEO, Blog, AI writing"
                                 className="w-full bg-[#0b0f19] border border-slate-800/80 rounded-lg text-slate-100 placeholder-slate-700 focus:border-teal-500/60 focus:outline-none px-3.5 h-10 text-xs transition-all"
@@ -392,54 +336,35 @@ const AddPromptPage = () => {
                         </div>
                     </div>
 
-                    {/* Compact Image Uploader Media Card */}
                     <div className="bg-[#0f1422] border border-slate-800/80 rounded-xl p-5 space-y-4 shadow-sm">
                         <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 border-b border-slate-800/60 pb-3">
                             Resource Cover Media
                         </h3>
-
                         <div className="space-y-4">
                             <div className="h-20 rounded-xl bg-[#070b12] border border-dashed border-slate-800 hover:border-slate-700/80 relative flex flex-col items-center justify-center text-center group transition-colors p-1">
-
                                 <input
                                     type="file"
                                     accept="image/*"
                                     onChange={handleImageChange}
                                     className="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10"
                                 />
-
                                 {imageFile ? (
                                     <>
-                                        <FiCheckCircle
-                                            size={16}
-                                            className="text-emerald-400 mb-1"
-                                        />
-                                        <span className="text-[10px] font-medium text-emerald-400 line-clamp-1">
-                                            {imageFile.name}
-                                        </span>
-                                        <span className="text-[10px] text-slate-600 mt-1">
-                                            Click to replace
-                                        </span>
+                                        <FiCheckCircle size={16} className="text-emerald-400 mb-1" />
+                                        <span className="text-[10px] font-medium text-emerald-400 line-clamp-1">{imageFile.name}</span>
+                                        <span className="text-[10px] text-slate-600 mt-1">Click to replace</span>
                                     </>
                                 ) : (
                                     <>
-                                        <FiImage
-                                            size={20}
-                                            className="text-slate-600 group-hover:text-slate-400 mb-1.5 transition-colors"
-                                        />
-                                        <span className="text-xs font-semibold text-slate-300">
-                                            Choose Image File
-                                        </span>
-                                        <span className="text-[10px] text-slate-500 mt-0.5">
-                                            PNG, JPG, or WEBP layout assets
-                                        </span>
+                                        <FiImage size={20} className="text-slate-600 group-hover:text-slate-400 mb-1.5 transition-colors" />
+                                        <span className="text-xs font-semibold text-slate-300">Choose Image File</span>
+                                        <span className="text-[10px] text-slate-500 mt-0.5">PNG, JPG, or WEBP layout assets</span>
                                     </>
                                 )}
                             </div>
                         </div>
                     </div>
 
-                    {/* Dispatch Action Execution Controls */}
                     <div className="pt-2">
                         <button
                             type="submit"
@@ -455,11 +380,10 @@ const AddPromptPage = () => {
                             )}
                         </button>
                     </div>
-
                 </div>
             </form>
         </div>
     );
 };
 
-export default AddPromptPage;
+export default AddPromptFormClient;

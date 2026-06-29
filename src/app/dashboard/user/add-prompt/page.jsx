@@ -124,7 +124,7 @@ const AddPromptPage = () => {
             // submission
             const submissionData = {
                 ...formData,
-                logoUrl: uploadedImageUrl,
+                image: uploadedImageUrl,
                 status: 'pending',
                 copyCount: 0,
                 userEmail: user?.email,

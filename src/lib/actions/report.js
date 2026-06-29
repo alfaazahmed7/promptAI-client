@@ -29,8 +29,8 @@ export const warnReportedPrompt = async (reportId, promptId) => {
     return res.json();
 }
 
-export const deleteReport = async (reportId) => {
-    const res = await fetch(`${baseUrl}/api/delete-report/${reportId}`, {
+export const deleteReportedPrompt = async (reportedPromptId, reportedId) => {
+    const res = await fetch(`${baseUrl}/api/delete-reported-prompt/${reportedPromptId}/${reportedId}`, {
         method: "DELETE"
     });
 

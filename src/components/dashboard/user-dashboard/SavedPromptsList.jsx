@@ -16,6 +16,7 @@ import {
 } from 'react-icons/fi';
 
 const SavedPromptsList = ({ initialPrompts = [] }) => {
+    console.log(initialPrompts, 'initialPrompts');
     const [prompts, setPrompts] = useState(initialPrompts);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [activePrompt, setActivePrompt] = useState(null);
@@ -70,7 +71,7 @@ const SavedPromptsList = ({ initialPrompts = [] }) => {
                         {/* Fixed Square Ratio Image Thumbnail Frame */}
                         <div className="relative w-full sm:w-28 h-28 sm:h-28 rounded-lg overflow-hidden bg-slate-950 shrink-0 border border-slate-800/80">
                             <img
-                                src={prompt.image}
+                                src={prompt.image || prompt.logoUrl}
                                 alt={prompt.title}
                                 className="h-full w-full object-cover opacity-80 transition-transform duration-500 group-hover:scale-105"
                             />

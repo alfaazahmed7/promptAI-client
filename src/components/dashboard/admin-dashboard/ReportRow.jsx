@@ -1,18 +1,18 @@
 // src/components/dashboard/admin-dashboard/ReportRow.jsx
 'use client';
 
-import { deleteReport, dismissReport, warnReportedPrompt } from '@/lib/actions/report';
+import { deleteReportedPrompt, dismissReport, warnReportedPrompt } from '@/lib/actions/report';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import toast from 'react-hot-toast';
 import {
-    FiUser,
-    FiX,
-    FiTrash2,
-    FiCheck,
+    FiBell,
     FiCalendar,
+    FiCheck,
     FiHash,
-    FiBell
+    FiTrash2,
+    FiUser,
+    FiX
 } from 'react-icons/fi';
 
 
@@ -289,8 +289,12 @@ const ReportRow = ({ report, view }) => {
     };
 
     const handleDeletePrompt = async () => {
-        const res = await deleteReport(report._id || report.id);
-        if (res.deletedCount > 0) {
+        const res = await deleteReportedPrompt(report.promptId, report._id || report.id);
+        console.log(res, 'res');
+        if (
+            res.reportResult.acknowledged &&
+            res.reportedPromptResult.acknowledged
+        ) {
             router.refresh();
             toast.success('Reported prompt deletaded successfully');
         }

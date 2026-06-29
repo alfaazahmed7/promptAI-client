@@ -109,9 +109,9 @@ const PromptTableList = ({ userPromptsData = [] }) => {
                                         {/* Prompt Info */}
                                         <td className="px-6 py-4 max-w-sm">
                                             <div className="flex items-center gap-3">
-                                                {prompt.logoUrl ? (
+                                                {prompt.logoUrl || prompt.image ? (
                                                     <img
-                                                        src={prompt.logoUrl}
+                                                        src={prompt.logoUrl || prompt.image}
                                                         alt={prompt.title}
                                                         className="w-10 h-10 rounded-lg object-cover border border-slate-700/50 flex-shrink-0"
                                                     />

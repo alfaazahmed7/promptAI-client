@@ -74,7 +74,7 @@ const AdminAllPromptsPage = async () => {
                         </thead>
                         <tbody className="divide-y divide-slate-800/60 text-sm">
                             {prompts.map((prompt) => (
-                                <PromptRow key={prompt._id?.$oid || prompt.title} prompt={prompt} view="desktop" />
+                                <PromptRow key={prompt._id || prompt.id} prompt={prompt} view="desktop" />
                             ))}
                         </tbody>
                     </table>
@@ -83,7 +83,7 @@ const AdminAllPromptsPage = async () => {
                 {/* Mobile/Tablet Card View */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:hidden p-4 bg-[#0b0f19]">
                     {prompts.map((prompt) => (
-                        <PromptRow key={prompt._id?.$oid || prompt.title} prompt={prompt} view="mobile" />
+                        <PromptRow key={prompt._id || prompt.id} prompt={prompt} view="mobile" />
                     ))}
                 </div>
             </div>

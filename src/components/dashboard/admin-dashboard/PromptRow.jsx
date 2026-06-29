@@ -437,8 +437,8 @@ const PromptRow = ({ prompt, view }) => {
             <button onClick={() => setIsApproveModalOpen(true)} title="Approve Prompt" className="p-2 text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 rounded-lg transition-all cursor-pointer">
                 <FiCheck
                     className={`w-4 h-4 ${prompt.status === 'approved'
-                            ? 'text-green-500'
-                            : ''
+                        ? 'text-green-500'
+                        : ''
                         }`}
                 />
             </button>
@@ -477,7 +477,7 @@ const PromptRow = ({ prompt, view }) => {
                 <td className="py-4 px-6 max-w-sm">
                     <div className="flex items-start space-x-3">
                         <img
-                            src={prompt.logoUrl || "https://images.unsplash.com/photo-1607799279861-4dd421887fb3"}
+                            src={prompt.image || prompt.logoUrl}
                             alt={prompt.aiTool}
                             className="w-9 h-9 rounded-lg object-cover bg-[#0b0f19] border border-slate-800 mt-0.5"
                         />
@@ -564,7 +564,7 @@ const PromptRow = ({ prompt, view }) => {
             <div className="flex items-start justify-between space-x-3">
                 <div className="flex items-center space-x-3 overflow-hidden">
                     <img
-                        src={prompt.logoUrl || "https://images.unsplash.com/photo-1607799279861-4dd421887fb3"}
+                        src={prompt.logoUrl || prompt.image}
                         alt={prompt.aiTool}
                         className="w-11 h-11 rounded-lg object-cover bg-[#0b0f19] border border-slate-800"
                     />
