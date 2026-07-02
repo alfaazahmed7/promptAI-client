@@ -17,7 +17,6 @@ const AdminAnalyticsPage = async () => {
 
     // Safely reduce and calculate total copies from prompts array
     const totalCopies = prompts?.reduce((acc, prompt) => acc + (prompt.copyCount || 0), 0) || 0;
-    console.log(totalCopies, 'total copies');
 
     const stats = {
         totalUsers: users?.length || 0,
