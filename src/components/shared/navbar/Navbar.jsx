@@ -107,16 +107,16 @@ const Navbar = () => {
                     </div>
 
                     {/* 3. Right Side: Unique Standalone Login Link */}
-                    <div className="hidden md:flex items-center">
+                    <div className="hidden md:flex w-44 items-center justify-end">
                         {isPending ? (
-                            <span className="loading loading-spinner loading-md text-white"></span>
+                            <AccountSkeleton />
                         ) : user ? (
-                            <div ref={profileRef} className="relative">
+                            <div ref={profileRef} className="relative w-44">
                                 <button
                                     onClick={() => setIsProfileOpen(!isProfileOpen)}
                                     aria-expanded={isProfileOpen}
                                     aria-label="Open account menu"
-                                    className="flex items-center gap-2 rounded-full bg-[#152238] py-1.5 pl-1.5 pr-3 text-white transition-all hover:-translate-y-px cursor-pointer"
+                                    className="flex w-full items-center gap-2 rounded-full bg-[#152238] py-1.5 pl-1.5 pr-3 text-white transition-all hover:-translate-y-px cursor-pointer"
                                 >
                                     <UserAvatar user={user} size={36} />
                                     <span className="max-w-24 truncate text-sm font-bold">{user.name || "Account"}</span>
@@ -161,7 +161,7 @@ const Navbar = () => {
 
                     <div className="pt-2">
                         {isPending ? (
-                            <span className="loading loading-spinner loading-md text-white"></span>
+                            <AccountSkeleton mobile />
                         ) : user ? (
                             <ProfileMenu
                                 user={user}
@@ -208,6 +208,17 @@ const UserAvatar = ({ user, size = 36 }) => (
             user.name?.charAt(0)?.toUpperCase() ?? "U"
         )}
     </span>
+);
+
+const AccountSkeleton = ({ mobile = false }) => (
+    <div
+        aria-label="Loading account"
+        className={`flex animate-pulse items-center gap-2 rounded-full border border-slate-700/80 bg-[#152238] p-1.5 ${mobile ? "h-11 w-full rounded-xl" : "h-11 w-full"}`}
+    >
+        <span className="h-8 w-8 shrink-0 rounded-full bg-slate-600/80" />
+        <span className={`h-3 rounded-full bg-slate-600/80 ${mobile ? "w-32" : "w-16"}`} />
+        {!mobile && <span className="ml-auto h-3 w-3 rounded-full bg-slate-600/80" />}
+    </div>
 );
 
 const ProfileMenu = ({ user, dashboardHref, onSignOut, onNavigate, mobile = false }) => (
