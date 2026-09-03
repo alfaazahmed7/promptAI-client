@@ -7,7 +7,12 @@ import PromptCard from './PromptCard';
 
 const FeaturedPromptsPage = async () => {
     // Fetch limited featured/trending prompts from your API layer
-    const featuredPrompts = await getFeaturedPrompts() || [];
+    let featuredPrompts = [];
+    try {
+        featuredPrompts = await getFeaturedPrompts() || [];
+    } catch {
+        featuredPrompts = [];
+    }
 
     return (
         <section className="min-h-screen bg-[#0B1220] text-gray-100 py-16 px-4 sm:px-6 lg:px-8 transition-colors duration-300">

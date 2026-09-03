@@ -8,7 +8,12 @@ import TopCreatorsClientList from './TopCreatorsClientList';
 
 const TopCreatorsSection = async () => {
     // Fetch users dynamically from your backend API
-    const allCreators = await getUsers() || [];
+    let allCreators = [];
+    try {
+        allCreators = await getUsers() || [];
+    } catch {
+        allCreators = [];
+    }
 
     // 1 & 2. Skip first 4 data items and grab the next 6 data items
     const targetedCreators = allCreators.slice(4, 10);

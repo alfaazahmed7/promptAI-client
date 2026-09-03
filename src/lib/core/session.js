@@ -1,10 +1,10 @@
-import { headers } from "next/headers"
-import { auth } from "../auth"
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { auth } from "../auth";
 
-export const getUserSession = async () => {
+export const getUserSession = async (requestHeaders) => {
     const session = await auth.api.getSession({
-        headers: await headers()
+        headers: requestHeaders || await headers()
     });
 
     return session?.user || null;
