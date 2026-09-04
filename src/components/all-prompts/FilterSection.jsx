@@ -9,6 +9,7 @@ const FilterSection = ({ currentFilters }) => {
 
     const handleFilterChange = (key, value) => {
         const params = new URLSearchParams(window.location.search);
+        params.delete('page');
         if (value) {
             params.set(key, value);
         } else {

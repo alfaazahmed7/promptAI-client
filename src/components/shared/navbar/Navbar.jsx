@@ -116,7 +116,7 @@ const Navbar = () => {
                                     onClick={() => setIsProfileOpen(!isProfileOpen)}
                                     aria-expanded={isProfileOpen}
                                     aria-label="Open account menu"
-                                    className="flex w-full items-center gap-2 rounded-full bg-[#152238] py-1.5 pl-1.5 pr-3 text-white transition-all hover:-translate-y-px cursor-pointer"
+                                    className="flex w-full items-center gap-2 py-1.5 pl-1.5 pr-3 text-white cursor-pointer"
                                 >
                                     <UserAvatar user={user} size={36} />
                                     <span className="max-w-24 truncate text-sm font-bold">{user.name || "Account"}</span>

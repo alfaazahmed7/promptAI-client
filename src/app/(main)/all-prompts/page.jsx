@@ -3,18 +3,33 @@ import { getPrompts } from '@/lib/api/prompts';
 import { FiSliders } from 'react-icons/fi';
 import FilterSection from '@/components/all-prompts/FilterSection';
 import PromptCard from '@/components/all-prompts/PromptCard';
+import Pagination from '@/components/all-prompts/Pagination';
 
 const AllPromptsPage = async ({ searchParams }) => {
     // Resolve searchParams object asynchronously if using Next.js 15+ 
     const resolvedParams = await searchParams;
 
     // Pass query arguments directly to your existing server side logic
-    const prompts = await getPrompts({
+    const page = Math.max(Number(resolvedParams?.page) || 1, 1);
+    const promptResponse = await getPrompts({
         search: resolvedParams?.search || '',
         category: resolvedParams?.category || '',
         aiTool: resolvedParams?.aiTool || '',
         sort: resolvedParams?.sort || 'latest',
-    }) || [];
+        page,
+        limit: 6,
+    });
+
+    // The backend should return { prompts, pagination }. The fallback keeps the
+    // page controls visible while the current API still returns a plain array.
+    const prompts = Array.isArray(promptResponse) ? promptResponse : promptResponse?.prompts || [];
+    const pagination = promptResponse?.pagination || {
+        currentPage: page,
+        totalPages: Math.ceil(prompts.length / 6),
+        totalPrompts: prompts.length,
+        limit: 6,
+    };
+    console.log(pagination, 'pagination');
 
     return (
         <div className="min-h-screen bg-[#131926] text-white pb-12 pt-[96px] px-4 sm:px-6 lg:px-8">
@@ -43,7 +58,7 @@ const AllPromptsPage = async ({ searchParams }) => {
                     <main className="lg:col-span-3 space-y-6">
                         <div className="flex justify-between items-center bg-[#161f30] p-4 rounded-xl border border-gray-700/40">
                             <span className="text-sm font-medium text-gray-400">
-                                Showing <span className="text-secondary font-bold">{prompts.length}</span> amazing prompts
+                                Showing <span className="text-secondary font-bold">{prompts.length}</span> of <span className="text-secondary font-bold">{pagination?.totalPrompts ?? prompts.length}</span> amazing prompts
                             </span>
                         </div>
 
@@ -57,6 +72,14 @@ const AllPromptsPage = async ({ searchParams }) => {
                                     <PromptCard key={prompt._id || prompt.title} prompt={prompt} />
                                 ))}
                             </div>
+                        )}
+
+                        {pagination && (
+                            <Pagination
+                                currentPage={pagination.currentPage}
+                                totalPages={pagination.totalPages}
+                                filters={resolvedParams}
+                            />
                         )}
                     </main>
                 </div>

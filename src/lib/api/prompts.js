@@ -1,7 +1,7 @@
 import { serverFetch } from "../core/server";
 
 export const getPrompts = async (filters = {}) => {
-    const { search, category, aiTool, sort } = filters;
+    const { search, category, aiTool, sort, page = 1, limit = 6 } = filters;
 
     // 1. Initialize URLSearchParams to cleanly build the query string
     const params = new URLSearchParams();
@@ -11,6 +11,8 @@ export const getPrompts = async (filters = {}) => {
     if (category) params.append('category', category);
     if (aiTool) params.append('aiTool', aiTool);
     if (sort) params.append('sort', sort);
+    params.append('page', page);
+    params.append('limit', limit);
 
     // 3. Convert params to string format (e.g., "search=react&sort=popular")
     const queryString = params.toString();
