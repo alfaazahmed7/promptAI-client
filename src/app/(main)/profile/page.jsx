@@ -6,23 +6,24 @@ import { getAllSubscriptions } from '@/lib/api/subscriptions';
 import { getAllUserAddPrompts, getUserAddPrompts } from '@/lib/api/userAddPrompts';
 import { getUsers } from '@/lib/api/users';
 import { getUserSession } from '@/lib/core/session';
+import Image from 'next/image';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import {
-    FiActivity,
-    FiArrowRight,
-    FiBookmark,
-    FiCheckCircle,
-    FiCreditCard,
-    FiFileText,
-    FiGrid,
-    FiLayers,
-    FiMail,
-    FiMessageSquare,
-    FiShield,
-    FiUser,
-    FiUsers,
-    FiZap,
+  FiActivity,
+  FiArrowRight,
+  FiBookmark,
+  FiCheckCircle,
+  FiCreditCard,
+  FiFileText,
+  FiGrid,
+  FiLayers,
+  FiMail,
+  FiMessageSquare,
+  FiShield,
+  FiUser,
+  FiUsers,
+  FiZap,
 } from 'react-icons/fi';
 
 const asArray = (data) => (Array.isArray(data) ? data : data?.prompts || data?.data || []);
@@ -221,17 +222,27 @@ const ProfilePage = async () => {
   const initials = getInitials(user.name);
 
   return (
-    <div className="min-h-screen bg-[#0b0f19] px-4 pb-16 pt-28 text-slate-100 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#0b0f19] px-4 pb-16 pt-36 text-slate-100 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <section
           className={`relative overflow-hidden rounded-3xl border border-slate-700/60 bg-gradient-to-br ${content.accent} p-[1px] shadow-2xl`}
         >
-          <div className="relative rounded-[23px] bg-[#101722]/95 p-6 sm:p-10">
+          <div className="relative rounded-[23px] bg-[#101722]/95 p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl sm:p-10">
             <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-white/10 blur-3xl" />
             <div className="relative flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
               <div className="flex items-start gap-5">
-                <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl border border-white/15 bg-white/10 text-2xl font-black text-white shadow-xl">
-                  {initials}
+                <div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-white/15 bg-white/10 text-2xl font-black text-white shadow-xl">
+                  {user.image ? (
+                    <Image
+                      src={user.image}
+                      alt={user.name || 'Profile image'}
+                      width={80}
+                      height={80}
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    initials
+                  )}
                 </div>
 
                 <div>
@@ -274,7 +285,7 @@ const ProfilePage = async () => {
             return (
               <article
                 key={metric.label}
-                className="flex items-center justify-between rounded-2xl border border-slate-800/70 bg-slate-900/40 p-5 shadow-lg backdrop-blur-sm"
+                className="flex items-center justify-between rounded-2xl border border-slate-800/70 bg-slate-900/40 p-5 shadow-lg backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-slate-600 hover:shadow-xl"
               >
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
@@ -294,7 +305,7 @@ const ProfilePage = async () => {
 
         <section className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-3">
           <div className="space-y-8 lg:col-span-2">
-            <article className="rounded-2xl border border-slate-800/70 bg-slate-900/35 p-6 shadow-xl sm:p-7">
+            <article className="rounded-2xl border border-slate-800/70 bg-slate-900/35 p-6 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-slate-600 hover:shadow-2xl sm:p-7">
               <div className="flex items-center gap-3">
                 <span className="rounded-xl bg-indigo-500/10 p-2.5 text-indigo-300">
                   <FiActivity size={20} />
@@ -311,7 +322,7 @@ const ProfilePage = async () => {
                 {profileData.activityItems.map((item) => (
                   <div
                     key={item.label}
-                    className="rounded-xl border border-slate-800/60 bg-[#0b0f19]/60 p-4"
+                    className="rounded-xl border border-slate-800/60 bg-[#0b0f19]/60 p-4 transition-all duration-300 hover:-translate-y-1 hover:border-slate-600 hover:bg-slate-900/80"
                   >
                     <p className="text-xs leading-relaxed text-slate-400">{item.label}</p>
                     <p className="mt-2 text-xl font-bold text-white">
@@ -322,7 +333,7 @@ const ProfilePage = async () => {
               </div>
             </article>
 
-            <article className="rounded-2xl border border-slate-800/70 bg-slate-900/35 p-6 shadow-xl sm:p-7">
+            <article className="rounded-2xl border border-slate-800/70 bg-slate-900/35 p-6 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-slate-600 hover:shadow-2xl sm:p-7">
               <p className="text-xs font-bold uppercase tracking-wider text-slate-500">
                 Quick workspace access
               </p>
@@ -335,7 +346,7 @@ const ProfilePage = async () => {
                     <Link
                       key={link.href}
                       href={link.href}
-                      className="group rounded-xl border border-slate-800/70 bg-[#0b0f19]/60 p-4 transition-colors hover:border-slate-600 hover:bg-slate-800/60"
+                      className="group rounded-xl border border-slate-800/70 bg-[#0b0f19]/60 p-4 transition-all duration-300 hover:-translate-y-1 hover:border-slate-600 hover:bg-slate-800/60 hover:shadow-lg"
                     >
                       <Icon className={content.accentText} size={19} />
                       <p className="mt-5 flex items-center justify-between text-sm font-semibold text-slate-200">
@@ -352,7 +363,7 @@ const ProfilePage = async () => {
             </article>
           </div>
 
-          <aside className="rounded-2xl border border-slate-800/70 bg-slate-900/35 p-6 shadow-xl">
+          <aside className="rounded-2xl border border-slate-800/70 bg-slate-900/35 p-6 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-slate-600 hover:shadow-2xl">
             <h2 className="flex items-center gap-2 font-bold text-white">
               <FiShield className="text-emerald-300" />
               Account details
