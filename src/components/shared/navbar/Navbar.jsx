@@ -123,7 +123,15 @@ const Navbar = () => {
                                     {isProfileOpen ? <FiChevronUp size={16} /> : <FiChevronDown size={16} />}
                                 </button>
                                 {isProfileOpen && (
-                                    <ProfileMenu user={user} dashboardHref={dashboardLinks[user.role] || "/dashboard/user"} onSignOut={handleSignOut} />
+                                    <ProfileMenu
+                                        user={user}
+                                        dashboardHref={dashboardLinks[user.role] || "/dashboard/user"}
+                                        onSignOut={handleSignOut}
+                                        onNavigate={() => {
+                                            setIsProfileOpen(false);
+                                            setIsOpen(false);
+                                        }}
+                                    />
                                 )}
                             </div>
                         ) : (
