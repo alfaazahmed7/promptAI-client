@@ -231,7 +231,7 @@ const ProfileMenu = ({ user, dashboardHref, onSignOut, onNavigate, mobile = fals
             </div>
         </div>
         <div className="mt-2 space-y-1">
-            <Link href="/dashboard/user/profile" onClick={onNavigate} className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold text-slate-300 transition-colors hover:bg-slate-800 hover:text-white">
+            <Link href="/profile" onClick={onNavigate} className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold text-slate-300 transition-colors hover:bg-slate-800 hover:text-white">
                 <FiUser size={17} />
                 My Profile
             </Link>

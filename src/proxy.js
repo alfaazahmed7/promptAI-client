@@ -15,6 +15,7 @@ export const config = {
     matcher: [
         '/all-prompts/:path*',
         '/dashboard',
+        '/profile',
         '/pricing',
     ]
 }
