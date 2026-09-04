@@ -1,12 +1,3 @@
-import GlobalLoadingSpinner from '@/components/shared/loading/GlobalLoadingSpinner';
-import React from 'react';
+import { PromptFormSkeleton } from '@/components/dashboard/skeletons/DashboardPageSkeletons';
 
-const loading = () => {
-    return (
-        <div>
-            <GlobalLoadingSpinner />
-        </div>
-    );
-};
-
-export default loading;
+export default PromptFormSkeleton;

@@ -1,12 +1,5 @@
-import GlobalLoadingSpinner from '@/components/shared/loading/GlobalLoadingSpinner';
-import React from 'react';
+import { AnalyticsSkeleton } from '@/components/dashboard/skeletons/DashboardPageSkeletons';
 
-const loading = () => {
-    return (
-        <div>
-            <GlobalLoadingSpinner />
-        </div>
-    );
-};
+const Loading = () => <AnalyticsSkeleton admin />;
 
-export default loading;
+export default Loading;
