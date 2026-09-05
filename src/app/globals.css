@@ -1,2 +1,183 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+:root {
+    --background-primary: #fafafb;
+    --background-secondary: #f4f6f8;
+    --section-alternate: #eef2f7;
+    --surface-card: #ffffff;
+    --surface-muted: #f8fafc;
+    --surface-elevated: #ffffff;
+    --border-default: #e2e8f0;
+    --divider: #e5e7eb;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-tertiary: #64748b;
+    --text-placeholder: #94a3b8;
+    --accent-primary: #2563eb;
+    --accent-hover: #1d4ed8;
+    --success: #16a34a;
+    --warning: #d97706;
+    --error: #dc2626;
+    color-scheme: light;
+}
+
+.dark {
+    --background-primary: #09090b;
+    --background-secondary: #111827;
+    --section-alternate: #18181b;
+    --surface-card: #171717;
+    --surface-muted: #27272a;
+    --surface-elevated: #202125;
+    --border-default: #3f3f46;
+    --divider: #27272a;
+    --text-primary: #ffffff;
+    --text-secondary: #d4d4d8;
+    --text-tertiary: #a1a1aa;
+    --text-placeholder: #71717a;
+    --accent-primary: #5b8cff;
+    --accent-hover: #7aa4ff;
+    --success: #22c55e;
+    --warning: #f59e0b;
+    --error: #ef4444;
+    color-scheme: dark;
+}
+
+html,
+body {
+    min-height: 100%;
+}
+
+body {
+    background-color: var(--background-primary);
+    color: var(--text-secondary);
+    transition: background-color .25s ease, color .25s ease;
+}
+
+/* Existing page utilities keep the production dark palette and inherit the light tokens here. */
+:root:not(.dark) [class~="bg-[#011627]"],
+:root:not(.dark) [class~="bg-[#0B1220]"],
+:root:not(.dark) [class~="bg-[#0b0f19]"],
+:root:not(.dark) [class~="bg-[#0B0F17]"],
+:root:not(.dark) [class~="bg-[#0f1422]"],
+:root:not(.dark) [class~="bg-[#111827]"],
+:root:not(.dark) [class~="bg-[#131a26]"],
+:root:not(.dark) [class~="bg-[#131c2e]"],
+:root:not(.dark) [class~="bg-[#161f30]"],
+:root:not(.dark) [class~="bg-[#1A2536]"],
+:root:not(.dark) [class~="bg-[#121824]"],
+:root:not(.dark) [class~="bg-[#131926]"],
+:root:not(.dark) [class~="bg-[#101722]"],
+:root:not(.dark) [class~="bg-[#0d1321]"],
+:root:not(.dark) [class~="bg-[#0d131f]"],
+:root:not(.dark) [class~="bg-slate-950"],
+:root:not(.dark) [class~="bg-slate-900"] {
+    background-color: var(--surface-card) !important;
+}
+
+:root:not(.dark) [class~="bg-slate-800"],
+:root:not(.dark) [class~="bg-gray-800"],
+:root:not(.dark) [class~="bg-[#1a2333]"],
+:root:not(.dark) [class~="bg-[#152238]"],
+:root:not(.dark) [class~="bg-[#202c40]"],
+:root:not(.dark) [class~="bg-slate-900/20"],
+:root:not(.dark) [class~="bg-slate-900/30"],
+:root:not(.dark) [class~="bg-slate-900/35"],
+:root:not(.dark) [class~="bg-slate-900/40"],
+:root:not(.dark) [class~="bg-slate-900/45"],
+:root:not(.dark) [class~="bg-slate-900/50"],
+:root:not(.dark) [class~="bg-slate-900/60"],
+:root:not(.dark) [class~="bg-slate-900/70"],
+:root:not(.dark) [class~="bg-slate-900/75"],
+:root:not(.dark) [class~="bg-slate-900/80"],
+:root:not(.dark) [class~="bg-slate-950/40"],
+:root:not(.dark) [class~="bg-slate-950/50"] {
+    background-color: var(--surface-muted) !important;
+}
+
+:root:not(.dark) [class~="border-slate-800"],
+:root:not(.dark) [class~="border-slate-700"],
+:root:not(.dark) [class~="border-gray-700"],
+:root:not(.dark) [class~="border-gray-700/40"],
+:root:not(.dark) [class~="border-slate-800/50"],
+:root:not(.dark) [class~="border-slate-800/60"],
+:root:not(.dark) [class~="border-slate-800/80"] {
+    border-color: var(--border-default) !important;
+}
+
+:root:not(.dark) [class~="bg-slate-700/50"],
+:root:not(.dark) [class~="bg-slate-700/60"],
+:root:not(.dark) [class~="bg-slate-700/80"],
+:root:not(.dark) [class~="bg-slate-800/60"],
+:root:not(.dark) [class~="bg-slate-800/70"] {
+    background-color: #e2e8f0 !important;
+}
+
+:root:not(.dark) [class~="hover:bg-slate-800"]:hover,
+:root:not(.dark) [class~="hover:bg-slate-800/40"]:hover,
+:root:not(.dark) [class~="hover:bg-slate-800/50"]:hover,
+:root:not(.dark) [class~="hover:bg-slate-900/40"]:hover {
+    background-color: #f1f5f9 !important;
+}
+
+.theme-nav-primary,
+.theme-footer-primary {
+    color: #ffffff;
+}
+
+.theme-nav-muted,
+.theme-footer-secondary {
+    color: #94a3b8;
+}
+
+:root:not(.dark) .theme-nav-primary,
+:root:not(.dark) .theme-footer-primary {
+    color: var(--text-primary);
+}
+
+:root:not(.dark) .theme-nav-muted,
+:root:not(.dark) .theme-footer-secondary {
+    color: var(--text-tertiary);
+}
+
+:root:not(.dark) .theme-footer {
+    background-color: var(--surface-muted) !important;
+    border-top: 1px solid var(--border-default);
+}
+
+:root:not(.dark) [class~="text-slate-100"],
+:root:not(.dark) [class~="text-slate-200"],
+:root:not(.dark) [class~="text-slate-300"],
+:root:not(.dark) [class~="text-gray-100"],
+:root:not(.dark) [class~="text-gray-300"] {
+    color: var(--text-secondary) !important;
+}
+
+:root:not(.dark) [class~="text-slate-400"],
+:root:not(.dark) [class~="text-gray-400"],
+:root:not(.dark) [class~="text-slate-500"],
+:root:not(.dark) [class~="text-gray-500"] {
+    color: var(--text-tertiary) !important;
+}
+
+:root:not(.dark) h1[class~="text-white"],
+:root:not(.dark) h2[class~="text-white"],
+:root:not(.dark) h3[class~="text-white"],
+:root:not(.dark) h4[class~="text-white"],
+:root:not(.dark) h5[class~="text-white"],
+:root:not(.dark) h6[class~="text-white"] {
+    color: var(--text-primary) !important;
+}
+
+:root:not(.dark) input,
+:root:not(.dark) textarea,
+:root:not(.dark) select {
+    color: var(--text-primary);
+    background-color: var(--surface-card);
+    border-color: #cbd5e1;
+}
+
+:root:not(.dark) input::placeholder,
+:root:not(.dark) textarea::placeholder {
+    color: var(--text-placeholder);
+}

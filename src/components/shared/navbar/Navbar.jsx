@@ -1,12 +1,13 @@
 "use client";
 import logoIcon from '@/assets/logo.png';
 import { authClient } from '@/lib/auth-client';
+import { useTheme } from 'next-themes';
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
-import { FiChevronDown, FiChevronUp, FiGrid, FiLogOut, FiUser } from "react-icons/fi";
+import { FiChevronDown, FiChevronUp, FiGrid, FiLogOut, FiMoon, FiSun, FiUser } from "react-icons/fi";
 import { HiMenuAlt3, HiX } from "react-icons/hi";
 import NavLink from "./NavLink";
 
@@ -17,6 +18,7 @@ const Navbar = () => {
     const profileRef = useRef(null);
     const pathname = usePathname();
     const router = useRouter();
+    const { resolvedTheme, setTheme } = useTheme();
     const isHome = pathname === '/';
 
     // Track scroll position to toggle the background color dynamically
@@ -71,6 +73,9 @@ const Navbar = () => {
         toast.success('You have successfully sign out');
     }
 
+    const isDark = resolvedTheme === "dark";
+    const isThemeReady = resolvedTheme !== undefined;
+
     return (
         <nav
             className={`fixed top-0 left-0 right-0 z-50 py-4 transition-all duration-300 ${useTransparentNavbar
@@ -91,7 +96,7 @@ const Navbar = () => {
                             className="bg-transparent"
                         />
                         <div className="text-2xl ml-2">
-                            <p className="text-white font-semibold">
+                            <p className="theme-nav-primary font-semibold">
                                 {brand.name}<span className="text-[#dc2f02] font-extrabold">{brand.highlight}</span>
                             </p>
                         </div>
@@ -107,7 +112,12 @@ const Navbar = () => {
                     </div>
 
                     {/* 3. Right Side: Unique Standalone Login Link */}
-                    <div className="hidden md:flex w-44 items-center justify-end">
+                    <div className="hidden md:flex w-52 items-center justify-end gap-2">
+                        <ThemeToggle
+                            isDark={isDark}
+                            isReady={isThemeReady}
+                            onToggle={() => setTheme(isDark ? "light" : "dark")}
+                        />
                         {isPending ? (
                             <AccountSkeleton />
                         ) : user ? (
@@ -116,7 +126,7 @@ const Navbar = () => {
                                     onClick={() => setIsProfileOpen(!isProfileOpen)}
                                     aria-expanded={isProfileOpen}
                                     aria-label="Open account menu"
-                                    className="flex w-full items-center gap-2 py-1.5 pl-1.5 pr-3 text-white cursor-pointer"
+                                    className="theme-nav-primary flex w-full items-center gap-2 py-1.5 pl-1.5 pr-3 cursor-pointer"
                                 >
                                     <UserAvatar user={user} size={36} />
                                     <span className="max-w-24 truncate text-sm font-bold">{user.name || "Account"}</span>
@@ -146,7 +156,12 @@ const Navbar = () => {
                     </div>
 
                     {/* 4. Mobile Menu Button */}
-                    <div className="md:hidden">
+                    <div className="md:hidden flex items-center gap-1">
+                        <ThemeToggle
+                            isDark={isDark}
+                            isReady={isThemeReady}
+                            onToggle={() => setTheme(isDark ? "light" : "dark")}
+                        />
                         <button
                             onClick={() => setIsOpen(!isOpen)}
                             className="inline-flex items-center justify-center p-2 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 focus:outline-none"
@@ -198,6 +213,19 @@ const Navbar = () => {
     );
 };
 
+const ThemeToggle = ({ isDark, isReady, onToggle }) => (
+    <button
+        type="button"
+        onClick={onToggle}
+        disabled={!isReady}
+        aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+        title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+        className="theme-nav-muted inline-flex h-10 w-10 items-center justify-center rounded-lg transition-colors hover:bg-slate-800 hover:text-white disabled:cursor-wait"
+    >
+        {isDark ? <FiSun size={18} /> : <FiMoon size={18} />}
+    </button>
+);
+
 const UserAvatar = ({ user, size = 36 }) => (
     <span
         className="flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-slate-700 text-sm font-semibold text-white"
@@ -234,7 +262,7 @@ const ProfileMenu = ({ user, dashboardHref, onSignOut, onNavigate, mobile = fals
         <div className="flex items-center gap-3 rounded-xl border border-slate-700/80 bg-slate-900/70 p-3">
             <UserAvatar user={user} size={40} />
             <div className="min-w-0">
-                <p className="truncate text-sm font-bold text-white">{user.name || "PromptAI user"}</p>
+                <p className="theme-nav-primary truncate text-sm font-bold">{user.name || "PromptAI user"}</p>
                 <p className="truncate text-xs text-slate-400">{user.email}</p>
             </div>
         </div>

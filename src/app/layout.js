@@ -1,8 +1,7 @@
-import Navbar from "@/components/shared/navbar/Navbar";
-import { Figtree, Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import Footer from "@/components/shared/footer/Footer";
+import ThemeProvider from "@/components/providers/ThemeProvider";
+import { Figtree } from "next/font/google";
 import { Toaster } from "react-hot-toast";
+import "./globals.css";
 
 const FigtreeFont = Figtree({
   subsets: ["latin"],
@@ -18,10 +17,13 @@ export default function RootLayout({ children }) {
     <html
       lang="en"
       className={`${FigtreeFont.className} h-full antialiased`}
+      suppressHydrationWarning
     >
       <body>
-        {children}
-        <Toaster />
+        <ThemeProvider>
+          {children}
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );

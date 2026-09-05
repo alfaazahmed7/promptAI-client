@@ -1,15 +1,21 @@
 "use client";
-import React, { useState } from 'react';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
+import { Monoton, Nunito_Sans } from 'next/font/google';
 import Link from 'next/link';
+import { useState } from 'react';
 import { FiMenu } from 'react-icons/fi';
+
+const Nunito_Sans_Font = Nunito_Sans({
+    subsets: ["latin"],
+    weight: "400",
+});
 
 const DashboardLayout = ({ children }) => {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [isMobileOpen, setIsMobileOpen] = useState(false);
 
     return (
-        <div className='flex h-screen bg-[#0b0f19] text-slate-100 antialiased font-sans relative overflow-hidden'>
+        <div className={`${Nunito_Sans_Font.className} flex h-screen bg-[#0b0f19] text-slate-100 antialiased font-sans relative overflow-hidden`}>
 
             {/* Sidebar Component */}
             <DashboardSidebar

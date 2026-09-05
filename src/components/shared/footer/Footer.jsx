@@ -1,8 +1,7 @@
 "use client";
-import Link from "next/link";
 import { motion } from "framer-motion";
-import { FiGithub, FiTwitter, FiLinkedin, FiArrowRight, FiGlobe, FiHeart } from "react-icons/fi";
-import { FaFireFlameCurved } from "react-icons/fa6";
+import Link from "next/link";
+import { FiArrowRight, FiGithub, FiGlobe, FiHeart, FiLinkedin, FiTwitter } from "react-icons/fi";
 
 const Footer = () => {
     const currentYear = new Date().getFullYear();
@@ -43,7 +42,7 @@ const Footer = () => {
 
     return (
         /* Changed background to deep premium dark #0B0F17 and adjusted borders */
-        <footer className="relative bg-[#0B0F17] overflow-hidden pt-20 pb-10">
+        <footer className="theme-footer relative bg-[#0B0F17] overflow-hidden pt-20 pb-10">
 
             {/* Seam Blender: Fades the previous section down into the footer */}
             <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-[#0B1220] to-transparent pointer-events-none" />
@@ -56,17 +55,17 @@ const Footer = () => {
                     {/* Brand Meta Block */}
                     <div className="lg:col-span-2 space-y-6">
                         <Link href="/" className="flex items-center gap-2">
-                            <div className="text-2xl font-semibold text-white tracking-wide">
+                            <div className="theme-footer-primary text-2xl font-semibold tracking-wide">
                                 Prompt<span className="text-[#dc2f02] font-extrabold">AI</span>
                             </div>
                         </Link>
-                        <p className="text-sm text-slate-400 leading-relaxed max-w-sm">
+                        <p className="theme-footer-secondary text-sm leading-relaxed max-w-sm">
                             The definitive marketplace to trade, find, and engineer premium optimized generative AI prompts. Level up your AI production stack.
                         </p>
 
                         {/* Modern Newsletter Input */}
                         <div className="space-y-3 pt-2">
-                            <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                            <h4 className="theme-footer-secondary text-xs font-semibold uppercase tracking-wider">
                                 Get Fresh Prompts Weekly
                             </h4>
                             <form className="relative max-w-sm flex items-center bg-white/[0.03] border border-slate-800 p-1 rounded-xl focus-within:border-indigo-500/60 transition-colors">
@@ -85,7 +84,7 @@ const Footer = () => {
 
                     {/* Columns 1-4 Link Mapping */}
                     <div>
-                        <h3 className="text-sm font-semibold text-white tracking-wider mb-5">Marketplace</h3>
+                        <h3 className="theme-footer-primary text-sm font-semibold tracking-wider mb-5">Marketplace</h3>
                         <ul className="space-y-3 font-medium">
                             {footerLinks.marketplace.map((link) => (
                                 <li key={link.name}>
@@ -98,7 +97,7 @@ const Footer = () => {
                     </div>
 
                     <div>
-                        <h3 className="text-sm font-semibold text-white tracking-wider mb-5">AI Platforms</h3>
+                        <h3 className="theme-footer-primary text-sm font-semibold tracking-wider mb-5">AI Platforms</h3>
                         <ul className="space-y-3 font-medium">
                             {footerLinks.aiModels.map((link) => (
                                 <li key={link.name}>
@@ -111,7 +110,7 @@ const Footer = () => {
                     </div>
 
                     <div>
-                        <h3 className="text-sm font-semibold text-white tracking-wider mb-5">Company</h3>
+                        <h3 className="theme-footer-primary text-sm font-semibold tracking-wider mb-5">Company</h3>
                         <ul className="space-y-3 font-medium">
                             {footerLinks.company.map((link) => (
                                 <li key={link.name}>
@@ -124,7 +123,7 @@ const Footer = () => {
                     </div>
 
                     <div>
-                        <h3 className="text-sm font-semibold text-white tracking-wider mb-5">Legal</h3>
+                        <h3 className="theme-footer-primary text-sm font-semibold tracking-wider mb-5">Legal</h3>
                         <ul className="space-y-3 font-medium">
                             {footerLinks.legal.map((link) => (
                                 <li key={link.name}>
