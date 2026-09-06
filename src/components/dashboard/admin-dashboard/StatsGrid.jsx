@@ -1,6 +1,5 @@
 // components/admin/StatsGrid.jsx
-import React from 'react';
-import { FiUsers, FiLayers, FiMessageSquare, FiCopy } from 'react-icons/fi';
+import { FiCopy, FiLayers, FiMessageSquare, FiUsers } from 'react-icons/fi';
 
 const StatsGrid = ({ stats }) => {
     const cards = [
@@ -41,7 +40,7 @@ const StatsGrid = ({ stats }) => {
                 return (
                     <div 
                         key={index} 
-                        className={`bg-[#131a26] p-6 rounded-xl border border-slate-800/50 border-l-4 ${card.borderColor} shadow-xl hover:bg-[#17202f] transition-all duration-300 flex items-center justify-between group`}
+                        className={`dashboard-stat-card bg-[#131a26] p-6 rounded-xl border border-slate-800/50 border-l-4 ${card.borderColor} shadow-xl hover:bg-[#17202f] transition-all duration-300 flex items-center justify-between group`}
                     >
                         <div className="space-y-1">
                             <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider group-hover:text-slate-300 transition-colors">

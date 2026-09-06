@@ -83,11 +83,11 @@ const PromptTableList = ({ userPromptsData = [] }) => {
             </div>
 
             {/* Table Container */}
-            <div className="bg-[#111827]/60 border border-slate-800 rounded-xl shadow-2xl overflow-hidden backdrop-blur-md">
+            <div className="dashboard-table-container bg-[#111827]/60 border border-slate-800 rounded-xl shadow-2xl overflow-hidden backdrop-blur-md">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
                         <thead>
-                            <tr className="bg-[#161f30] border-b border-slate-800 text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                            <tr className="dashboard-table-header bg-[#161f30] border-b border-slate-800 text-xs font-semibold text-slate-400 uppercase tracking-wider">
                                 <th className="px-6 py-4.5">Prompt Info</th>
                                 <th className="px-6 py-4.5">Category / Tool</th>
                                 <th className="px-6 py-4.5">Status</th>
@@ -96,7 +96,7 @@ const PromptTableList = ({ userPromptsData = [] }) => {
                                 <th className="px-6 py-4.5 text-right">Actions</th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-slate-800/60 text-sm">
+                        <tbody className="dashboard-table-body divide-y divide-slate-800/60 text-sm">
                             {userPromptsData.length === 0 ? (
                                 <tr>
                                     <td colSpan="6" className="text-center py-16 text-slate-500">

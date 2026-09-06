@@ -1,16 +1,15 @@
-import React from 'react';
-import Link from 'next/link';
 import { getPromptsByEmail } from '@/lib/api/prompts';
 import { getUserSession } from '@/lib/core/session';
+import Link from 'next/link';
 import {
-    FiUser,
+    FiArrowRight,
+    FiCheckCircle,
+    FiLayers,
     FiMail,
     FiShield,
     FiTerminal,
-    FiLayers,
-    FiZap,
-    FiCheckCircle,
-    FiArrowRight
+    FiUser,
+    FiZap
 } from 'react-icons/fi';
 
 const UserProfilePage = async () => {
@@ -31,7 +30,7 @@ const UserProfilePage = async () => {
     const isPremium = user.plan.toLowerCase() === 'premium';
 
     return (
-        <div className="min-h-screen max-w-7xl mx-auto bg-[#0b0f19] text-slate-100 p-4 sm:p-6 lg:p-8">
+        <div className="user-profile-page min-h-screen max-w-7xl mx-auto bg-[#0b0f19] text-slate-100 p-4 sm:p-6 lg:p-8">
 
             {/* Header Section */}
             <div className="mb-8 pb-6 border-b border-slate-800/50">
@@ -157,8 +156,8 @@ const UserProfilePage = async () => {
                         </div>
                     ) : (
                         /* PREMIUM MODE ACTIVE BANNER */
-                        <div className="relative overflow-hidden bg-gradient-to-br from-emerald-950/20 via-slate-900/20 to-slate-900/20 border border-emerald-500/20 rounded-xl p-6 flex items-center gap-4">
-                            <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-xl shrink-0">
+                            <div className="premium-active-banner relative overflow-hidden bg-gradient-to-br from-emerald-950/20 via-slate-900/20 to-slate-900/20 border border-emerald-500/20 rounded-xl p-6 flex items-center gap-4">
+                            <div className="premium-active-icon p-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-xl shrink-0">
                                 <FiCheckCircle size={22} />
                             </div>
                             <div>

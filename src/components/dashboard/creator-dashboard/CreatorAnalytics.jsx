@@ -1,18 +1,20 @@
 "use client";
 
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
+import { FiBookmark, FiCopy, FiLayers } from 'react-icons/fi';
 import {
-    ResponsiveContainer,
-    AreaChart,
     Area,
-    BarChart,
+    AreaChart,
     Bar,
-    XAxis,
-    YAxis,
+    BarChart,
+    CartesianGrid,
+    ResponsiveContainer,
     Tooltip,
-    CartesianGrid
+    XAxis,
+    YAxis
 } from 'recharts';
-import { FiLayers, FiCopy, FiBookmark } from 'react-icons/fi';
+
+const EMPTY_PROMPTS = [];
 
 // Declared outside to keep React from recreating it during active render steps
 const CustomTooltip = ({ active, payload, label }) => {
@@ -34,20 +36,21 @@ const CustomTooltip = ({ active, payload, label }) => {
 };
 
 const CreatorAnalytics = ({ userPromptsData = [] }) => {
+    const prompts = Array.isArray(userPromptsData) ? userPromptsData : EMPTY_PROMPTS;
 
     // Processes standard cumulative totals natively from live records
     const stats = useMemo(() => {
-        const totalPrompts = userPromptsData.length;
-        const totalCopies = userPromptsData.reduce((acc, curr) => acc + (Number(curr.copyCount) || 0), 0);
-        const totalBookmarks = userPromptsData.reduce((acc, curr) => acc + (Number(curr.bookmarkCount) || 0), 0);
+        const totalPrompts = prompts.length;
+        const totalCopies = prompts.reduce((acc, curr) => acc + (Number(curr.copyCount) || 0), 0);
+        const totalBookmarks = prompts.reduce((acc, curr) => acc + (Number(curr.bookmarkCount) || 0), 0);
         return { totalPrompts, totalCopies, totalBookmarks };
-    }, [userPromptsData]);
+    }, [prompts]);
 
     // Structures the exact date points required by Recharts to draw lines smoothly
     const chartData = useMemo(() => {
-        if (!userPromptsData.length) return [];
+        if (!prompts.length) return [];
 
-        const sortedPrompts = [...userPromptsData].map(p => {
+        const sortedPrompts = [...prompts].map(p => {
             let parsedDate = new Date();
             if (p.createdAt) parsedDate = new Date(p.createdAt);
             else if (p._id?.$oid) {
@@ -83,7 +86,7 @@ const CreatorAnalytics = ({ userPromptsData = [] }) => {
                 TotalPrompts: cumulativePrompts
             };
         });
-    }, [userPromptsData]);
+    }, [prompts]);
 
     return (
         <div className="p-6 max-w-7xl mx-auto min-h-screen bg-[#0b0f19] text-slate-200">
@@ -99,7 +102,7 @@ const CreatorAnalytics = ({ userPromptsData = [] }) => {
 
             {/* Total Metric Modules */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div className="bg-[#111827]/60 border border-slate-800/80 rounded-2xl p-6 backdrop-blur-md">
+                <div className="creator-analytics-metric-card bg-[#111827]/60 border border-slate-800/80 rounded-2xl p-6 backdrop-blur-md">
                     <div className="flex justify-between items-start">
                         <div>
                             <p className="text-xs font-semibold tracking-wider text-slate-400 uppercase">Total Asset Volume</p>
@@ -111,7 +114,7 @@ const CreatorAnalytics = ({ userPromptsData = [] }) => {
                     </div>
                 </div>
 
-                <div className="bg-[#111827]/60 border border-slate-800/80 rounded-2xl p-6 backdrop-blur-md">
+                <div className="creator-analytics-metric-card bg-[#111827]/60 border border-slate-800/80 rounded-2xl p-6 backdrop-blur-md">
                     <div className="flex justify-between items-start">
                         <div>
                             <p className="text-xs font-semibold tracking-wider text-slate-400 uppercase">Total Copied Logs</p>
@@ -123,7 +126,7 @@ const CreatorAnalytics = ({ userPromptsData = [] }) => {
                     </div>
                 </div>
 
-                <div className="bg-[#111827]/60 border border-slate-800/80 rounded-2xl p-6 backdrop-blur-md">
+                <div className="creator-analytics-metric-card bg-[#111827]/60 border border-slate-800/80 rounded-2xl p-6 backdrop-blur-md">
                     <div className="flex justify-between items-start">
                         <div>
                             <p className="text-xs font-semibold tracking-wider text-slate-400 uppercase">User Bookmarks</p>

@@ -25,7 +25,7 @@ const UsersReviews = ({ reviews = [], user, isLocked }) => {
                                 <div key={rev._id || index} className="p-4 bg-[#1a2333] rounded-xl border border-gray-700/30 space-y-1.5 shadow-sm">
                                     <div className="flex items-center justify-between gap-2 flex-wrap">
                                         <div className="flex items-center gap-2 text-xs font-bold text-gray-300">
-                                            <div className="w-5 h-5 rounded-full bg-[#1e293b] flex items-center justify-center text-gray-400">
+                                            <div className="w-5 h-5 rounded-full bg-slate-800 flex items-center justify-center text-gray-400">
                                                 <FiUser size={10} />
                                             </div>
                                             <span className="truncate max-w-[180px] sm:max-w-none">

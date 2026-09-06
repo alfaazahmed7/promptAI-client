@@ -75,7 +75,7 @@ const PromptDetailsPage = async ({ params }) => {
                                 </p>
                             ) : (
                                 /* FIXED LOCKED BANNER: Swapped dynamic colors for static variations */
-                                <div className="flex items-center gap-3 p-3 bg-[#1e293b] rounded-xl border border-gray-700/40">
+                                <div className="flex items-center gap-3 p-3 bg-slate-800 rounded-xl border border-gray-700/40">
                                     <span className="p-2 rounded-lg bg-amber-500/10 text-amber-500 text-sm">🔒</span>
                                     <p className="text-xs text-gray-400">
                                         <span className="font-bold block text-white text-sm">Instructions Gated</span>

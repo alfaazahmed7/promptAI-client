@@ -10,7 +10,7 @@ import { LuPyramid } from 'react-icons/lu';
 const PlaygroundData = {
     midjourney: {
         tool: "Midjourney v6.0",
-        icon: <LuPyramid className="text-amber-400" />,
+        icon: <LuPyramid className="text-amber-600 dark:text-amber-400 text-base flex-shrink-0" />,
         basePrompt: "A hyper-realistic cinematic portrait of [Subject], shot on 85mm lens, dramatic chiaroscuro lighting, volumetric smoke, cyberpunk atmosphere",
         modifiers: [
             { label: "Aspect Ratio 16:9", value: " --ar 16:9" },
@@ -21,7 +21,7 @@ const PlaygroundData = {
     },
     chatgpt: {
         tool: "ChatGPT (GPT-4o)",
-        icon: <SiOpenai className="text-emerald-400" />,
+        icon: <SiOpenai className="text-emerald-600 dark:text-emerald-400 text-base flex-shrink-0" />,
         basePrompt: "Act as an expert Senior Full-Stack Next.js Developer. Write a secure, scalable API route handler in TypeScript designed to",
         modifiers: [
             { label: "Include Error Handling", value: " wrap logic in robust try/catch blocks with structural error classification" },
@@ -32,7 +32,7 @@ const PlaygroundData = {
     },
     stablediffusion: {
         tool: "Stable Diffusion 3",
-        icon: <GiCrystalBall className="text-purple-400" />,
+        icon: <GiCrystalBall className="text-[#7c3aed] dark:text-purple-400 text-base flex-shrink-0" />,
         basePrompt: "Ethereal dark fantasy landscape, mystical neon obsidian monolith shattering, intricate cosmic nebula rendering, digital painting masterpiece",
         modifiers: [
             { label: "Masterpiece (4K)", value: " trending on artstation, sharp focus, breathtaking masterpiece composition" },
@@ -93,13 +93,13 @@ const InteractivePlayground = () => {
                 </div>
 
                 {/* Core Multi-Model Switcher Tabs */}
-                <div className="flex justify-center gap-2 mb-10 max-w-xl mx-auto bg-[#131c2e]/60 p-1.5 rounded-2xl border border-slate-800/80">
+                <div className="playground-tabs flex justify-center gap-2 mb-10 max-w-xl mx-auto bg-[#131c2e]/60 p-1.5 rounded-2xl border border-slate-800/80">
                     {Object.keys(PlaygroundData).map((key) => (
                         <button
                             key={key}
                             onClick={() => handleTabChange(key)}
-                            className={`flex items-center justify-center gap-2 flex-1 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition-all duration-300 ${activeTab === key
-                                    ? 'bg-[#131c2e] text-white border border-slate-700 shadow-xl'
+                            className={`playground-tab flex items-center justify-center gap-2 flex-1 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition-all duration-300 ${activeTab === key
+                                    ? 'playground-tab-active bg-[#131c2e] border border-slate-700 shadow-xl'
                                     : 'text-slate-400 hover:text-slate-200 hover:bg-[#131c2e]/30'
                                 }`}
                         >

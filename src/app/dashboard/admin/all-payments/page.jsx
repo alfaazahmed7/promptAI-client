@@ -1,8 +1,7 @@
 // src/app/admin/payments/page.jsx
 import PaymentRow from '@/components/dashboard/admin-dashboard/PaymentRow';
 import { getAllSubscriptions } from '@/lib/api/subscriptions';
-import React from 'react';
-import { FiDollarSign, FiCreditCard, FiActivity } from 'react-icons/fi';
+import { FiActivity, FiCreditCard, FiDollarSign } from 'react-icons/fi';
 
 const AdminAllPaymentsPage = async () => {
     const subscriptions = await getAllSubscriptions() || [];
@@ -60,7 +59,7 @@ const AdminAllPaymentsPage = async () => {
             </div>
 
             {/* Layout Wrapper */}
-            <div className="bg-[#111827]/40 rounded-xl border border-slate-800/80 shadow-2xl overflow-visible backdrop-blur-sm">
+            <div className="bg-[#111827]/40 rounded-xl border border-slate-800/80 shadow-2xl overflow-hidden backdrop-blur-sm">
                 {/* Desktop Responsive Table View */}
                 <div className="hidden md:block overflow-x-auto">
                     <table className="w-full text-left border-collapse">

@@ -4,9 +4,9 @@ import { UserChangeRole } from '@/lib/actions/userChangeRole';
 import { userDelete } from '@/lib/actions/userDelete';
 import { authClient } from '@/lib/auth-client';
 import { useRouter } from 'next/navigation';
-import React, { useState, useRef, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
-import { FiEdit2, FiTrash2, FiAlertTriangle, FiX } from 'react-icons/fi';
+import { FiAlertTriangle, FiEdit2, FiTrash2, FiX } from 'react-icons/fi';
 
 // --- GENERIC CONFIRMATION MODAL ---
 const ConfirmationModal = ({ isOpen, onClose, onConfirm, title, message, subMessage, confirmVariant = 'blue' }) => {
@@ -175,13 +175,13 @@ const UserRow = ({ user, view }) => {
                     <div className="flex items-center justify-end space-x-1 relative" ref={dropdownRef}>
                         <button
                             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                            className={`p-2 rounded-lg transition-all cursor-pointer ${isDropdownOpen ? 'bg-blue-500/20 text-blue-400' : 'text-slate-400 hover:text-blue-400 hover:bg-blue-500/10'}`}
+                            className={`dashboard-action-edit p-2 rounded-lg transition-all cursor-pointer ${isDropdownOpen ? 'bg-blue-500/20 text-blue-400' : 'text-slate-400 hover:text-blue-400 hover:bg-blue-500/10'}`}
                         >
                             <FiEdit2 className="w-4 h-4" />
                         </button>
                         <button
                             onClick={() => setIsDeleteModalOpen(true)}
-                            className="p-2 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition-all cursor-pointer"
+                            className="dashboard-action-delete p-2 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition-all cursor-pointer"
                         >
                             <FiTrash2 className="w-4 h-4" />
                         </button>
@@ -264,14 +264,14 @@ const UserRow = ({ user, view }) => {
             <div className="flex items-center justify-end space-x-3 pt-3 border-t border-slate-800/60 relative" ref={dropdownRef}>
                 <button
                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                    className={`flex-1 py-2 px-3 border rounded-lg text-xs font-medium flex items-center justify-center gap-1.5 transition-colors ${isDropdownOpen ? 'bg-blue-500/20 border-blue-500/40 text-blue-400' : 'border-slate-800 text-slate-300 bg-[#0b0f19] hover:bg-[#111827]'
+                    className={`dashboard-action-edit flex-1 py-2 px-3 border rounded-lg text-xs font-medium flex items-center justify-center gap-1.5 transition-colors ${isDropdownOpen ? 'bg-blue-500/20 border-blue-500/40 text-blue-400' : 'border-slate-800 text-slate-300 bg-[#0b0f19] hover:bg-[#111827]'
                         }`}
                 >
                     <FiEdit2 className="w-3.5 h-3.5" /> Edit Role
                 </button>
                 <button
                     onClick={() => setIsDeleteModalOpen(true)}
-                    className="flex-1 py-2 px-3 bg-rose-500/10 text-rose-400 border border-rose-500/20 rounded-lg text-xs font-medium flex items-center justify-center gap-1.5 hover:bg-rose-500/20 transition-colors"
+                    className="dashboard-action-delete flex-1 py-2 px-3 bg-rose-500/10 text-rose-400 border border-rose-500/20 rounded-lg text-xs font-medium flex items-center justify-center gap-1.5 hover:bg-rose-500/20 transition-colors"
                 >
                     <FiTrash2 className="w-3.5 h-3.5" /> Delete
                 </button>

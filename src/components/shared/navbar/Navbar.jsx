@@ -74,11 +74,10 @@ const Navbar = () => {
     }
 
     const isDark = resolvedTheme === "dark";
-    const isThemeReady = resolvedTheme !== undefined;
 
     return (
         <nav
-            className={`fixed top-0 left-0 right-0 z-50 py-4 transition-all duration-300 ${useTransparentNavbar
+            className={`fixed top-0 left-0 right-0 z-50 py-4 transition-shadow duration-300 ${useTransparentNavbar
                 ? "bg-transparent shadow-none"
                 : "bg-[#1A2536] backdrop-blur-md shadow-lg"
                 }`}
@@ -112,10 +111,9 @@ const Navbar = () => {
                     </div>
 
                     {/* 3. Right Side: Unique Standalone Login Link */}
-                    <div className="hidden md:flex w-52 items-center justify-end gap-2">
+                    <div className="hidden md:flex w-56 items-center justify-end gap-2">
                         <ThemeToggle
                             isDark={isDark}
-                            isReady={isThemeReady}
                             onToggle={() => setTheme(isDark ? "light" : "dark")}
                         />
                         {isPending ? (
@@ -159,7 +157,6 @@ const Navbar = () => {
                     <div className="md:hidden flex items-center gap-1">
                         <ThemeToggle
                             isDark={isDark}
-                            isReady={isThemeReady}
                             onToggle={() => setTheme(isDark ? "light" : "dark")}
                         />
                         <button
@@ -213,14 +210,13 @@ const Navbar = () => {
     );
 };
 
-const ThemeToggle = ({ isDark, isReady, onToggle }) => (
+const ThemeToggle = ({ isDark, onToggle }) => (
     <button
         type="button"
         onClick={onToggle}
-        disabled={!isReady}
         aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
         title={isDark ? "Switch to light mode" : "Switch to dark mode"}
-        className="theme-nav-muted inline-flex h-10 w-10 items-center justify-center rounded-lg transition-colors hover:bg-slate-800 hover:text-white disabled:cursor-wait"
+        className="theme-nav-muted inline-flex h-10 w-10 items-center justify-center rounded-lg transition-colors bg-slate-800 border-gray-200 hover:text-white cursor-pointer"
     >
         {isDark ? <FiSun size={18} /> : <FiMoon size={18} />}
     </button>

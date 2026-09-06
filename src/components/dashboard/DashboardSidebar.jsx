@@ -1,25 +1,22 @@
 "use client";
-import React from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import {
-    FiPlusCircle,
-    FiGrid,
-    FiBookmark,
-    FiStar,
-    FiUser,
-    FiChevronLeft,
-    FiChevronRight
-} from 'react-icons/fi';
-import { CiViewTimeline } from 'react-icons/ci';
-import {
-    FiUsers,
-    FiCreditCard,
-    FiAlertTriangle,
-    FiBarChart2
-} from "react-icons/fi";
 import { authClient } from '@/lib/auth-client';
 import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { CiViewTimeline } from 'react-icons/ci';
+import {
+    FiAlertTriangle,
+    FiBarChart2,
+    FiBookmark,
+    FiChevronLeft,
+    FiChevronRight,
+    FiCreditCard,
+    FiGrid,
+    FiPlusCircle,
+    FiStar,
+    FiUser,
+    FiUsers
+} from 'react-icons/fi';
 import { SidebarLinksSkeleton } from '../shared/skeletons/SidebarLinksSkeleton';
 
 const DashboardSidebar = ({ isCollapsed, setIsCollapsed, isMobileOpen, setIsMobileOpen }) => {
@@ -78,7 +75,7 @@ const DashboardSidebar = ({ isCollapsed, setIsCollapsed, isMobileOpen, setIsMobi
             )}
 
             <aside
-                className={`fixed inset-y-0 left-0 lg:sticky lg:top-0 h-screen border-r border-slate-800 bg-[#0f1422] text-slate-200 transition-all duration-300 ease-in-out z-50 flex flex-col justify-between ${isCollapsed ? 'lg:w-20' : 'lg:w-64'
+                className={`dashboard-sidebar fixed inset-y-0 left-0 lg:sticky lg:top-0 h-screen border-r border-slate-800 bg-[#0f1422] text-slate-200 transition-all duration-300 ease-in-out z-50 flex flex-col justify-between ${isCollapsed ? 'lg:w-20' : 'lg:w-64'
                     } w-64 ${isMobileOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full lg:translate-x-0'}`}
             >
                 {/* Desktop Collapse Trigger Button */}
@@ -138,7 +135,7 @@ const DashboardSidebar = ({ isCollapsed, setIsCollapsed, isMobileOpen, setIsMobi
                                         <Link
                                             href={item.href}
                                             onClick={() => setIsMobileOpen(false)}
-                                            className={`flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium text-sm transition-all duration-150 group spatial-link ${active
+                                            className={`dashboard-nav-link flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium text-sm transition-all duration-150 group spatial-link ${active
                                                 ? 'bg-gradient-to-r from-teal-500/15 to-emerald-500/5 text-teal-400 border border-teal-500/20'
                                                 : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/40 border border-transparent'
                                                 } ${isCollapsed ? 'lg:justify-center' : ''}`}

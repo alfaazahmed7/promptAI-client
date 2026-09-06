@@ -1,10 +1,10 @@
 "use client";
-import { useState } from "react";
-import Image from "next/image";
-import { motion } from "framer-motion";
-import { FiSearch, FiArrowRight, FiCpu } from "react-icons/fi";
-import { FaFireFlameCurved } from "react-icons/fa6";
 import bannerImage from '@/assets/banner.jpg';
+import { motion } from "framer-motion";
+import Image from "next/image";
+import { useState } from "react";
+import { FaFireFlameCurved } from "react-icons/fa6";
+import { FiArrowRight, FiCpu, FiSearch } from "react-icons/fi";
 
 const Banner = () => {
     const [searchQuery, setSearchQuery] = useState("");
@@ -44,7 +44,7 @@ const Banner = () => {
     };
 
     return (
-        <section className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-[#011627] pt-24 pb-12">
+        <section className="homepage-banner relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-[#011627] pt-24 pb-12">
 
             {/* 1. Background Layout - Now completely static for peak performance */}
             <div className="absolute inset-0 z-0 select-none pointer-events-none">
@@ -58,8 +58,8 @@ const Banner = () => {
                 />
 
                 {/* Fixed Static Ambient Orbs - Beautiful looks, zero CPU overhead */}
-                <div className="absolute top-1/4 left-1/4 -translate-x-1/2 w-96 h-96 bg-indigo-500/10 rounded-full blur-[120px] hidden md:block" />
-                <div className="absolute bottom-1/4 right-1/4 translate-x-1/2 w-[400px] h-[400px] bg-purple-500/10 rounded-full blur-[130px] hidden md:block" />
+                <div className="banner-glow absolute top-1/4 left-1/4 -translate-x-1/2 w-96 h-96 bg-indigo-500/10 rounded-full blur-[120px] hidden md:block" />
+                <div className="banner-glow absolute bottom-1/4 right-1/4 translate-x-1/2 w-[400px] h-[400px] bg-purple-500/10 rounded-full blur-[130px] hidden md:block" />
             </div>
 
             {/* 2. Main Center Content Container */}
@@ -73,7 +73,7 @@ const Banner = () => {
                 {/* Glowing Tech Badge */}
                 <motion.div
                     variants={itemVariants}
-                    className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 text-xs sm:text-sm font-medium backdrop-blur-md"
+                    className="banner-badge inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 text-xs sm:text-sm font-medium backdrop-blur-md"
                 >
                     <FiCpu className="w-4 h-4 animate-spin [animation-duration:4s]" />
                     <span>The Ultimate AI Prompt Marketplace</span>
@@ -82,10 +82,10 @@ const Banner = () => {
                 {/* Main Headline */}
                 <motion.h1
                     variants={itemVariants}
-                    className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-[1.15] max-w-4xl"
+                    className="banner-heading text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-[1.15] max-w-4xl"
                 >
                     Ignite Your Creativity with <br />
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-[#dc2f02]">
+                    <span className="banner-highlight text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-[#dc2f02]">
                         Expert AI Prompts
                     </span>
                 </motion.h1>
@@ -93,7 +93,7 @@ const Banner = () => {
                 {/* Subtitle Description */}
                 <motion.p
                     variants={itemVariants}
-                    className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto font-light leading-relaxed"
+                    className="banner-description text-base sm:text-lg text-slate-300 max-w-2xl mx-auto font-light leading-relaxed"
                 >
                     Skip the trial and error. Discover high-converting prompts built to supercharge your productivity, automation, and digital art engineering.
                 </motion.p>
@@ -102,7 +102,7 @@ const Banner = () => {
                 <motion.form
                     variants={itemVariants}
                     onSubmit={handleSearch}
-                    className="w-full max-w-2xl bg-white/5 backdrop-blur-xl border border-slate-700/50 p-1.5 rounded-full shadow-2xl flex items-center gap-2 mt-2 transition-all duration-300 focus-within:border-indigo-500/60 focus-within:ring-2 focus-within:ring-indigo-500/10"
+                    className="banner-search w-full max-w-2xl bg-white/5 backdrop-blur-xl border border-slate-700/50 p-1.5 rounded-full shadow-2xl flex items-center gap-2 mt-2 transition-all duration-300 focus-within:border-indigo-500/60 focus-within:ring-2 focus-within:ring-indigo-500/10"
                 >
                     <div className="flex items-center flex-1 pl-4 text-slate-400">
                         <FiSearch className="w-5 h-5 flex-shrink-0" />
@@ -116,7 +116,7 @@ const Banner = () => {
                     </div>
                     <button
                         type="submit"
-                        className="btn btn-sm sm:btn-md bg-indigo-600 hover:bg-indigo-500 border-none text-white px-6 rounded-full shadow-lg transition-all duration-200 normal-case"
+                        className="banner-search-button btn btn-sm sm:btn-md bg-indigo-600 hover:bg-indigo-500 border-none text-white px-6 rounded-full shadow-lg transition-all duration-200 normal-case"
                     >
                         Search
                     </button>
@@ -135,7 +135,7 @@ const Banner = () => {
                             key={idx}
                             type="button"
                             onClick={() => setSearchQuery(tag)}
-                            className="px-3 py-1 text-xs rounded-full bg-slate-800/40 hover:bg-indigo-600/20 text-slate-300 hover:text-indigo-300 border border-slate-700/40 hover:border-indigo-500/40 transition-all duration-200 hover:-translate-y-0.5"
+                            className="banner-tag px-3 py-1 text-xs rounded-full bg-slate-800/40 hover:bg-indigo-600/20 text-slate-300 hover:text-indigo-300 border border-slate-700/40 hover:border-indigo-500/40 transition-all duration-200 hover:-translate-y-0.5"
                         >
                             {tag}
                         </button>
@@ -147,12 +147,12 @@ const Banner = () => {
                     variants={itemVariants}
                     className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4 w-full sm:w-auto"
                 >
-                    <button className="btn btn-md bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white border-none px-8 rounded-xl shadow-xl shadow-indigo-600/20 w-full sm:w-auto group gap-2 normal-case transition-all duration-200 hover:scale-[1.02]">
+                    <button className="banner-primary-cta btn btn-md bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white border-none px-8 rounded-xl shadow-xl shadow-indigo-600/20 w-full sm:w-auto group gap-2 normal-case transition-all duration-200 hover:scale-[1.02]">
                         Explore Premium Prompts
                         <FiArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
                     </button>
 
-                    <button className="btn btn-md btn-link text-slate-400 hover:text-white no-underline hover:no-underline px-6 w-full sm:w-auto normal-case transition-colors duration-200">
+                    <button className="banner-secondary-cta btn btn-md btn-link text-slate-400 hover:text-white no-underline hover:no-underline px-6 w-full sm:w-auto normal-case transition-colors duration-200">
                         Sell Your Prompts
                     </button>
                 </motion.div>
@@ -160,7 +160,7 @@ const Banner = () => {
             </motion.div>
 
             {/* Seam Blender Overlay */}
-            <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#0B1220] to-transparent pointer-events-none" />
+            <div className="banner-seam absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#0B1220] to-transparent pointer-events-none" />
         </section>
     );
 };

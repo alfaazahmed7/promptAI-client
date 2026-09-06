@@ -1,8 +1,7 @@
 // src/app/admin/prompts/page.jsx
 import PromptRow from '@/components/dashboard/admin-dashboard/PromptRow';
 import { getAllUserAddPrompts } from '@/lib/api/userAddPrompts';
-import React from 'react';
-import { FiGrid, FiCheckCircle, FiClock, FiXCircle } from 'react-icons/fi';
+import { FiCheckCircle, FiClock, FiGrid } from 'react-icons/fi';
 
 const AdminAllPromptsPage = async () => {
     const prompts = await getAllUserAddPrompts() || [];
@@ -59,7 +58,7 @@ const AdminAllPromptsPage = async () => {
             </div>
 
             {/* Layout Wrapper */}
-            <div className="bg-[#111827]/40 rounded-xl border border-slate-800/80 shadow-2xl overflow-visible backdrop-blur-sm">
+            <div className="bg-[#111827]/40 rounded-xl border border-slate-800/80 shadow-2xl overflow-hidden backdrop-blur-sm">
                 {/* Desktop Table View */}
                 <div className="hidden lg:block overflow-x-auto">
                     <table className="w-full text-left border-collapse">

@@ -2,20 +2,20 @@
 import { userAddPrompt } from '@/lib/actions/userAddPrompt';
 import { getUserAddPrompts } from '@/lib/api/userAddPrompts';
 import { authClient } from '@/lib/auth-client';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import {
-    FiPlusCircle,
-    FiImage,
+    FiActivity,
     FiAlertTriangle,
-    FiInfo,
     FiCheckCircle,
-    FiLoader,
     FiCode,
-    FiHelpCircle,
-    FiEye,
     FiDollarSign,
-    FiActivity
+    FiEye,
+    FiHelpCircle,
+    FiImage,
+    FiInfo,
+    FiLoader,
+    FiPlusCircle
 } from 'react-icons/fi';
 
 const AddPromptPage = () => {
@@ -156,7 +156,7 @@ const AddPromptPage = () => {
     };
 
     return (
-        <div className="max-w-6xl mx-auto space-y-8 animate-fade-in">
+        <div className="user-add-prompt-page max-w-6xl mx-auto space-y-8 animate-fade-in">
 
             {/* Elegant Header Area */}
             <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-slate-800/80 pb-6 gap-4">
@@ -399,7 +399,7 @@ const AddPromptPage = () => {
                         </h3>
 
                         <div className="space-y-4">
-                            <div className="h-20 rounded-xl bg-[#070b12] border border-dashed border-slate-800 hover:border-slate-700/80 relative flex flex-col items-center justify-center text-center group transition-colors p-1">
+                            <div className="image-upload-zone h-20 rounded-xl bg-[#070b12] border border-dashed border-slate-800 hover:border-slate-700/80 relative flex flex-col items-center justify-center text-center group transition-colors p-1">
 
                                 <input
                                     type="file"

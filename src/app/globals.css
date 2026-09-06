@@ -2,20 +2,25 @@
 @plugin "daisyui";
 
 :root {
-    --background-primary: #fafafb;
-    --background-secondary: #f4f6f8;
-    --section-alternate: #eef2f7;
+    --background-primary: #fcfbf8;
+    --background-secondary: #f7f4ef;
+    --section-alternate: #fffdf9;
     --surface-card: #ffffff;
-    --surface-muted: #f8fafc;
-    --surface-elevated: #ffffff;
-    --border-default: #e2e8f0;
-    --divider: #e5e7eb;
-    --text-primary: #0f172a;
-    --text-secondary: #475569;
-    --text-tertiary: #64748b;
-    --text-placeholder: #94a3b8;
-    --accent-primary: #2563eb;
-    --accent-hover: #1d4ed8;
+    --surface-muted: #f8f5f1;
+    --surface-elevated: #fffefc;
+    --surface-feature: #fff8ef;
+    --border-default: #e7e0d6;
+    --border-strong: #d8d0c4;
+    --divider: #ece7df;
+    --text-primary: #181818;
+    --text-secondary: #505050;
+    --text-tertiary: #6c6c6c;
+    --text-muted: #888176;
+    --text-placeholder: #9a9388;
+    --accent-primary: #f7931e;
+    --accent-hover: #e67e00;
+    --accent-soft: #fff4e8;
+    --accent-border: #ffd5a4;
     --success: #16a34a;
     --warning: #d97706;
     --error: #dc2626;
@@ -49,16 +54,20 @@ body {
 }
 
 body {
-    background-color: var(--background-primary);
-    color: var(--text-secondary);
+    background-color: var(--background-primary) !important;
+    color: var(--text-secondary) !important;
     transition: background-color .25s ease, color .25s ease;
 }
 
-/* Existing page utilities keep the production dark palette and inherit the light tokens here. */
+/* Light mode remaps the existing utility classes without changing dark mode. */
 :root:not(.dark) [class~="bg-[#011627]"],
 :root:not(.dark) [class~="bg-[#0B1220]"],
 :root:not(.dark) [class~="bg-[#0b0f19]"],
 :root:not(.dark) [class~="bg-[#0B0F17]"],
+:root:not(.dark) [class~="bg-[#131926]"] {
+    background-color: var(--background-primary) !important;
+}
+
 :root:not(.dark) [class~="bg-[#0f1422]"],
 :root:not(.dark) [class~="bg-[#111827]"],
 :root:not(.dark) [class~="bg-[#131a26]"],
@@ -66,46 +75,119 @@ body {
 :root:not(.dark) [class~="bg-[#161f30]"],
 :root:not(.dark) [class~="bg-[#1A2536]"],
 :root:not(.dark) [class~="bg-[#121824]"],
-:root:not(.dark) [class~="bg-[#131926]"],
 :root:not(.dark) [class~="bg-[#101722]"],
 :root:not(.dark) [class~="bg-[#0d1321]"],
 :root:not(.dark) [class~="bg-[#0d131f]"],
+:root:not(.dark) [class~="bg-[#1a2333]"],
+:root:not(.dark) [class~="bg-[#152238]"],
 :root:not(.dark) [class~="bg-slate-950"],
 :root:not(.dark) [class~="bg-slate-900"] {
     background-color: var(--surface-card) !important;
 }
 
-:root:not(.dark) [class~="bg-slate-800"],
-:root:not(.dark) [class~="bg-gray-800"],
-:root:not(.dark) [class~="bg-[#1a2333]"],
-:root:not(.dark) [class~="bg-[#152238]"],
-:root:not(.dark) [class~="bg-[#202c40]"],
-:root:not(.dark) [class~="bg-slate-900/20"],
-:root:not(.dark) [class~="bg-slate-900/30"],
-:root:not(.dark) [class~="bg-slate-900/35"],
-:root:not(.dark) [class~="bg-slate-900/40"],
-:root:not(.dark) [class~="bg-slate-900/45"],
-:root:not(.dark) [class~="bg-slate-900/50"],
-:root:not(.dark) [class~="bg-slate-900/60"],
-:root:not(.dark) [class~="bg-slate-900/70"],
-:root:not(.dark) [class~="bg-slate-900/75"],
-:root:not(.dark) [class~="bg-slate-900/80"],
-:root:not(.dark) [class~="bg-slate-950/40"],
-:root:not(.dark) [class~="bg-slate-950/50"] {
+:root:not(.dark) [class*="bg-[#111827]/"],
+:root:not(.dark) [class*="bg-[#0b0f19]/"],
+:root:not(.dark) [class*="bg-[#0f1422]/"],
+:root:not(.dark) [class*="bg-[#161f30]/"],
+:root:not(.dark) [class*="bg-[#131a26]/"] {
+    background-color: var(--surface-card) !important;
+}
+
+:root:not(.dark) [class*="bg-slate-900/"],
+:root:not(.dark) [class*="bg-slate-950/"],
+:root:not(.dark) [class*="bg-slate-800/"],
+:root:not(.dark) [class*="bg-gray-800/"] {
     background-color: var(--surface-muted) !important;
 }
 
-:root:not(.dark) [class~="border-slate-800"],
-:root:not(.dark) [class~="border-slate-700"],
-:root:not(.dark) [class~="border-gray-700"],
-:root:not(.dark) [class~="border-gray-700/40"],
-:root:not(.dark) [class~="border-slate-800/50"],
-:root:not(.dark) [class~="border-slate-800/60"],
-:root:not(.dark) [class~="border-slate-800/80"] {
+:root:not(.dark) [class~="bg-slate-800"],
+:root:not(.dark) [class~="bg-gray-800"],
+:root:not(.dark) [class~="bg-slate-700"],
+:root:not(.dark) [class*="bg-slate-700/"] {
+    background-color: var(--surface-muted) !important;
+}
+
+:root:not(.dark) [class*="border-slate-"],
+:root:not(.dark) [class*="border-gray-"],
+:root:not(.dark) [class*="border-zinc-"],
+:root:not(.dark) [class*="border-neutral-"] {
     border-color: var(--border-default) !important;
 }
 
-:root:not(.dark) [class~="bg-slate-700/50"],
+:root:not(.dark) [class*="text-slate-"],
+:root:not(.dark) [class*="text-gray-"],
+:root:not(.dark) [class*="text-zinc-"],
+:root:not(.dark) [class*="text-neutral-"] {
+    color: var(--text-secondary) !important;
+}
+
+:root:not(.dark) [class*="bg-blue-"],
+:root:not(.dark) [class*="bg-indigo-"] {
+    background-color: var(--accent-soft) !important;
+}
+
+:root:not(.dark) [class~="bg-blue-600"],
+:root:not(.dark) [class~="bg-indigo-600"],
+:root:not(.dark) [class~="bg-blue-500"],
+:root:not(.dark) [class~="bg-indigo-500"] {
+    background-color: var(--accent-primary) !important;
+}
+
+:root:not(.dark) [class*="text-blue-"],
+:root:not(.dark) [class*="text-indigo-"],
+:root:not(.dark) [class*="text-purple-"] {
+    color: var(--accent-hover) !important;
+}
+
+:root:not(.dark) [class*="border-blue-"],
+:root:not(.dark) [class*="border-indigo-"],
+:root:not(.dark) [class*="border-purple-"] {
+    border-color: var(--accent-border) !important;
+}
+
+:root:not(.dark) [class*="ring-blue-"],
+:root:not(.dark) [class*="ring-indigo-"] {
+    --tw-ring-color: rgba(247, 147, 30, .15) !important;
+}
+
+:root:not(.dark) [class*="hover:bg-slate-"]:hover,
+:root:not(.dark) [class*="hover:bg-gray-"]:hover,
+:root:not(.dark) [class*="hover:bg-blue-"]:hover,
+:root:not(.dark) [class*="hover:bg-indigo-"]:hover {
+    background-color: var(--accent-soft) !important;
+}
+
+:root:not(.dark) [class*="hover:text-blue-"]:hover,
+:root:not(.dark) [class*="hover:text-indigo-"]:hover,
+:root:not(.dark) [class*="hover:text-purple-"]:hover {
+    color: var(--accent-hover) !important;
+}
+
+:root:not(.dark) [class~="text-slate-400"],
+:root:not(.dark) [class~="text-gray-400"],
+:root:not(.dark) [class~="text-slate-500"],
+:root:not(.dark) [class~="text-gray-500"] {
+    color: var(--text-muted) !important;
+}
+
+:root:not(.dark) [class~="text-slate-600"],
+:root:not(.dark) [class~="text-gray-600"] {
+    color: var(--text-tertiary) !important;
+}
+
+:root:not(.dark) [class~="text-slate-700"],
+:root:not(.dark) [class~="text-gray-700"] {
+    color: var(--text-secondary) !important;
+}
+
+:root:not(.dark) [class~="text-slate-100"],
+:root:not(.dark) [class~="text-slate-200"],
+:root:not(.dark) [class~="text-slate-300"],
+:root:not(.dark) [class~="text-gray-100"],
+:root:not(.dark) [class~="text-gray-300"] {
+    color: var(--text-secondary) !important;
+}
+
 :root:not(.dark) [class~="bg-slate-700/60"],
 :root:not(.dark) [class~="bg-slate-700/80"],
 :root:not(.dark) [class~="bg-slate-800/60"],
@@ -169,15 +251,670 @@ body {
     color: var(--text-primary) !important;
 }
 
+:root:not(.dark) h1,
+:root:not(.dark) h2,
+:root:not(.dark) h3,
+:root:not(.dark) h4,
+:root:not(.dark) h5,
+:root:not(.dark) h6 {
+    color: var(--text-primary);
+}
+
+:root:not(.dark) [class~="bg-white/5"],
+:root:not(.dark) [class~="bg-white/[0.03]"] {
+    background-color: var(--surface-muted) !important;
+}
+
+:root:not(.dark) [class*="shadow-[0_0_"],
+:root:not(.dark) [class*="shadow-[0_15px"],
+:root:not(.dark) [class*="shadow-black"] {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .04) !important;
+}
+
+:root:not(.dark) [class~="bg-red-50"],
+:root:not(.dark) [class~="bg-rose-50"] {
+    background-color: #fff1f0 !important;
+}
+
+:root:not(.dark) [class~="bg-emerald-50"],
+:root:not(.dark) [class~="bg-green-50"] {
+    background-color: #effaf1 !important;
+}
+
+:root:not(.dark) [class~="bg-amber-50"] {
+    background-color: var(--surface-feature) !important;
+}
+
+:root:not(.dark) [class~="bg-white"] {
+    background-color: var(--surface-card) !important;
+}
+
+:root:not(.dark) [class~="border-white"] {
+    border-color: var(--border-default) !important;
+}
+
+:root:not(.dark) [class~="text-white"] {
+    color: var(--text-primary);
+}
+
+:root:not(.dark) button[class*="bg-"] [class~="text-white"],
+:root:not(.dark) a[class*="bg-"] [class~="text-white"] {
+    color: #ffffff;
+}
+
+:root:not(.dark) button[class~="text-white"],
+:root:not(.dark) a[class~="text-white"],
+:root:not(.dark) [role="button"][class~="text-white"] {
+    color: #ffffff !important;
+}
+
 :root:not(.dark) input,
 :root:not(.dark) textarea,
 :root:not(.dark) select {
     color: var(--text-primary);
     background-color: var(--surface-card);
-    border-color: #cbd5e1;
+    border-color: #ddd6ca;
+    box-shadow: none;
 }
 
 :root:not(.dark) input::placeholder,
 :root:not(.dark) textarea::placeholder {
     color: var(--text-placeholder);
+}
+
+:root:not(.dark) input:focus,
+:root:not(.dark) textarea:focus,
+:root:not(.dark) select:focus {
+    border-color: var(--accent-primary) !important;
+    --tw-ring-color: rgba(247, 147, 30, .15) !important;
+}
+
+:root:not(.dark) .theme-nav-primary,
+:root:not(.dark) .theme-footer-primary {
+    color: var(--text-secondary);
+}
+
+:root:not(.dark) .theme-nav-muted,
+:root:not(.dark) .theme-footer-secondary {
+    color: var(--text-tertiary);
+}
+
+:root:not(.dark) .theme-footer {
+    background-color: #f2ede5 !important;
+    border-top: 1px solid #ddd6ca;
+}
+
+:root:not(.dark) nav:not(.bg-transparent) {
+    background-color: rgba(252, 251, 248, .92) !important;
+    border-bottom: 1px solid var(--border-default);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, .04);
+}
+
+:root:not(.dark) .theme-nav-primary:hover,
+:root:not(.dark) nav a:hover {
+    color: var(--accent-primary);
+}
+
+:root:not(.dark) nav [class*="hover:bg-"]:hover {
+    background-color: var(--accent-soft) !important;
+}
+
+:root:not(.dark) nav button[aria-label*="Switch"] {
+    color: var(--text-secondary);
+    background-color: var(--surface-card);
+    border: 1px solid var(--border-default);
+}
+
+:root:not(.dark) nav button[aria-label*="Switch"]:hover {
+    color: var(--accent-hover);
+    background-color: var(--accent-soft);
+    border-color: var(--accent-border);
+}
+
+/* Dark mode: mirror the bordered, hover-aware navbar theme toggle design that
+   light mode gets (the toggle's JSX only has `border-gray-200`/`hover:text-white`,
+   which produce no visible border in dark mode). Use the dark-theme tokens so the
+   border + hover states look consistent with the light-mode version. */
+.dark nav button[aria-label*="Switch"] {
+    color: var(--text-secondary);
+    background-color: var(--surface-muted) !important;
+    border: 1px solid var(--border-default);
+}
+
+.dark nav button[aria-label*="Switch"]:hover {
+    color: var(--accent-hover);
+    background-color: rgba(91, 140, 255, .14) !important;
+    border-color: var(--accent-primary);
+}
+
+/* Prevent the light-mode navbar border (added by `:root:not(.dark) nav`
+   below) from lingering as a white line at the bottom edge when toggling
+   light -> dark. The nav's `transition-all` otherwise animates the light
+   border color out, leaving a light residue in dark mode. */
+.dark nav {
+    border-bottom: none !important;
+}
+
+:root:not(.dark) nav [class~="bg-slate-900"] {
+    background-color: var(--surface-card) !important;
+}
+
+/* Dashboard light mode: warm shell, stone borders, orange interaction states. */
+:root:not(.dark) .dashboard-shell {
+    background-color: #fcfbf8 !important;
+    color: #505050 !important;
+}
+
+:root:not(.dark) .dashboard-main {
+    background-color: #fcfbf8 !important;
+}
+
+:root:not(.dark) .dashboard-sidebar {
+    background-color: #f7f4ef !important;
+    border-color: #e7e0d6 !important;
+    color: #505050 !important;
+}
+
+:root:not(.dark) .dashboard-sidebar .dashboard-nav-link {
+    color: #6c6c6c !important;
+    border-color: transparent !important;
+    background: transparent !important;
+}
+
+:root:not(.dark) .dashboard-sidebar .dashboard-nav-link:hover {
+    color: #d97706 !important;
+    background: #fff5ea !important;
+}
+
+:root:not(.dark) .dashboard-sidebar .dashboard-nav-link[class*="bg-gradient-to-r"] {
+    background: #fff1e2 !important;
+    border: 1px solid transparent !important;
+    border-left: 4px solid #f7931e !important;
+    color: #d97706 !important;
+}
+
+:root:not(.dark) .dashboard-sidebar .dashboard-nav-link[class*="bg-gradient-to-r"] svg {
+    color: #f7931e !important;
+}
+
+:root:not(.dark) .dashboard-sidebar [class*="text-teal-"],
+:root:not(.dark) .dashboard-sidebar [class*="text-emerald-"] {
+    color: #d97706 !important;
+}
+
+:root:not(.dark) .dashboard-sidebar [class*="bg-teal-"],
+:root:not(.dark) .dashboard-sidebar [class*="bg-emerald-"] {
+    background-color: #fff4e8 !important;
+    border-color: #ffd5a4 !important;
+}
+
+:root:not(.dark) .dashboard-sidebar>div:last-child {
+    background-color: #f7f4ef !important;
+    border-color: #e7e0d6 !important;
+}
+
+:root:not(.dark) .dashboard-sidebar a.text-white,
+:root:not(.dark) .dashboard-sidebar a[class*="text-white"] {
+    color: #181818 !important;
+}
+
+:root:not(.dark) .dashboard-main>div>.grid>div[class*="bg-[#111827]"],
+:root:not(.dark) .dashboard-main>div>.grid>div[class*="bg-[#131a26]"] {
+    background: #ffffff !important;
+    border-color: #e7e0d6 !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .04) !important;
+}
+
+:root:not(.dark) .dashboard-main>div>.grid>div[class*="bg-[#111827]"]>div:first-child,
+:root:not(.dark) .dashboard-main>div>.grid>div[class*="bg-[#131a26]"]>div:first-child {
+    background: #fff4e8 !important;
+    border-color: #ffd5a4 !important;
+    color: #f7931e !important;
+}
+
+:root:not(.dark) .dashboard-main>div>.grid>div[class*="bg-[#111827]"] p,
+:root:not(.dark) .dashboard-main>div>.grid>div[class*="bg-[#131a26]"] p {
+    color: #6c6c6c !important;
+}
+
+:root:not(.dark) .dashboard-main>div>.grid>div[class*="bg-[#111827]"] p.text-2xl,
+:root:not(.dark) .dashboard-main>div>.grid>div[class*="bg-[#131a26]"] p.text-2xl {
+    color: #181818 !important;
+}
+
+:root:not(.dark) .creator-analytics-metric-card {
+    background: #ffffff !important;
+    border-color: #e7e0d6 !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .04) !important;
+}
+
+:root:not(.dark) .dashboard-main>div>.grid>.creator-analytics-metric-card[class*="bg-[#111827]"]>div:first-child {
+    background: transparent !important;
+    color: inherit !important;
+    padding: 0 !important;
+}
+
+:root:not(.dark) .creator-analytics-metric-card h3 {
+    color: #181818 !important;
+}
+
+:root:not(.dark) .dashboard-stat-card {
+    background: #ffffff !important;
+    border: 1px solid #e7e0d6 !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .04) !important;
+}
+
+:root:not(.dark) .dashboard-stat-card:hover {
+    background: #ffffff !important;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, .08) !important;
+}
+
+:root:not(.dark) .dashboard-stat-card p {
+    color: #6c6c6c !important;
+}
+
+:root:not(.dark) .dashboard-stat-card h3 {
+    color: #181818 !important;
+}
+
+:root:not(.dark) .dashboard-stat-card>div:last-child {
+    background: #fff4e8 !important;
+    color: #f7931e !important;
+}
+
+:root:not(.dark) .dashboard-shell table {
+    background: #ffffff !important;
+    border-color: #ece7df !important;
+}
+
+:root:not(.dark) .dashboard-shell table thead tr {
+    background: #f7f4ef !important;
+    color: #2b2b2b !important;
+    border-color: #ece7df !important;
+}
+
+:root:not(.dark) .dashboard-shell table tbody tr {
+    background: #ffffff !important;
+    color: #505050 !important;
+    border-color: #ece7df !important;
+}
+
+:root:not(.dark) .dashboard-shell table tbody tr:nth-child(even) {
+    background: #fffdf9 !important;
+}
+
+:root:not(.dark) .dashboard-shell table tbody tr:hover {
+    background: #fff8ef !important;
+}
+
+:root:not(.dark) .dashboard-table-container {
+    background: #ffffff !important;
+    border-color: #e7e0d6 !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .04) !important;
+}
+
+:root:not(.dark) .dashboard-shell [class*="bg-emerald-500"][class*="text-emerald-"],
+:root:not(.dark) .dashboard-shell [class*="bg-cyan-500"][class*="text-cyan-"],
+:root:not(.dark) .dashboard-shell [class*="bg-purple-500"][class*="text-purple-"] {
+    background: #fff4e8 !important;
+    color: #d97706 !important;
+    border-color: #ffd5a4 !important;
+}
+
+:root:not(.dark) .dashboard-shell [class*="bg-indigo-500"][class*="text-indigo-"] {
+    background: #fef3c7 !important;
+    color: #b45309 !important;
+    border-color: #f5d98b !important;
+}
+
+:root:not(.dark) .dashboard-shell [class*="bg-rose-500"][class*="text-rose-"] {
+    background: #fdecec !important;
+    color: #b91c1c !important;
+    border-color: #f3c7c7 !important;
+}
+
+:root:not(.dark) .dashboard-shell [class*="bg-blue-500"][class*="text-blue-"] {
+    background: #f5f2ec !important;
+    color: #44403c !important;
+    border-color: #e7e0d6 !important;
+}
+
+:root:not(.dark) .dashboard-shell [class*="bg-slate-500"][class*="text-slate-"],
+:root:not(.dark) .dashboard-shell [class*="bg-slate-800"][class*="text-slate-"] {
+    background: #f5f2ec !important;
+    color: #78716c !important;
+    border-color: #e7e0d6 !important;
+}
+
+:root:not(.dark) .dashboard-shell .dashboard-action-edit[class] {
+    background: #ffffff !important;
+    border-color: #e7e0d6 !important;
+    color: #f7931e !important;
+}
+
+:root:not(.dark) .dashboard-shell .dashboard-action-edit[class]:hover {
+    background: #fff5ea !important;
+    color: #e67e00 !important;
+}
+
+:root:not(.dark) .dashboard-shell .dashboard-action-delete[class] {
+    background: transparent !important;
+    border-color: transparent !important;
+    color: #6c6c6c !important;
+}
+
+:root:not(.dark) .dashboard-shell .dashboard-action-delete[class]:hover {
+    background: #fdecec !important;
+    color: #b91c1c !important;
+}
+
+:root:not(.dark) .user-add-prompt-page .image-upload-zone,
+:root:not(.dark) .creator-add-prompt-page .image-upload-zone {
+    background: #fffdf9 !important;
+    border-color: #d8d0c4 !important;
+    box-shadow: inset 0 0 0 1px rgba(247, 147, 30, .04);
+}
+
+:root:not(.dark) .user-add-prompt-page .image-upload-zone:hover,
+:root:not(.dark) .creator-add-prompt-page .image-upload-zone:hover {
+    background: #fff8ef !important;
+    border-color: #f7931e !important;
+}
+
+:root:not(.dark) .user-add-prompt-page .image-upload-zone svg,
+:root:not(.dark) .creator-add-prompt-page .image-upload-zone svg {
+    color: #f7931e !important;
+}
+
+:root:not(.dark) .user-add-prompt-page .image-upload-zone span,
+:root:not(.dark) .creator-add-prompt-page .image-upload-zone span {
+    color: #6c6c6c !important;
+}
+
+:root:not(.dark) .user-add-prompt-page .image-upload-zone span:first-of-type,
+:root:not(.dark) .creator-add-prompt-page .image-upload-zone span:first-of-type {
+    color: #2d2d2d !important;
+}
+
+:root:not(.dark) .user-add-prompt-page .image-upload-zone .text-emerald-400,
+:root:not(.dark) .creator-add-prompt-page .image-upload-zone .text-emerald-400 {
+    color: #d97706 !important;
+}
+
+:root:not(.dark) .user-profile-page .premium-active-banner {
+    background: #fff8ef !important;
+    border-color: #ffd5a4 !important;
+    color: #505050 !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .04) !important;
+}
+
+:root:not(.dark) .user-profile-page .premium-active-icon {
+    background: #fff4e8 !important;
+    border-color: #ffd5a4 !important;
+    color: #f7931e !important;
+}
+
+:root:not(.dark) .user-profile-page .premium-active-banner h3 {
+    color: #181818 !important;
+}
+
+:root:not(.dark) .user-profile-page .premium-active-banner p {
+    color: #6c6c6c !important;
+}
+
+/* Public page refinements for light mode. */
+:root:not(.dark) .homepage-banner {
+    background: #fcfbf8 !important;
+}
+
+:root:not(.dark) .homepage-banner img {
+    opacity: .06 !important;
+}
+
+:root:not(.dark) .homepage-banner .banner-glow {
+    background: rgba(247, 147, 30, .08) !important;
+    opacity: .7;
+}
+
+:root:not(.dark) .banner-badge {
+    background: #fff4e8 !important;
+    border-color: #ffd5a4 !important;
+    color: #d97706 !important;
+}
+
+:root:not(.dark) .banner-heading {
+    color: #181818 !important;
+}
+
+:root:not(.dark) .banner-highlight {
+    background-image: linear-gradient(90deg, #f7931e, #e67e00) !important;
+}
+
+:root:not(.dark) .banner-description {
+    color: #505050 !important;
+}
+
+:root:not(.dark) .banner-search {
+    background: #ffffff !important;
+    border-color: #e7e0d6 !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .04) !important;
+}
+
+:root:not(.dark) .banner-search>div {
+    color: #6c6c6c !important;
+}
+
+:root:not(.dark) .banner-search-button,
+:root:not(.dark) .banner-primary-cta {
+    background: #f7931e !important;
+    color: #ffffff !important;
+    box-shadow: 0 10px 28px rgba(247, 147, 30, .16) !important;
+}
+
+:root:not(.dark) .banner-search-button:hover,
+:root:not(.dark) .banner-primary-cta:hover {
+    background: #e67e00 !important;
+}
+
+:root:not(.dark) .banner-tag {
+    background: #fffdf9 !important;
+    border-color: #e7e0d6 !important;
+    color: #6c6c6c !important;
+}
+
+:root:not(.dark) .banner-tag:hover {
+    background: #fff4e8 !important;
+    border-color: #ffd5a4 !important;
+    color: #d97706 !important;
+}
+
+:root:not(.dark) .banner-secondary-cta {
+    color: #505050 !important;
+}
+
+:root:not(.dark) .banner-secondary-cta:hover {
+    color: #d97706 !important;
+}
+
+:root:not(.dark) .banner-seam {
+    background: linear-gradient(to top, #f7f4ef, transparent) !important;
+}
+
+:root:not(.dark) .profile-page {
+    background: #fcfbf8 !important;
+    color: #505050 !important;
+}
+
+:root:not(.dark) .profile-hero {
+    background: #e7e0d6 !important;
+    border-color: #e7e0d6 !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .04) !important;
+}
+
+:root:not(.dark) .profile-hero-surface,
+:root:not(.dark) .profile-panel,
+:root:not(.dark) .profile-metric {
+    background: #ffffff !important;
+    border-color: #e7e0d6 !important;
+    color: #505050 !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .04) !important;
+}
+
+:root:not(.dark) .profile-hero-surface h1,
+:root:not(.dark) .profile-panel h2,
+:root:not(.dark) .profile-metric p:last-child {
+    color: #181818 !important;
+}
+
+:root:not(.dark) .profile-page [class*="bg-indigo-"],
+:root:not(.dark) .profile-page [class*="bg-emerald-"],
+:root:not(.dark) .profile-page [class*="bg-amber-"] {
+    background: #fff4e8 !important;
+    color: #d97706 !important;
+}
+
+:root:not(.dark) .profile-page [class*="text-indigo-"],
+:root:not(.dark) .profile-page [class*="text-emerald-"],
+:root:not(.dark) .profile-page [class*="text-amber-"] {
+    color: #d97706 !important;
+}
+
+:root:not(.dark) .profile-page [class*="border-slate-"],
+:root:not(.dark) .profile-page [class*="border-indigo-"] {
+    border-color: #e7e0d6 !important;
+}
+
+:root:not(.dark) .profile-page .profile-panel a:hover {
+    background: #fff8ef !important;
+    border-color: #ffd5a4 !important;
+}
+
+:root:not(.dark) .pricing-page {
+    background: #fcfbf8 !important;
+}
+
+:root:not(.dark) .pricing-glow {
+    background: rgba(247, 147, 30, .08) !important;
+    opacity: .6;
+}
+
+:root:not(.dark) .pricing-premium-hero,
+:root:not(.dark) .pricing-card,
+:root:not(.dark) .pricing-details {
+    background: #ffffff !important;
+    border-color: #e7e0d6 !important;
+    color: #505050 !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .04) !important;
+}
+
+:root:not(.dark) .pricing-featured {
+    border-color: #f7931e !important;
+    background: #fffdf9 !important;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, .08) !important;
+}
+
+:root:not(.dark) .pricing-page h1,
+:root:not(.dark) .pricing-page h2,
+:root:not(.dark) .pricing-page p.text-5xl {
+    color: #181818 !important;
+}
+
+:root:not(.dark) .pricing-page [class*="text-indigo-"],
+:root:not(.dark) .pricing-page [class*="text-emerald-"],
+:root:not(.dark) .pricing-page [class*="text-amber-"] {
+    color: #d97706 !important;
+}
+
+:root:not(.dark) .pricing-page [class*="bg-indigo-"],
+:root:not(.dark) .pricing-page [class*="bg-emerald-"],
+:root:not(.dark) .pricing-page [class*="bg-slate-"] {
+    background: #fff4e8 !important;
+}
+
+:root:not(.dark) .pricing-page .btn.bg-indigo-600,
+:root:not(.dark) .pricing-page button[type="submit"] {
+    background: #f7931e !important;
+    color: #ffffff !important;
+    border-color: #f7931e !important;
+}
+
+:root:not(.dark) .pricing-page .btn.bg-indigo-600:hover,
+:root:not(.dark) .pricing-page button[type="submit"]:hover {
+    background: #e67e00 !important;
+}
+
+:root:not(.dark) .pricing-page [class*="border-slate-"],
+:root:not(.dark) .pricing-page [class*="border-indigo-"] {
+    border-color: #e7e0d6 !important;
+}
+
+:root:not(.dark) .pricing-page .pricing-featured [class*="bg-gradient-"] {
+    background: #f7931e !important;
+}
+
+:root:not(.dark) .footer-seam {
+    background: linear-gradient(to bottom, #f2ede5, transparent) !important;
+}
+
+:root:not(.dark) .footer-newsletter {
+    background: #fffdf9 !important;
+    border-color: #ddd6ca !important;
+}
+
+:root:not(.dark) .footer-newsletter-button {
+    background: #f7931e !important;
+}
+
+:root:not(.dark) .footer-newsletter-button:hover {
+    background: #e67e00 !important;
+}
+
+:root:not(.dark) .footer-divider {
+    background: #ddd6ca !important;
+}
+
+:root:not(.dark) .footer-social {
+    background: #fffdf9 !important;
+    border-color: #ddd6ca !important;
+    color: #505050 !important;
+}
+
+:root:not(.dark) .footer-social:hover {
+    background: #fff4e8 !important;
+    border-color: #ffd5a4 !important;
+    color: #d97706 !important;
+}
+
+/* Interactive Playground light mode: warm shell, stone borders, orange accent.
+   The tabs keep their dark-utility backgrounds so dark mode is unchanged; these
+   scoped rules override them only when :root is NOT .dark.
+   NOTE: the active tab deliberately avoids the `text-white` utility (a base
+   light-mode rule forces any white button text to stay #fff, which would be
+   invisible on the light active background). White is instead applied explicitly
+   under the `.dark` scope below, keeping dark mode identical. */
+:root:not(.dark) .playground-tabs {
+    background-color: #f7f4ef !important;
+    border-color: #e7e0d6 !important;
+}
+
+:root:not(.dark) button.playground-tab-active {
+    background-color: #fffdf9 !important;
+    border-color: #ffd5a4 !important;
+    color: #d97706 !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .04) !important;
+}
+
+:root:not(.dark) button.playground-tab:not(.playground-tab-active) {
+    color: #6c6c6c !important;
+}
+
+:root:not(.dark) button.playground-tab:not(.playground-tab-active):hover {
+    background-color: #fff4e8 !important;
+    color: #d97706 !important;
+}
+
+/* Dark mode: restore the white active-tab label that the JSX no longer carries
+   via `text-white` (removed to avoid the light-mode forced-white conflict). */
+.dark button.playground-tab-active {
+    color: #ffffff !important;
 }

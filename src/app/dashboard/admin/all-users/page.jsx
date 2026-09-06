@@ -1,8 +1,7 @@
 // src/app/admin/users/page.jsx (or your specific path)
 import UserRow from '@/components/dashboard/admin-dashboard/UserRow';
 import { getUsers } from '@/lib/api/users';
-import React from 'react';
-import { FiUsers, FiUserCheck, FiShield, FiSearch, FiFilter } from 'react-icons/fi';
+import { FiShield, FiUserCheck, FiUsers } from 'react-icons/fi';
 
 const AdminAllUsersPage = async () => {
     const users = await getUsers() || [];
@@ -69,7 +68,7 @@ const AdminAllUsersPage = async () => {
             </div> */}
 
             {/* Layout Wrapper handles rendering rows dynamically */}
-            <div className="bg-[#111827]/40 rounded-xl border border-slate-800/80 shadow-2xl overflow-visible backdrop-blur-sm">
+            <div className="bg-[#111827]/40 rounded-xl border border-slate-800/80 shadow-2xl overflow-hidden backdrop-blur-sm">
                 {/* Desktop View */}
                 <div className="hidden md:block overflow-x-auto">
                     <table className="w-full text-left border-collapse">

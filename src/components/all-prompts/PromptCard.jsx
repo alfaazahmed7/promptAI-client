@@ -73,7 +73,7 @@ const PromptCard = ({ prompt }) => {
                     {/* Action Metrics & Links */}
                     <div className="flex items-center gap-2">
                         {/* Read-Only Copy Metric Badge */}
-                        <div className="flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1.5 rounded-lg border border-gray-700/40 bg-[#1e293b] text-gray-300">
+                        <div className="flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1.5 rounded-lg border border-gray-700/40 bg-slate-800 text-gray-300">
                             <FiCopy className="text-sm text-gray-500" />
                             <span>{prompt.copyCount || 0}</span>
                         </div>

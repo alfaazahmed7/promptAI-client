@@ -48,7 +48,7 @@ const PromptHeader = ({ prompt }) => {
             <div className="flex flex-wrap items-center gap-4 pt-4 border-t border-gray-700/40 text-xs text-gray-400">
                 <div className="flex items-center gap-2">
                     <div className="avatar placeholder">
-                        <div className="bg-[#1e293b] text-gray-200 rounded-full w-6">
+                        <div className="bg-slate-800 text-gray-200 rounded-full w-6">
                             <span>{prompt.creatorName?.[0] || 'A'}</span>
                         </div>
                     </div>

@@ -45,7 +45,7 @@ const Footer = () => {
         <footer className="theme-footer relative bg-[#0B0F17] overflow-hidden pt-20 pb-10">
 
             {/* Seam Blender: Fades the previous section down into the footer */}
-            <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-[#0B1220] to-transparent pointer-events-none" />
+            <div className="footer-seam absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-[#0B1220] to-transparent pointer-events-none" />
 
             <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
@@ -68,14 +68,14 @@ const Footer = () => {
                             <h4 className="theme-footer-secondary text-xs font-semibold uppercase tracking-wider">
                                 Get Fresh Prompts Weekly
                             </h4>
-                            <form className="relative max-w-sm flex items-center bg-white/[0.03] border border-slate-800 p-1 rounded-xl focus-within:border-indigo-500/60 transition-colors">
+                            <form className="footer-newsletter relative max-w-sm flex items-center bg-white/[0.03] border border-slate-800 p-1 rounded-xl focus-within:border-indigo-500/60 transition-colors">
                                 <input
                                     type="email"
                                     placeholder="Enter your email"
                                     className="w-full bg-transparent border-none outline-none text-white placeholder-slate-600 text-sm py-2 px-3 focus:ring-0"
                                     required
                                 />
-                                <button className="p-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white transition-colors">
+                                <button className="footer-newsletter-button p-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white transition-colors">
                                     <FiArrowRight className="w-4 h-4" />
                                 </button>
                             </form>
@@ -138,7 +138,7 @@ const Footer = () => {
                 </div>
 
                 {/* Divider Line */}
-                <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-slate-800 to-transparent" />
+                <div className="footer-divider h-[1px] w-full bg-gradient-to-r from-transparent via-slate-800 to-transparent" />
 
                 {/* Bottom Section: Copyright + Social Media */}
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pt-10">
@@ -161,7 +161,7 @@ const Footer = () => {
                                 aria-label={social.label}
                                 whileHover={{ y: -3, scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
-                                className="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-900/50 hover:bg-indigo-600/10 text-slate-400 hover:text-indigo-400 border border-slate-800/80 hover:border-indigo-500/30 transition-colors duration-200"
+                                className="footer-social w-10 h-10 flex items-center justify-center rounded-xl bg-slate-900/50 hover:bg-indigo-600/10 text-slate-400 hover:text-indigo-400 border border-slate-800/80 hover:border-indigo-500/30 transition-colors duration-200"
                             >
                                 {social.icon}
                             </motion.a>

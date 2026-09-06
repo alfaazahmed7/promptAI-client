@@ -1,7 +1,6 @@
 // src/app/admin/reports/page.jsx
 import ReportRow from '@/components/dashboard/admin-dashboard/ReportRow';
 import { getAllReports } from '@/lib/api/reports';
-import React from 'react';
 import { FiAlertTriangle, FiCheckSquare, FiShield } from 'react-icons/fi';
 
 const AdminReportedPrompts = async () => {
@@ -56,7 +55,7 @@ const AdminReportedPrompts = async () => {
             </div>
 
             {/* Layout Wrapper */}
-            <div className="bg-[#111827]/40 rounded-xl border border-slate-800/80 shadow-2xl overflow-visible backdrop-blur-sm">
+            <div className="bg-[#111827]/40 rounded-xl border border-slate-800/80 shadow-2xl overflow-hidden backdrop-blur-sm">
                 {/* Desktop Responsive Table View */}
                 <div className="hidden lg:block overflow-x-auto">
                     <table className="w-full text-left border-collapse">
