@@ -22,7 +22,7 @@ const PromptCard = ({ prompt }) => {
                     src={prompt.image || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80"}
                     alt={prompt.title || "Prompt Thumbnail"}
                     fill
-                    sizes="(max-w-768px) 100vw, (max-w-1200px) 50vw, 33vw"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
                     priority={isPremium}
                     className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                 />
@@ -50,7 +50,7 @@ const PromptCard = ({ prompt }) => {
             </div>
 
             {/* Card Content Details */}
-            <div className="p-5 flex flex-col flex-1 justify-between text-white">
+            <div className="p-4 sm:p-5 flex flex-col flex-1 justify-between text-white">
                 <div>
                     {/* Card Title */}
                     <h3 className={`text-base font-bold tracking-tight transition-colors duration-300 line-clamp-1 ${
@@ -66,7 +66,7 @@ const PromptCard = ({ prompt }) => {
                 </div>
 
                 {/* Bottom Row / Utility Metrics */}
-                <div className="mt-5 pt-4 border-t border-slate-800/80 flex items-center justify-between">
+                <div className="mt-5 pt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
                     {/* Creator Flag info */}
                     <div className="flex items-center gap-1.5 text-xs text-slate-400 font-medium">
                         <div className="p-1 rounded-full bg-slate-800 text-slate-400">

@@ -43,7 +43,7 @@ const UserAnalyticsModal = ({ isOpen, onClose, prompt }) => {
                     </div>
 
                     {/* Analytics Metrics Grid */}
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 min-[420px]:grid-cols-2 gap-4">
                         {/* Total Copies Stat */}
                         <div className="p-4 bg-slate-900/40 border border-slate-800 rounded-xl flex items-center gap-3">
                             <div className="p-3 bg-indigo-500/10 text-indigo-400 rounded-lg">

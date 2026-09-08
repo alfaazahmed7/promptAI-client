@@ -172,7 +172,7 @@ const Navbar = () => {
 
             {/* Mobile Menu Dropdown */}
             <div className={`md:hidden transition-all duration-300 ease-in-out ${isOpen ? "block" : "hidden"}`}>
-                <div className="px-4 pt-2 pb-4 space-y-3 bg-slate-900 flex flex-col">
+                <div className="px-4 pt-2 pb-4 space-y-3 bg-slate-900 flex flex-col border-t border-slate-800/60 shadow-2xl">
                     {centerLinks.map((link) => (
                         <div key={link.href} onClick={() => setIsOpen(false)}>
                             <NavLink href={link.href}>{link.name}</NavLink>

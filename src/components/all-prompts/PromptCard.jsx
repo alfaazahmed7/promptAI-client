@@ -21,7 +21,7 @@ const PromptCard = ({ prompt }) => {
                     src={prompt.image || prompt.logoUrl}
                     alt={prompt.title || "Prompt Thumbnail"}
                     fill
-                    sizes="(max-w-768px) 100vw, (max-w-1200px) 50vw, 33vw"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
                     priority={isPremium}
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
@@ -46,7 +46,7 @@ const PromptCard = ({ prompt }) => {
             </div>
 
             {/* Card Content Details */}
-            <div className="p-5 flex flex-col flex-1 justify-between bg-[#161f30] text-white">
+            <div className="p-4 sm:p-5 flex flex-col flex-1 justify-between bg-[#161f30] text-white">
                 <div>
                     {/* Card Title */}
                     <h3 className={`text-lg font-bold tracking-tight transition-colors duration-200 line-clamp-1 ${isPremium
@@ -63,7 +63,7 @@ const PromptCard = ({ prompt }) => {
                 </div>
 
                 {/* Bottom Row / Metric Utilities */}
-                <div className="mt-5 pt-4 border-t border-gray-700/40 flex items-center justify-between">
+                <div className="mt-5 pt-4 border-t border-gray-700/40 flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
                     {/* Creator Information */}
                     <div className="flex items-center gap-1.5 text-xs text-gray-400 font-medium">
                         <FiUser className="text-base text-gray-500 shrink-0" />

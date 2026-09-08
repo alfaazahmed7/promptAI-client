@@ -84,7 +84,7 @@ const Banner = () => {
                     variants={itemVariants}
                     className="banner-heading text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-[1.15] max-w-4xl"
                 >
-                    Ignite Your Creativity with <br />
+                    Ignite Your Creativity with <br className="hidden sm:inline" />
                     <span className="banner-highlight text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-[#dc2f02]">
                         Expert AI Prompts
                     </span>
@@ -116,7 +116,7 @@ const Banner = () => {
                     </div>
                     <button
                         type="submit"
-                        className="banner-search-button btn btn-sm sm:btn-md bg-indigo-600 hover:bg-indigo-500 border-none text-white px-6 rounded-full shadow-lg transition-all duration-200 normal-case"
+                        className="banner-search-button btn btn-sm sm:btn-md bg-indigo-600 hover:bg-indigo-500 border-none text-white px-4 sm:px-6 rounded-full shadow-lg transition-all duration-200 normal-case"
                     >
                         Search
                     </button>

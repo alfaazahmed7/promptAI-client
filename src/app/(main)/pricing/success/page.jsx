@@ -38,7 +38,7 @@ export default async function Success({ searchParams }) {
         }
 
         return (
-            <main className="min-h-screen w-full bg-[#011627] text-slate-100 flex items-center justify-center p-4 sm:p-6 lg:p-8 relative overflow-hidden">
+            <main className="min-h-screen w-full bg-[#011627] text-slate-100 flex items-center justify-center p-4 pt-28 sm:p-6 sm:pt-32 lg:p-8 lg:pt-36 relative overflow-hidden">
 
                 {/* Ambient Background Glows matching core design system */}
                 <div className="absolute top-1/4 left-1/4 -translate-x-1/2 w-96 h-96 bg-indigo-600/10 rounded-full blur-[120px] pointer-events-none hidden md:block" />

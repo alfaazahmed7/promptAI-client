@@ -83,7 +83,7 @@ const SignIn = () => {
     };
 
     return (
-        <main className="min-h-screen w-full flex items-center justify-center bg-[#011627] relative overflow-hidden pt-20 pb-12 px-4">
+        <main className="min-h-screen w-full flex items-center justify-center bg-[#011627] relative overflow-hidden pt-28 pb-12 px-4 sm:pt-32">
 
             {/* Ambient Background Glows */}
             <div className="absolute top-1/4 left-1/4 -translate-x-1/2 w-96 h-96 bg-indigo-600/10 rounded-full blur-[120px] pointer-events-none hidden md:block" />
@@ -121,7 +121,7 @@ const SignIn = () => {
                                 value={formData.email}
                                 onChange={handleChange}
                                 placeholder="name@company.com"
-                                className="w-full bg-transparent border-none outline-none text-white text-xs py-1.5 px-2.5 focus:ring-0"
+                                className="w-full bg-transparent border-none outline-none text-white text-sm py-2.5 px-3 focus:ring-0"
                             />
                         </div>
                         {errors.email && <p className="text-[11px] text-red-400 mt-1 ml-1">{errors.email}</p>}
@@ -143,7 +143,7 @@ const SignIn = () => {
                                 value={formData.password}
                                 onChange={handleChange}
                                 placeholder="••••••••"
-                                className="w-full bg-transparent border-none outline-none text-white text-xs py-1.5 px-2.5 focus:ring-0"
+                                className="w-full bg-transparent border-none outline-none text-white text-sm py-2.5 px-3 focus:ring-0"
                             />
                             <button
                                 type="button"

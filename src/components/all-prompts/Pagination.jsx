@@ -21,7 +21,7 @@ const Pagination = ({ currentPage, totalPages, filters }) => {
                 Page <span className="font-bold text-secondary">{currentPage}</span> of {totalPages}
             </p>
 
-            <div className="join">
+            <div className="join max-w-full min-w-0 overflow-x-auto">
                 {currentPage === 1 ? (
                     <span aria-disabled="true" className="join-item btn btn-sm pointer-events-none border-gray-700 bg-[#1a2333] text-gray-300 opacity-40">
                         <FiChevronLeft />

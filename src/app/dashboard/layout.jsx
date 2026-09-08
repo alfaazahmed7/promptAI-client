@@ -50,7 +50,7 @@ const DashboardLayout = ({ children }) => {
                 </header>
 
                 {/* Dashboard Inner Core Workspace Viewport */}
-                <main className='dashboard-main flex-1 p-6 lg:p-10 xl:p-12 overflow-y-auto'>
+                <main className='dashboard-main flex-1 p-4 sm:p-5 lg:p-8 xl:p-10 overflow-y-auto'>
                     {children}
                 </main>
             </div>
