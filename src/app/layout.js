@@ -1,3 +1,4 @@
+import SmoothScrollProvider from "@/components/providers/SmoothScrollProvider";
 import ThemeProvider from "@/components/providers/ThemeProvider";
 import { Figtree } from "next/font/google";
 import { Toaster } from "react-hot-toast";
@@ -21,8 +22,10 @@ export default function RootLayout({ children }) {
     >
       <body>
         <ThemeProvider>
-          {children}
-          <Toaster />
+          <SmoothScrollProvider>
+            {children}
+            <Toaster />
+          </SmoothScrollProvider>
         </ThemeProvider>
       </body>
     </html>
