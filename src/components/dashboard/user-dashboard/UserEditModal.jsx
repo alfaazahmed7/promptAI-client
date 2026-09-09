@@ -57,7 +57,7 @@ const UserEditModal = ({ isOpen, onClose, prompt, onSave }) => {
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md overflow-y-auto" data-lenis-prevent>
 
             {/* Modal Box Container — Fixed with overflow-hidden to clip sharp headers/footers */}
             <div className="bg-[#111827] border border-slate-800 w-full max-w-2xl rounded-2xl shadow-2xl my-8 relative transform scale-100 transition-all flex flex-col max-h-[90vh] overflow-hidden">

@@ -4,6 +4,8 @@ import { Nunito_Sans } from 'next/font/google';
 import Link from 'next/link';
 import { useState } from 'react';
 import { FiMenu } from 'react-icons/fi';
+import { ReactLenis } from "lenis/react";
+import "lenis/dist/lenis.css";
 
 const Nunito_Sans_Font = Nunito_Sans({
     subsets: ["latin"],
@@ -49,9 +51,20 @@ const DashboardLayout = ({ children }) => {
                     </span>
                 </header>
 
-                {/* Dashboard Inner Core Workspace Viewport */}
-                <main className='dashboard-main flex-1 p-4 sm:p-5 lg:p-8 xl:p-10 overflow-y-auto'>
-                    {children}
+                {/* Dashboard Inner Core Workspace Viewport.
+                    The root SmoothScrollProvider (SmoothScrollProvider.jsx) targets the
+                    document/window scroll, but the dashboard scrolls inside this nested
+                    <main> (window never scrolls here). With allowNestedScroll the root
+                    Lenis defers nested scrollables to native scrolling, which is why the
+                    dashboard felt non-smooth. So we spawn a dedicated Lenis instance on
+                    this scroll container to smooth-scroll it directly. */}
+                <main className='dashboard-main flex-1 flex flex-col min-w-0 min-h-0'>
+                    <ReactLenis
+                        options={{ lerp: 0.1 }}
+                        className='dashboard-viewport flex-1 min-h-0 overflow-y-auto p-4 sm:p-5 lg:p-8 xl:p-10'
+                    >
+                        {children}
+                    </ReactLenis>
                 </main>
             </div>
         </div>

@@ -7,7 +7,7 @@ const UserAnalyticsModal = ({ isOpen, onClose, prompt }) => {
     if (!isOpen || !prompt) return null;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md transition-opacity">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md transition-opacity" data-lenis-prevent>
 
             {/* Modal Box */}
             <div className="bg-[#111827] border border-slate-800 w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden relative transform scale-100 transition-all">
