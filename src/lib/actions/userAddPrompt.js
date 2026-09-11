@@ -1,8 +1,15 @@
-import { serverMutation } from "../core/server"
 const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL;
 
-export const userAddPrompt = (promptData) => {
-    return serverMutation('/api/user-add-prompt', promptData);
+export const userAddPrompt = async (promptData) => {
+    const res = await fetch(`${baseUrl}/api/user-add-prompt`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(promptData)
+    });
+
+    return res.json();
 }
 
 export const updateUserAddPromptStatus = async (promptId) => {

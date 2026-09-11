@@ -1,8 +1,15 @@
-import { serverMutation } from "../core/server";
 const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL;
 
-export const addReport = (reportData) => {
-    return serverMutation('/api/report', reportData);
+export const addReport = async (reportData) => {
+    const res = await fetch(`${baseUrl}/api/report`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(reportData)
+    });
+
+    return res.json();
 }
 
 export const dismissReport = async (reportId, promptId) => {
