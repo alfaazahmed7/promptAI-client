@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
-import { userAddPrompt } from '@/lib/actions/userAddPrompt';
 import {
     FiActivity,
     FiAlertTriangle,
@@ -22,7 +21,7 @@ import {
 // free-plan quota — is done by the parent Server Component and passed down
 // as serializable props. `variant` preserves the role-specific styling of
 // the original creator/user dashboard pages.
-const AddPromptFormClient = ({ user, initialPrompts = [], isLimitReached = false, variant = 'user' }) => {
+const AddPromptFormClient = ({ user, initialPrompts = [], isLimitReached = false, userAddPrompt, variant = 'user' }) => {
 
     const [prompts, setPrompts] = useState(initialPrompts);
 

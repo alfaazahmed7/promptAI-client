@@ -5,6 +5,7 @@
 import AddPromptFormClient from '@/components/dashboard/creator-dashboard/AddPromptFormClient';
 import { getUserAddPrompts } from '@/lib/api/userAddPrompts';
 import { getUserSession } from '@/lib/core/session';
+import { userAddPrompt } from '@/lib/actions/userAddPrompt';
 
 const AddPromptPage = async () => {
     const sessionUser = await getUserSession();
@@ -23,6 +24,7 @@ const AddPromptPage = async () => {
             user={user}
             initialPrompts={prompts}
             isLimitReached={isLimitReached}
+            userAddPrompt={userAddPrompt}
             variant="user"
         />
     );

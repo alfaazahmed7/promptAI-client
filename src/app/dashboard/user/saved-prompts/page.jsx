@@ -2,6 +2,7 @@ import React from 'react';
 import { getBookmarkByEmail } from '@/lib/api/bookmark';
 import { getPromptById } from '@/lib/api/prompts';
 import { getUserSession } from '@/lib/core/session';
+import { deleteBookmarkById } from '@/lib/actions/bookmark';
 import SavedPromptsList from '@/components/dashboard/user-dashboard/SavedPromptsList';
 
 const SavedPromptsPage = async () => {
@@ -52,7 +53,10 @@ const SavedPromptsPage = async () => {
             </div>
 
             {/* Client Component displaying states and cards map */}
-            <SavedPromptsList initialPrompts={cleanPrompts} />
+            <SavedPromptsList
+                initialPrompts={cleanPrompts}
+                deleteBookmarkById={deleteBookmarkById}
+            />
         </div>
     );
 };

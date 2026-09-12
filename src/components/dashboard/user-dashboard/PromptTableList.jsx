@@ -1,8 +1,6 @@
 'use client';
 
 import UserAnalyticsModal from '@/components/dashboard/user-dashboard/UserAnalyticsModal';
-import { userModalEditData } from '@/lib/actions/userEditModal';
-import { DeletePromptById } from '@/lib/actions/userModalDelete';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -10,7 +8,7 @@ import { FiBarChart2, FiEdit2, FiLayers, FiTrash2 } from 'react-icons/fi';
 import UserDeleteModal from './UserDeleteModal';
 import UserEditModal from './UserEditModal';
 
-const PromptTableList = ({ userPromptsData = [] }) => {
+const PromptTableList = ({ userPromptsData = [], userModalEditData, DeletePromptById }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedPrompt, setSelectedPrompt] = useState(null);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);

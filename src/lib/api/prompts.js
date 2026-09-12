@@ -1,4 +1,4 @@
-import { serverFetch } from "../core/server";
+import { protectedServerFetch, serverFetch } from "../core/server";
 
 export const getPrompts = async (filters = {}) => {
     const { search, category, aiTool, sort, page = 1, limit = 6 } = filters;
@@ -27,7 +27,7 @@ export const getPromptById = async (promptId) => {
 }
 
 export const getPromptsByEmail = async (userEmail) => {
-    return serverFetch(`/api/prompts/user/${userEmail}`);
+    return protectedServerFetch(`/api/prompts/user/${userEmail}`);
 }
 
 export const getAllPrompts = async () => {

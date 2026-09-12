@@ -1,14 +1,21 @@
-import { getUserToken } from "./session";
+import { headers } from "next/headers";
+import { auth } from "../auth";
 
 const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL;
 
-const authHeader = async () => {
-    const token = await getUserToken();
-    const header = token ? {
-        authorization: `Bearer ${token}`
-    } : {};
+export async function getServerJWT() {
+    const session = await auth.api.getSession({
+        headers: await headers(),
+    });
 
-    return header;
+    if (!session) throw new Error("Unauthorized");
+
+    // Get JWT using the server auth API.
+    const { token } = await auth.api.getToken({
+        headers: await headers(),
+    });
+
+    return token;
 }
 
 export const serverFetch = async (path) => {
@@ -16,11 +23,17 @@ export const serverFetch = async (path) => {
     return res.json();
 }
 
-export const protectedFetch = async (path) => {
+export async function protectedServerFetch(path) {
+    const token = await getServerJWT();
+    console.log(token, 'token');
+
     const res = await fetch(`${baseUrl}${path}`, {
-        headers: await authHeader()
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
     });
 
+    if (!res.ok) throw new Error("Failed to fetch");
     return res.json();
 }
 

@@ -1,11 +1,10 @@
 'use client';
-import { addReview } from '@/lib/actions/review';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation'; // 1. Import useRouter
 import toast from 'react-hot-toast';
 import { FiLock, FiMessageSquare, FiCheckCircle } from 'react-icons/fi';
 
-const ReviewSystem = ({ promptId, reviews = [], isLocked, user }) => {
+const ReviewSystem = ({ promptId, reviews = [], isLocked, user, addReview }) => {
     const router = useRouter();
     const [rating, setRating] = useState(5);
     const [comment, setComment] = useState('');

@@ -9,6 +9,7 @@ import { getUserSession } from '@/lib/core/session';
 import { getReviewById } from '@/lib/api/review';
 import UsersReviews from '@/components/all-prompts/prompt-details/UsersReviews';
 import { getBookmarkByIdAndEmail } from '@/lib/api/bookmark';
+import { addReview } from '@/lib/actions/review';
 
 const PromptDetailsPage = async ({ params }) => {
     const resolvedParams = await params;
@@ -90,6 +91,7 @@ const PromptDetailsPage = async ({ params }) => {
                             reviews={reviewsData || []}
                             isLocked={isLocked}
                             user={user}
+                            addReview={addReview}
                         />
                     </div>
                 </div>

@@ -1,7 +1,6 @@
 // src/components/dashboard/admin-dashboard/ReportRow.jsx
 'use client';
 
-import { deleteReportedPrompt, dismissReport, warnReportedPrompt } from '@/lib/actions/report';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -241,7 +240,7 @@ const DeletePromptModal = ({ isOpen, onClose, onConfirm, promptId }) => {
 };
 
 // MAIN ROW/CARD COMPONENT
-const ReportRow = ({ report, view }) => {
+const ReportRow = ({ report, view, dismissReport, warnReportedPrompt, deleteReportedPrompt }) => {
     const [modalState, setModalState] = useState({ type: null, isOpen: false });
 
     const openModal = (type) => setModalState({ type, isOpen: true });

@@ -1,8 +1,6 @@
 // src/components/dashboard/admin-dashboard/PromptRow.jsx
 'use client';
 
-import { toggleFeature } from '@/lib/actions/feature';
-import { deleteUserAddPrompt, updateUserAddPromptRejectionStatus, updateUserAddPromptStatus } from '@/lib/actions/userAddPrompt';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -348,7 +346,7 @@ const DeleteModal = ({ isOpen, onClose, onConfirm, promptTitle }) => {
 };
 
 // --- MAIN ROW/CARD COMPONENT ---
-const PromptRow = ({ prompt, view }) => {
+const PromptRow = ({ prompt, view, toggleFeature, updateUserAddPromptStatus, updateUserAddPromptRejectionStatus, deleteUserAddPrompt }) => {
     const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
     const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
     const [isFeatureModalOpen, setIsFeatureModalOpen] = useState(false);

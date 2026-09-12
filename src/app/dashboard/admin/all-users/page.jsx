@@ -1,6 +1,8 @@
 // src/app/admin/users/page.jsx (or your specific path)
 import UserRow from '@/components/dashboard/admin-dashboard/UserRow';
 import { getUsers } from '@/lib/api/users';
+import { UserChangeRole } from '@/lib/actions/userChangeRole';
+import { userDelete } from '@/lib/actions/userDelete';
 import { FiShield, FiUserCheck, FiUsers } from 'react-icons/fi';
 
 const AdminAllUsersPage = async () => {
@@ -83,7 +85,13 @@ const AdminAllUsersPage = async () => {
                         </thead>
                         <tbody className="divide-y divide-slate-800/60 text-sm">
                             {users.map((user) => (
-                                <UserRow key={user._id?.$oid || user.email} user={user} view="desktop" />
+                                <UserRow
+                                    key={user._id?.$oid || user.email}
+                                    user={user}
+                                    view="desktop"
+                                    UserChangeRole={UserChangeRole}
+                                    userDelete={userDelete}
+                                />
                             ))}
                         </tbody>
                     </table>
@@ -92,7 +100,13 @@ const AdminAllUsersPage = async () => {
                 {/* Mobile View */}
                 <div className="grid grid-cols-1 gap-4 md:hidden p-4 bg-[#0b0f19]">
                     {users.map((user) => (
-                        <UserRow key={user._id?.$oid || user.email} user={user} view="mobile" />
+                        <UserRow
+                            key={user._id?.$oid || user.email}
+                            user={user}
+                            view="mobile"
+                            UserChangeRole={UserChangeRole}
+                            userDelete={userDelete}
+                        />
                     ))}
                 </div>
             </div>

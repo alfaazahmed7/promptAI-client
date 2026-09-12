@@ -1,7 +1,5 @@
 'use client';
 
-import { UserChangeRole } from '@/lib/actions/userChangeRole';
-import { userDelete } from '@/lib/actions/userDelete';
 import { authClient } from '@/lib/auth-client';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
@@ -68,7 +66,7 @@ const ConfirmationModal = ({ isOpen, onClose, onConfirm, title, message, subMess
 };
 
 // --- MAIN ROW COMPONENT ---
-const UserRow = ({ user, view }) => {
+const UserRow = ({ user, view, UserChangeRole, userDelete }) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isRoleModalOpen, setIsRoleModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);

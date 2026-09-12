@@ -1,6 +1,8 @@
 // src/app/admin/prompts/page.jsx
 import PromptRow from '@/components/dashboard/admin-dashboard/PromptRow';
 import { getAllUserAddPrompts } from '@/lib/api/userAddPrompts';
+import { toggleFeature } from '@/lib/actions/feature';
+import { deleteUserAddPrompt, updateUserAddPromptRejectionStatus, updateUserAddPromptStatus } from '@/lib/actions/userAddPrompt';
 import { FiCheckCircle, FiClock, FiGrid } from 'react-icons/fi';
 
 const AdminAllPromptsPage = async () => {
@@ -73,7 +75,15 @@ const AdminAllPromptsPage = async () => {
                         </thead>
                         <tbody className="divide-y divide-slate-800/60 text-sm">
                             {prompts.map((prompt) => (
-                                <PromptRow key={prompt._id || prompt.id} prompt={prompt} view="desktop" />
+                                <PromptRow
+                                    key={prompt._id || prompt.id}
+                                    prompt={prompt}
+                                    view="desktop"
+                                    toggleFeature={toggleFeature}
+                                    updateUserAddPromptStatus={updateUserAddPromptStatus}
+                                    updateUserAddPromptRejectionStatus={updateUserAddPromptRejectionStatus}
+                                    deleteUserAddPrompt={deleteUserAddPrompt}
+                                />
                             ))}
                         </tbody>
                     </table>
@@ -82,7 +92,15 @@ const AdminAllPromptsPage = async () => {
                 {/* Mobile/Tablet Card View */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:hidden p-4 bg-[#0b0f19]">
                     {prompts.map((prompt) => (
-                        <PromptRow key={prompt._id || prompt.id} prompt={prompt} view="mobile" />
+                        <PromptRow
+                            key={prompt._id || prompt.id}
+                            prompt={prompt}
+                            view="mobile"
+                            toggleFeature={toggleFeature}
+                            updateUserAddPromptStatus={updateUserAddPromptStatus}
+                            updateUserAddPromptRejectionStatus={updateUserAddPromptRejectionStatus}
+                            deleteUserAddPrompt={deleteUserAddPrompt}
+                        />
                     ))}
                 </div>
             </div>

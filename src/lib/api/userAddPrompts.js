@@ -1,7 +1,7 @@
-import { serverFetch } from "../core/server"
+import { protectedServerFetch, serverFetch } from "../core/server"
 
 export const getUserAddPrompts = (userEmail) => {
-    return serverFetch(`/api/user-add-prompts?userEmail=${userEmail}`);
+    return protectedServerFetch(`/api/user-add-prompts?userEmail=${userEmail}`);
 }
 
 export const getAllUserAddPrompts = async () => {

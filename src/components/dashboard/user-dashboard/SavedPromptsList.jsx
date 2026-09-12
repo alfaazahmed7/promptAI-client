@@ -1,7 +1,5 @@
 "use client";
 
-import { deleteBookmarkById } from '@/lib/actions/bookmark';
-import { DeletePromptById } from '@/lib/actions/userModalDelete';
 import Link from 'next/link';
 import React, { useState, useTransition } from 'react';
 import toast from 'react-hot-toast';
@@ -15,7 +13,7 @@ import {
     FiX
 } from 'react-icons/fi';
 
-const SavedPromptsList = ({ initialPrompts = [] }) => {
+const SavedPromptsList = ({ initialPrompts = [], deleteBookmarkById }) => {
     console.log(initialPrompts, 'initialPrompts');
     const [prompts, setPrompts] = useState(initialPrompts);
     const [isModalOpen, setIsModalOpen] = useState(false);
