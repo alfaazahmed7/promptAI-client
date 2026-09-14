@@ -9,5 +9,5 @@ export const getReviewsByEmail = async (userEmail) => {
 }
 
 export const getAllReviews = async () => {
-    return protectedServerFetch('/api/get-all-reviews');
+    return serverFetch('/api/get-all-reviews');
 }
