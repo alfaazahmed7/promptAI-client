@@ -20,8 +20,15 @@ export async function getServerJWT() {
 
 export const serverFetch = async (path) => {
     const res = await fetch(`${baseUrl}${path}`);
-    return res.json();
-}
+
+    if (!res.ok) {
+        console.error(`serverFetch failed (${res.status})`, path);
+        return [];
+    }
+
+    const data = await res.json();
+    return data;
+};
 
 export async function protectedServerFetch(path) {
     const token = await getServerJWT();
