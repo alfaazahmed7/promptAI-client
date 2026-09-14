@@ -118,6 +118,7 @@ const AddPromptFormClient = ({ user, initialPrompts = [], isLimitReached = false
             };
 
             const res = await userAddPrompt(submissionData);
+            console.log(res, 'res');
             if (res.insertedId) {
                 setPrompts(prev => [...prev, submissionData]);
                 toast.success('Prompt submitted successfully');
