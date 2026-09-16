@@ -109,7 +109,7 @@ const AddPromptFormClient = ({ user, initialPrompts = [], isLimitReached = false
             // submission
             const submissionData = {
                 ...formData,
-                image: uploadedImageUrl,
+                logoUrl: uploadedImageUrl,
                 status: 'pending',
                 copyCount: 0,
                 userEmail: user?.email,
