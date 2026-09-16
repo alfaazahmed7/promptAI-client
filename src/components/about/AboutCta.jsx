@@ -34,7 +34,7 @@ const AboutCta = () => (
                         <FiArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
                     </Link>
                     <Link
-                        href="/pricing"
+                        href="/contact"
                         className="about-secondary-cta inline-flex w-full items-center justify-center gap-2 rounded-xl border border-slate-700/60 bg-slate-900/40 px-8 py-3 text-sm font-semibold text-slate-300 transition-colors duration-200 hover:text-white sm:w-auto"
                     >
                         <FiMail className="h-4 w-4" />

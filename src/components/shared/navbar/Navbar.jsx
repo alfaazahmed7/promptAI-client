@@ -66,7 +66,8 @@ const Navbar = () => {
         { name: "Home", href: "/" },
         { name: "All Prompts", href: "/all-prompts" },
         { name: "Pricing", href: "/pricing" },
-        { name: "About Us", href: "/about" }
+        { name: "About Us", href: "/about" },
+        { name: "Contact", href: "/contact" }
     ];
 
     const handleSignOut = async () => {
@@ -103,7 +104,7 @@ const Navbar = () => {
                     </Link>
 
                     {/* 2. Middle: Desktop Navigation Links */}
-                    <div className="hidden md:flex items-center gap-6">
+                    <div className="hidden lg:flex items-center gap-6">
                         {centerLinks.map((link) => (
                             <NavLink key={link.href} href={link.href}>
                                 {link.name}
