@@ -918,3 +918,169 @@ body {
 .dark button.playground-tab-active {
     color: #ffffff !important;
 }
+
+/* About page light mode: warm stone shell, white surfaces, orange accent.
+   Mirrors the `.pricing-page` / `.profile-page` scoping convention so the dark
+   theme (the default design) stays byte-for-byte identical, while light mode
+   gets the same warm palette used across the rest of the application. */
+:root:not(.dark) .about-page {
+    background: #fcfbf8 !important;
+    color: #505050 !important;
+}
+
+:root:not(.dark) .about-hero {
+    background: #fcfbf8 !important;
+}
+
+:root:not(.dark) .about-glow {
+    background: rgba(247, 147, 30, .08) !important;
+    opacity: .7;
+}
+
+:root:not(.dark) .about-badge {
+    background: #fff4e8 !important;
+    border-color: #ffd5a4 !important;
+    color: #d97706 !important;
+}
+
+:root:not(.dark) .about-heading {
+    color: #181818 !important;
+}
+
+:root:not(.dark) .about-highlight {
+    background-image: linear-gradient(90deg, #f7931e, #e67e00) !important;
+}
+
+:root:not(.dark) .about-description {
+    color: #505050 !important;
+}
+
+:root:not(.dark) .about-primary-cta {
+    background: #f7931e !important;
+    color: #ffffff !important;
+    box-shadow: 0 10px 28px rgba(247, 147, 30, .16) !important;
+}
+
+:root:not(.dark) .about-primary-cta:hover {
+    background: #e67e00 !important;
+}
+
+:root:not(.dark) .about-secondary-cta {
+    background: #fffdf9 !important;
+    border-color: #e7e0d6 !important;
+    color: #505050 !important;
+}
+
+:root:not(.dark) .about-secondary-cta:hover {
+    background: #fff4e8 !important;
+    border-color: #ffd5a4 !important;
+    color: #d97706 !important;
+}
+
+:root:not(.dark) .about-trust-badge {
+    background: #fffdf9 !important;
+    border-color: #e7e0d6 !important;
+    color: #6c6c6c !important;
+}
+
+:root:not(.dark) .about-seam {
+    background: linear-gradient(to top, #f7f4ef, transparent) !important;
+}
+
+/* About page surfaces: white cards on the warm shell, matching the pricing and
+   profile light-mode treatment (stone borders + very soft shadow). */
+:root:not(.dark) .about-stat-card,
+:root:not(.dark) .about-pillar,
+:root:not(.dark) .about-value-card,
+:root:not(.dark) .about-milestone,
+:root:not(.dark) .about-team-card,
+:root:not(.dark) .about-faq-item,
+:root:not(.dark) .about-cta-card {
+    background: #ffffff !important;
+    border-color: #e7e0d6 !important;
+    color: #505050 !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .04) !important;
+}
+
+:root:not(.dark) .about-cta-card {
+    background: #fffdf9 !important;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, .08) !important;
+}
+
+:root:not(.dark) .about-stat-value,
+:root:not(.dark) .about-value-title,
+:root:not(.dark) .about-milestone-title,
+:root:not(.dark) .about-team-name,
+:root:not(.dark) .about-faq-question {
+    color: #181818 !important;
+}
+
+:root:not(.dark) .about-stat-label,
+:root:not(.dark) .about-stat-detail,
+:root:not(.dark) .about-pillar-text,
+:root:not(.dark) .about-value-text,
+:root:not(.dark) .about-milestone-text,
+:root:not(.dark) .about-team-bio,
+:root:not(.dark) .about-team-role,
+:root:not(.dark) .about-faq-answer {
+    color: #6c6c6c !important;
+}
+
+:root:not(.dark) .about-team-role,
+:root:not(.dark) .about-milestone .text-amber-400 {
+    color: #d97706 !important;
+}
+
+:root:not(.dark) .about-team-focus {
+    background: #f7f4ef !important;
+    border-color: #e7e0d6 !important;
+    color: #6c6c6c !important;
+}
+
+:root:not(.dark) .about-journey-line {
+    border-color: #e7e0d6 !important;
+}
+
+:root:not(.dark) .about-milestone > span {
+    border-color: #fcfbf8 !important;
+    background-color: #f7931e !important;
+}
+
+:root:not(.dark) .about-faq-trigger:hover {
+    background: #fff8ef !important;
+}
+
+/* FAQ accordion answer panel.
+   Collapsed answers use `display: none` instead of a 0fr grid row. The grid-rows
+   trick keeps the panel in the layout flow, so the answer paragraph's own
+   padding/border can leak a sliver of height under the trigger even when the row
+   track resolves to zero. `display: none` removes the panel from layout entirely,
+   guaranteeing zero dead space, while the explicit 0fr grid row guarantees zero
+   overflow so the opening animation never overshoots the panel. */
+.about-faq-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 300ms ease-in-out;
+}
+
+.about-faq-panel-open {
+    grid-template-rows: 1fr;
+}
+
+.about-faq-panel-closed {
+    display: none;
+}
+
+/* The animated grid item. Padding lives on this paragraph, so it is clipped by
+   the track instead of adding height outside it. */
+.about-faq-body {
+    min-height: 0;
+    overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .about-faq-panel {
+        transition: none;
+    }
+}
+

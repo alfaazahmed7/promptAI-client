@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@better-auth/mongo-adapter": "^1.6.19",
@@ -32,6 +33,7 @@
     "daisyui": "^5.5.23",
     "eslint": "^9",
     "eslint-config-next": "16.2.9",
+    "patch-package": "^8.0.1",
     "tailwindcss": "^4"
   }
 }

@@ -65,7 +65,8 @@ const Navbar = () => {
     const centerLinks = [
         { name: "Home", href: "/" },
         { name: "All Prompts", href: "/all-prompts" },
-        { name: "Pricing", href: "/pricing" }
+        { name: "Pricing", href: "/pricing" },
+        { name: "About Us", href: "/about" }
     ];
 
     const handleSignOut = async () => {
