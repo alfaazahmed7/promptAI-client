@@ -5,6 +5,12 @@ import { userModalEditData } from '@/lib/actions/userEditModal';
 import { DeletePromptById } from '@/lib/actions/userModalDelete';
 import PromptTableList from '@/components/dashboard/user-dashboard/PromptTableList';
 
+export const metadata = {
+    title: 'My Prompts',
+    description: 'Manage the prompts you have published to the PromptAI catalog.',
+    robots: { index: false, follow: false },
+};
+
 const MyPromptPage = async () => {
     const user = await getUserSession();
     const fetchedPrompts = await getUserAddPrompts(user?.email);

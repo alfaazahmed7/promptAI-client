@@ -26,6 +26,16 @@ import {
     FiZap,
 } from 'react-icons/fi';
 
+export const metadata = {
+  title: 'My Profile',
+  description:
+    'Your PromptAI profile — track your saved prompts, community activity and prompt-building progress.',
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
+
 const asArray = (data) => (Array.isArray(data) ? data : data?.prompts || data?.data || []);
 
 const roleContent = {

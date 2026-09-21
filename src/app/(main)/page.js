@@ -8,6 +8,12 @@ import WhyChooseUs from "@/components/homepage/why-choose-us/WhyChooseUs";
 import FeaturedPromptsSkeleton from "@/components/shared/skeletons/FeaturedPromptsSkeleton";
 import { Suspense } from "react";
 
+export const metadata = {
+  title: "PromptAI — Curated AI Prompt Library",
+  description:
+    "Discover production-ready AI prompts for ChatGPT, Claude, Midjourney and more. Copy proven prompts, explore categories, and publish your own as a creator.",
+};
+
 export default function Home() {
   return (
     <div>

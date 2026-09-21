@@ -7,6 +7,13 @@ import { getAllReviews } from '@/lib/api/review';
 import { getUsers } from '@/lib/api/users';
 import React from 'react';
 
+export const metadata = {
+    title: 'Platform Analytics',
+    description:
+        'Track PromptAI platform health — users, prompts, reviews and total prompt copies.',
+    robots: { index: false, follow: false },
+};
+
 const AdminAnalyticsPage = async () => {
     // Fetching data concurrently for optimization
     const [users, prompts, reviews] = await Promise.all([

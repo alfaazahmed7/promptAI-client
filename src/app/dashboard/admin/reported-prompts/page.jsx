@@ -4,6 +4,13 @@ import { getAllReports } from '@/lib/api/reports';
 import { deleteReportedPrompt, dismissReport, warnReportedPrompt } from '@/lib/actions/report';
 import { FiAlertTriangle, FiCheckSquare, FiShield } from 'react-icons/fi';
 
+export const metadata = {
+    title: 'Report Moderation Queue',
+    description:
+        'Review user flagging inputs, analyze platform compliance issues and execute moderation actions.',
+    robots: { index: false, follow: false },
+};
+
 const AdminReportedPrompts = async () => {
     const reports = await getAllReports() || [];
 

@@ -12,6 +12,12 @@ import {
     FiZap
 } from 'react-icons/fi';
 
+export const metadata = {
+    title: 'Account Profile',
+    description: 'Your PromptAI account details, plan and contribution summary.',
+    robots: { index: false, follow: false },
+};
+
 const UserProfilePage = async () => {
     // 1. Fetch data on the Server
     const sessionUser = await getUserSession();

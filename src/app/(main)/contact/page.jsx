@@ -14,7 +14,7 @@ import {
 } from '@/lib/contact/contactData';
 
 export const metadata = {
-    title: 'Contact Us | PromptAI',
+    title: 'Contact Us',
     description:
         'Reach the PromptAI team directly - sales, technical support, creator helpdesk and press. Send a message and a real member of the team will reply.',
 };

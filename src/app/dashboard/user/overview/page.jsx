@@ -15,6 +15,12 @@ import {
     FiClock 
 } from 'react-icons/fi';
 
+export const metadata = {
+    title: 'Dashboard Overview',
+    description: 'A performance summary overview of your PromptAI workspace.',
+    robots: { index: false, follow: false },
+};
+
 const DashboardOverviewPage = async () => {
     // 1. Concurrent server calls using all data functions built across your project
     const user = await getUserSession();

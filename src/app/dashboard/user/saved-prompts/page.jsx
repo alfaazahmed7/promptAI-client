@@ -5,6 +5,12 @@ import { getUserSession } from '@/lib/core/session';
 import { deleteBookmarkById } from '@/lib/actions/bookmark';
 import SavedPromptsList from '@/components/dashboard/user-dashboard/SavedPromptsList';
 
+export const metadata = {
+    title: 'Saved Prompts',
+    description: 'Your curated list of bookmarked prompts and configuration setups.',
+    robots: { index: false, follow: false },
+};
+
 const SavedPromptsPage = async () => {
     const user = await getUserSession();
     const bookmarks = await getBookmarkByEmail(user?.email) || [];

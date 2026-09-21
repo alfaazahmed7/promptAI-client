@@ -7,6 +7,12 @@ import { getUserAddPrompts } from '@/lib/api/userAddPrompts';
 import { getUserSession } from '@/lib/core/session';
 import { userAddPrompt } from '@/lib/actions/userAddPrompt';
 
+export const metadata = {
+    title: 'Add Prompt',
+    description: 'Publish a new prompt to the PromptAI catalog.',
+    robots: { index: false, follow: false },
+};
+
 const AddPromptPage = async () => {
     const sessionUser = await getUserSession();
     const user = sessionUser || {};

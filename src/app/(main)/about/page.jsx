@@ -17,7 +17,7 @@ import {
 } from '@/lib/about/aboutData';
 
 export const metadata = {
-    title: 'About Us | PromptAI',
+    title: 'About Us',
     description:
         'Learn how PromptAI curates, benchmarks and distributes production-ready AI prompts for creators, builders and enterprise teams.',
 };

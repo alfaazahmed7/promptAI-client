@@ -5,6 +5,12 @@ import FilterSection from '@/components/all-prompts/FilterSection';
 import PromptCard from '@/components/all-prompts/PromptCard';
 import Pagination from '@/components/all-prompts/Pagination';
 
+export const metadata = {
+    title: 'Explore AI Prompts',
+    description:
+        'Discover, copy and refine top-tier production-ready prompts for ChatGPT, Claude, Midjourney and more. Filter by category, AI tool and popularity.',
+};
+
 const AllPromptsPage = async ({ searchParams }) => {
     // Resolve searchParams object asynchronously if using Next.js 15+ 
     const resolvedParams = await searchParams;

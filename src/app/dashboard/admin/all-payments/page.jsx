@@ -3,6 +3,13 @@ import PaymentRow from '@/components/dashboard/admin-dashboard/PaymentRow';
 import { getAllSubscriptions } from '@/lib/api/subscriptions';
 import { FiActivity, FiCreditCard, FiDollarSign } from 'react-icons/fi';
 
+export const metadata = {
+    title: 'Payment Ledger',
+    description:
+        'Monitor user subscriptions, Stripe plan allocations and transactional volume history.',
+    robots: { index: false, follow: false },
+};
+
 const AdminAllPaymentsPage = async () => {
     const subscriptions = await getAllSubscriptions() || [];
 

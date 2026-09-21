@@ -4,6 +4,16 @@ import { FaCircleCheck, FaEnvelope, FaHouse, FaArrowRight } from 'react-icons/fa
 import { stripe } from '@/lib/stripe';
 import { createSubscription } from '@/lib/actions/subscription';
 
+export const metadata = {
+    title: 'Payment Successful',
+    description:
+        'Your PromptAI payment was successful and your account has been upgraded to Premium access.',
+    robots: {
+        index: false,
+        follow: false,
+    },
+};
+
 export default async function Success({ searchParams }) {
     const { session_id } = await searchParams;
 

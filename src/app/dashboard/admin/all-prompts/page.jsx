@@ -5,6 +5,13 @@ import { toggleFeature } from '@/lib/actions/feature';
 import { deleteUserAddPrompt, updateUserAddPromptRejectionStatus, updateUserAddPromptStatus } from '@/lib/actions/userAddPrompt';
 import { FiCheckCircle, FiClock, FiGrid } from 'react-icons/fi';
 
+export const metadata = {
+    title: 'All Prompts',
+    description:
+        'Review every user and creator submitted prompt on PromptAI, including approval and feature status.',
+    robots: { index: false, follow: false },
+};
+
 const AdminAllPromptsPage = async () => {
     const prompts = await getAllUserAddPrompts() || [];
 

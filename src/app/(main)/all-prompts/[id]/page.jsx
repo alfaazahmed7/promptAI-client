@@ -11,6 +11,44 @@ import UsersReviews from '@/components/all-prompts/prompt-details/UsersReviews';
 import { getBookmarkByIdAndEmail } from '@/lib/api/bookmark';
 import { addReview } from '@/lib/actions/review';
 
+export async function generateMetadata({ params }) {
+    const resolvedParams = await params;
+    const prompt = await getPromptById(resolvedParams.id);
+
+    // `serverFetch` degrades to `[]` on any failure, so guard against that
+    // (and any other non-object payload) before reading properties.
+    if (!prompt || typeof prompt !== 'object' || Array.isArray(prompt) || !prompt.title) {
+        return {
+            title: 'Prompt Not Found',
+            description: 'This prompt could not be found in the PromptAI library.',
+        };
+    }
+
+    const description =
+        prompt.fullDescription ||
+        prompt.description ||
+        `A production-ready ${prompt.category || 'AI'} prompt for ${prompt.aiTool || 'your favourite AI tool'}, curated by PromptAI.`;
+
+    return {
+        title: prompt.title,
+        description,
+        alternates: {
+            canonical: `/all-prompts/${resolvedParams.id}`,
+        },
+        openGraph: {
+            type: 'article',
+            title: prompt.title,
+            description,
+            url: `/all-prompts/${resolvedParams.id}`,
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: prompt.title,
+            description,
+        },
+    };
+}
+
 const PromptDetailsPage = async ({ params }) => {
     const resolvedParams = await params;
     const promptId = resolvedParams.id;

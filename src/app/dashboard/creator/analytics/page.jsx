@@ -2,6 +2,12 @@ import CreatorAnalytics from '@/components/dashboard/creator-dashboard/CreatorAn
 import { getUserAddPrompts } from '@/lib/api/userAddPrompts';
 import { getUserSession } from '@/lib/core/session';
 
+export const metadata = {
+    title: 'Creator Analytics',
+    description: 'Review the performance of the prompts you have published on PromptAI.',
+    robots: { index: false, follow: false },
+};
+
 const AnalyticsPage = async () => {
     // 1. Grab the logged-in user session safely on the server
     const session = await getUserSession();

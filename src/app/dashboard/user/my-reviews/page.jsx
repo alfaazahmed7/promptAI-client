@@ -4,6 +4,13 @@ import { getPromptById } from '@/lib/api/prompts'; // Assuming this maps context
 import { getUserSession } from '@/lib/core/session';
 import MyReviewsList from '@/components/dashboard/user-dashboard/MyReviewsList';
 
+export const metadata = {
+    title: 'My Reviews',
+    description:
+        'Track and control the evaluation ratings you have given to community creators.',
+    robots: { index: false, follow: false },
+};
+
 const MyReviewsPage = async () => {
     const user = await getUserSession();
     const reviews = await getReviewsByEmail(user?.email) || [];

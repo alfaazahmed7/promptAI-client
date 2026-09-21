@@ -5,6 +5,12 @@ import { UserChangeRole } from '@/lib/actions/userChangeRole';
 import { userDelete } from '@/lib/actions/userDelete';
 import { FiShield, FiUserCheck, FiUsers } from 'react-icons/fi';
 
+export const metadata = {
+    title: 'All Users',
+    description: 'Manage user accounts, roles and platform permissions for PromptAI.',
+    robots: { index: false, follow: false },
+};
+
 const AdminAllUsersPage = async () => {
     const users = await getUsers() || [];
 
