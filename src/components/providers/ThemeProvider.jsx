@@ -28,6 +28,7 @@ export default function ThemeProvider({ children }) {
             defaultTheme="system"
             enableSystem
             enableColorScheme
+            disableTransitionOnChange
         >
             {children}
         </NextThemesProvider>
