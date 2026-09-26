@@ -273,7 +273,7 @@ const ProfileMenu = ({ user, dashboardHref, onSignOut, onNavigate, mobile = fals
                 <FiGrid size={17} />
                 Dashboard
             </Link>
-            <button onClick={onSignOut} className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm font-semibold text-red-400 transition-colors hover:bg-red-500/10 hover:text-red-300">
+            <button onClick={onSignOut} className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm font-semibold text-red-400 transition-colors hover:bg-red-500/10 hover:text-red-300 cursor-pointer">
                 <FiLogOut size={17} />
                 Sign Out
             </button>

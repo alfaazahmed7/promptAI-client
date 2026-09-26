@@ -13,9 +13,9 @@ export async function proxy(request) {
 
 export const config = {
     matcher: [
-        '/all-prompts/:path*',
-        '/dashboard',
-        '/profile',
-        '/pricing',
-    ]
+        "/all-prompts/:path+", // one or more path segments only
+        "/dashboard/:path*",
+        "/profile/:path*",
+        "/pricing/:path*",
+    ],
 }
